@@ -1,7 +1,12 @@
 <script>
+	import * as api from '$lib/utils/api';
+
 	let email = '';
 	let password = '';
-	const submit = async () => {};
+	const submit = async () => {
+		const response = await api.post('auth/login', { email, password });
+		console.log(response);
+	};
 </script>
 
 <wrapper class="flex flex-col items-center justify-center h-full">
