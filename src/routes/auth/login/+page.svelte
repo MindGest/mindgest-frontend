@@ -1,11 +1,15 @@
 <script>
 	import * as api from '$lib/utils/api';
 
-	let email = '';
-	let password = '';
+	let email = 'admin@student.dei.uc.pt';
+	let password = '1234';
 	const submit = async () => {
 		const response = await api.post('auth/login', { email, password });
-		console.log(response);
+		if (response.ok) {
+			location.reload();
+			return;
+		}
+		alert('Login failed');
 	};
 </script>
 

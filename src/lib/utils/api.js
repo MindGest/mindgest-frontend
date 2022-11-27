@@ -1,8 +1,9 @@
-const base = "http://localhost:8080" // TODO: change to environment variable
+const base = 'http://127.0.0.1:8080/api/'; // TODO: change to environment variable
 
 const send = async ({ method, path, data, token }) =>
 	fetch(base + path, {
 		method,
+		credentials: 'include',
 		headers: {
 			...(data && { 'content-type': 'application/json' }),
 			...(token && { authorization: `Token ${token}` })
