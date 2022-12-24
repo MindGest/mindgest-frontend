@@ -16,7 +16,6 @@
 
 <wrapper class="flex flex-col items-center justify-center h-full">
   <img src="/logo.png" alt="logo" />
-  <h1 class="text-2xl text-gray-700 mt-4">Entrar</h1>
   <form class="flex flex-col items-center mt-4" on:submit|preventDefault={submit}>
     {#if status !== 200}
       <p class="outline outline-2 rounded-sm p-2 mt-4 outline-red-500">
