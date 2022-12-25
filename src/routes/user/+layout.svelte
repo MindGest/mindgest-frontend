@@ -23,6 +23,6 @@
   </div>
 </nav>
 
-<wrapper class="block pt-20">
+<wrapper class="block w-full h-full pt-20">
   <slot />
 </wrapper>

@@ -6,7 +6,12 @@
   export let id = label.toLowerCase();
 </script>
 
-<div class={class_}>
+<div class={`flex flex-col ${class_}`}>
   <label for={id}>{label}</label>
-  <input {id} type="text" class="border border-gray-300 rounded w-full mt-2 p-2" bind:value />
+  <textarea
+    {id}
+    type="text"
+    class="border border-gray-300 rounded w-full grow mt-2 p-2 resize-none align-top"
+    bind:value
+  />
 </div>
