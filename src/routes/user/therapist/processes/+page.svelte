@@ -10,13 +10,15 @@ TODO
     import TextBox from '$lib/components/TextBox.svelte';
     import Button from '$lib/components/Button.svelte';
     import Table from '$lib/components/Table.svelte';
+    import * as api from '$lib/utils/api';
+    import { onMount } from "svelte";
 
     /******************
      *                *
      * *FOR DEBUGGING *
      *                *
      *****************/
-    class person {
+    class person { 
         constructor(name, role, proc) {
             this.name = name;
             this.role = role;
@@ -27,28 +29,52 @@ TODO
         constructor(patient, code, esp){
             this.patient = patient;
             this.code = code;
-            this.esp = esp
+            this.esp = esp;
         }
     }
-    let pat1 = new person('Ana A', 'pat', null);
-    let pat2 = new person('Bruno', 'pat', null);
-    let pat3 = new person('André', 'pat', null);
-    let pat4 = new person('Diana', 'pat', null);
-    let pat5 = new person('Ana B', 'pat', null);
-    let terp = new person('Maria', 'terp', [
-        new process(pat1, 1234, "espA"), 
-        new process(pat2, 5678, "espB"), 
-        new process(pat3, 9012, "espC"),
-        new process(pat4, 3456, "espA"),
-        new process(pat5, 3456, "espB")]);
-    let esps = ["espA", "espB", "espC"]
+
+    let terp;
+    let list_esp = [];
+    let esps = [];
     /******************
      *                *
      *FINISH DEBUGGING*
     *                *
     *****************/
 
-    let list_esp = esps;
+    onMount(async () => {
+		const response = await api.get('process/listTherapist', {}, );
+    if (response.ok) {
+        let json = await response.json();
+        let jsonInfo = json["list"];
+        let infoHelper = [];
+        let infoEsps = [];
+
+        let tName = json["therapist"];
+        let processAux = [];
+        for (var i = 0; i < jsonInfo.length; i++) { 
+            let name = jsonInfo[i]["patientName"];
+            let ref = jsonInfo[i]["refCode"];
+            let speciality = jsonInfo[i]["speciality"];
+            let pat1 = new person(name, 'pat', null);
+            let processAux1 = new process(pat1,ref,speciality);
+            processAux.push(processAux1);
+
+            if(!infoEsps.includes(speciality)){
+                infoEsps.push(speciality);
+            }
+
+        }
+        list_esp = infoEsps;
+        esps = infoEsps;
+        terp = new person(tName, 'terp', processAux);
+        getTableData("all");
+        return;
+    }
+    status = response.status;
+    });
+
+    
     let selectedEsp;
     let text = '';
     let table;
@@ -57,19 +83,21 @@ TODO
     $: if (selectedEsp) getTableData(selectedEsp);
     $: if (!selectedEsp) getTableData("all");
     const getTableData = (esp) => {
-        text = null;
-        let out = [];
-        for (let i = 0; terp.proc.length > i; i++){
-            if (!esp || esp === "all" || esp === terp.proc[i].esp){
-                let p = terp.proc[i]
-                out.push({
-                    Utente: p.patient.name,
-                    Codigo: p.code,
-                    Especialidade: p.esp
-                })
+        if(terp != null && terp.proc != null){
+            text = null;
+            let out = [];
+            for (let i = 0; terp.proc.length > i; i++){
+                if (!esp || esp === "all" || esp === terp.proc[i].esp){
+                    let p = terp.proc[i]
+                    out.push({
+                        Utente: p.patient.name,
+                        Codigo: p.code,
+                        Especialidade: p.esp
+                    })
+                }
             }
-        }
-        table = out;
+            table = out;
+    }
     }
 
     $: if (text) getNameFilter(text);
@@ -126,14 +154,16 @@ TODO
 
 <div style="margin:100px">
     
+    {#if esps.length > 0}
     <!-- title of the list -->
-    {#if !selectedEsp || selectedEsp === "all"} <p class="font-normal text-2xl">Todos</p>
-    {:else if table.length > 0} <p class="font-normal text-2xl">{selectedEsp}</p>
-    {:else} <p class="font-normal text-2xl">Não foram encontrados nenhuns resultados</p>
-    {/if}
+        {#if !selectedEsp || selectedEsp === "all"} <p class="font-normal text-2xl">Todos</p>
+            {:else if table.length > 0} <p class="font-normal text-2xl">{selectedEsp}</p>
+            {:else} <p class="font-normal text-2xl">Não foram encontrados nenhuns resultados</p>
+        {/if}
 
-    <!-- print the list -->
-    {#if table.length > 0} <Table data={table}/>
+        <!-- print the list -->
+        {#if table.length > 0} <Table data={table}/>
+        {/if}
     {/if}
 
 
