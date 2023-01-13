@@ -4,12 +4,15 @@
   const dispatch = createEventDispatcher();
 
   export let data = [];
+  let selected = null;
 
   const sort = field => data.sort((a, b) => (a[field] > b[field]) - (b[field] > a[field]));
 
-  function forward(data) {
+  function forward(data, index) {
+    selected = index;
     dispatch('info', {
-      myData: data
+      myData: data,
+      index: index
     });
   }
 </script>
@@ -23,8 +26,8 @@
     </tr>
   </thead>
   <tbody class="text-center">
-    {#each data as row}
-      <tr style='cursor: pointer; cursor: hand;' class="hover:bg-orange-200" on:click={forward(row)}>
+    {#each data as row, index}
+      <tr style='cursor: pointer; cursor: hand;' class="hover:bg-orange-200" on:click={forward(row, index)}>
         {#each Object.values(row) as value}
           <td>{value}</td>
         {/each}
