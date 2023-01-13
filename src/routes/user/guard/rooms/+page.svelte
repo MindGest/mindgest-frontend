@@ -6,6 +6,9 @@ TODO
     - conseguir aplicar os filtros
 -->
 <script type="text/javascript">
+  import { onMount } from "svelte";
+  import * as api from '$lib/utils/api';
+
   /******************
    *                *
    * *FOR DEBUGGING *
@@ -18,25 +21,19 @@ TODO
     }
   }
   class appointment {
-    constructor(room, terp, hour_beg, dur, patient) {
+    constructor(room, title, roomId, terp, hour_beg, dur, patient) {
       this.room = room;
       this.terp = terp;
       this.hour_beg = hour_beg;
       this.dur = dur;
       this.patient = patient;
+      this.roomId = roomId;
+      this.title = title;
     }
   }
-  let terp1 = new person('Maria', 'terp');
-  let terp2 = new person('João', 'terp');
-  let terp3 = new person('Ana', 'terp');
-  let terp4 = new person('Joana', 'terp');
-  let seguranca = new person('José', 'guard');
-  let ap1 = new appointment('sala a', terp1, 12, 2, seguranca);
-  let ap2 = new appointment('sala b', terp2, 10, 1, seguranca);
-  let ap3 = new appointment('sala x', terp3, 16, 3, seguranca);
-  var list_apoint = [ap1, ap2, ap3];
-  var list_terps = [terp1, terp2, terp3, terp4];
-  var list_rooms = ['sala a', 'sala b', 'sala x'];
+  var list_apoint = [];
+  var list_terps = [];
+  var list_rooms = [];
   var hours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
   /******************
    *                *
@@ -47,6 +44,55 @@ TODO
   let selectedRoom;
   let selectedTerp;
   let selectedHour;
+
+  onMount(async () => {
+		const response = await api.get('rooms/list', {}, );
+    if (response.ok) {
+        let json = await response.json();
+        let jsonInfo = json["message"];
+        let infoHelper = [];
+
+        for (var i = 0; i < jsonInfo.length; i++) { 
+            let name = jsonInfo[i]["name"];
+            let id = jsonInfo[i]["id"];
+            infoHelper.push({'name': name, 'id':id});
+        }
+        list_rooms = infoHelper;
+    }
+    status = response.status;
+    
+    const response2 = await api.get('rooms/listAppointmentsRoom', {}, );
+    if (response.ok) {
+        let json = await response2.json();
+        let jsonInfo = json["message"];
+        let infoHelper = [];
+        let therapistHelper = [];
+        for (var i = 0; i < jsonInfo.length; i++) { 
+            let appointments = jsonInfo[i]["appointmentsRoom"]
+            for(var k = 0; k<appointments.length; k++){
+              let startDate = new Date(appointments[k]['startDate']);
+              let endDate = new Date(appointments[k]['endDate']);
+              let durationInMs = endDate.getTime() - startDate.getTime();
+              let durationInHours = durationInMs / 3600000;
+
+              let initHour = startDate.getHours();
+              
+              //ISTO TA SO PARA DEBUG
+              let personH = new person(appointments[k]['userName'], 'patient');
+              infoHelper.push(new appointment(jsonInfo[i]['room'], appointments[k]['title'],jsonInfo[i]['roomId'], appointments[k]['therapists'], initHour, durationInHours, personH));
+              //infoHelper.push(new appointment(jsonInfo[i]['room'], appointments[k]['title'],jsonInfo[i]['roomId'], new person("TESTE", "terp"), initHour, durationInHours, personH));
+
+              for(var j=0; j < appointments[k]['therapists'].length; j++){
+                therapistHelper.push(new person(appointments[k]['therapists'][j]['name'], 'terp'))
+              }
+            }
+        }
+        list_apoint = infoHelper;
+        list_terps = therapistHelper;
+    }
+    resetFilter();
+    status = response.status;
+	});
 
   /*
         If the user is a guard than the button value is null
@@ -84,12 +130,12 @@ TODO
   $: if (selectedRoom) getFilterRooms();
   const getFilterRooms = () => {
     if (selectedRoom === 'all') return (filterRoom = list_rooms);
-    return (filterRoom = list_rooms.filter(room => room === selectedRoom));
+    return (filterRoom = list_rooms.filter(room => room['name'] === selectedRoom));
   };
   $: if (selectedTerp) getFilterTerps();
   const getFilterTerps = () => {
     if (selectedTerp === 'all') return (filterTerp = list_terps);
-    return (filterTerp = list_terps.filter(terp => terp.name === selectedTerp.name));
+    return (filterTerp = list_terps.filter(terp => terp['name'] === selectedTerp.name));
   };
   $: if (selectedHour) getFilterHours();
   const getFilterHours = () => {
@@ -123,7 +169,7 @@ TODO
       <option disabled selected value="">Selecione uma Sala</option>
       <option value="all">Todas</option>
       {#each list_rooms as r}
-        <option value={r}>{r}</option>
+        <option value={r['name']}>{r['name']}</option>
       {/each}
     </select>
   </section>
@@ -167,18 +213,18 @@ TODO
   style="float:right; width:30%; position:relative; top:20%; bottom:10%; right:10%"
 >
   {#each filterRoom as r}
-    <p class="font-normal text-2xl">{r}</p>
+    <p class="font-normal text-2xl">{r['name']}</p>
 
     {#each filterHour as h}
       {#each list_apoint.sort(sortRooms('hour_beg')) as ap}
-        {#if selectedTerp === 'all' || !selectedTerp || selectedTerp.name === ap.terp.name}
-          {#if r === ap.room && h >= ap.hour_beg && ap.hour_beg + ap.dur > h}
+        {#if selectedTerp === 'all' || !selectedTerp || ap.terp.some(terp => terp['name'] === selectedTerp.name)}
+          {#if r['name'] === ap.room && h >= ap.hour_beg && ap.hour_beg + ap.dur > h}
             <button
               class="bg-orange-300 hover:bg-orange-100 text-gray-800 font-semibold py-2 px-3"
               on:click={isGuard}
-              id={ap}>{h}h, {ap.terp.name}</button
+              id={ap}>{h}h, {ap.title}</button
             >
-          {:else if r === ap.room && (selectedTerp === 'all' || !selectedTerp)}
+          {:else if r['name'] === ap.room && (selectedTerp === 'all' || !selectedTerp)}
             <button
               class="bg-green-300 hover:bg-green-100 text-gray-800 font-semibold py-2 px-3"
               on:click={isGuard}
