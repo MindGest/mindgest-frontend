@@ -7,7 +7,8 @@
     .map(path => ({
       title: `${path[1][0].toUpperCase()}${path[1].slice(1)}`,
       href: `/user/${path.join('/')}`
-    }));
+    }))
+    .filter(obj => obj.title !== "Profile");    //FIXME
   $: style = href =>
     href === data.href ? 'text-orange-500 underline underline-offset-4' : '';
 </script>
@@ -18,7 +19,8 @@
     <a {href} class={`ml-5 ${style(href)}`}>{title}</a>
   {/each}
   <div class="ml-auto">
-    <a class={style('/user/profile')} href="/user/profile">Perfil</a>
+    <!-- <a class={style('/user/profile')} href="/user/profile">Perfil</a> -->
+    <a class={style('/user/profile')} href={buttons[0].href.split("/").slice(0,3).join("/") + "/profile"}>Perfil</a> <!--FIXME-->
     <a class="ml-5" href="/logout">Sair</a>
   </div>
 </nav>
