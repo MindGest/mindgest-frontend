@@ -2,7 +2,7 @@
     import Button from '$lib/components/Button.svelte';
     import Checkbox from '$lib/components/Checkbox.svelte';
     import SearchBar from '$lib/components/SearchBar.svelte';
-    import Table from '$lib/components/MTable.svelte';
+    import Table from '$lib/components/Table.svelte';
     import { onMount } from 'svelte';
     import * as api from '$lib/utils/api';
 
