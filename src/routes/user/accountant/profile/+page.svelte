@@ -2,18 +2,52 @@
   import Avatar from "$lib/components/Avatar.svelte";
   import TextDisplay from "$lib/components/TextDisplay.svelte";
   import { uploadProfilePicture } from "$lib/utils/util";
+  import { onMount } from "svelte";
+  import * as api from '$lib/utils/api';
 
   //TODO: Integração
   // Fiz a foto com url pq não tinha a certeza, mas depois diz me como queres que eu facilmente altero
-    let data = {
-        "name": "Miguel",
-        "role": "Contabilista",
-        "birth_date": "09/02/2000",
-        "address": "str",
-        "phone_number": "123456789",
-        "email": "miguel@ola.ola",
-        "photo": "https://imgix.ranker.com/list_img_v2/19409/2739409/original/memes-only-fans-of-the-office-will-understand-u1"
-    };
+    let data = {};
+
+    onMount(async () => {
+		const response = await api.get('user/profile/info', {}, );
+    if (response.ok) {
+        let json = await response.json();
+
+        let jsonInfo = json["info"];
+        
+        let name = jsonInfo["name"];
+        let email = jsonInfo["email"];
+        let id = jsonInfo["id"];
+        let address = jsonInfo["address"];
+        let birth_date = jsonInfo["birth_date"];
+        let photo = jsonInfo["photo"];
+        let phone_number = jsonInfo["phone_number"];
+        let tax = jsonInfo["tax_number"];
+
+        const response2 = await api.get('user/profile/picture', {}, );
+        if (response2.ok) {
+          const blob = await response2.blob();
+          const objectURL = URL.createObjectURL(blob);
+
+          const img = document.getElementById("avatar");
+          img.src = objectURL;
+        }
+
+        data = {
+          "name": name,
+          "id": id,
+          "birth_date": birth_date.replace(/^(\d{4})-(\d{2})-(\d{2})T.*Z$/, "$3/$2/$1"),
+          "address": address,
+          "email": email,
+          "phone_number":phone_number,
+          "role": "Contabilista", //Talvez mudar isto, depende se for para fazer um geral ou n
+        }
+        
+        return;
+    }
+    status = response.status;
+	});
 
 </script>
 

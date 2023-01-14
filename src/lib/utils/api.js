@@ -6,7 +6,7 @@ const send = async ({ method, path, data, token }) =>
     credentials: 'include',
     headers: {
       ...(data && { 'content-type': 'application/json' }),
-      ...(token && { 'authorization':  getCookie("accessToken")}),
+      ...({ 'authorization':  getCookie("accessToken")}),
     },
     ...(data && { body: JSON.stringify(data) })
   });
@@ -39,7 +39,7 @@ const getMonthName = (number) =>{
 export const getMonth = (number) => getMonthName(number);
 export const setCookie = (name, value, days) => setC(name,value,days);
 export const getCookie = (name) => getC(name);
-export const get = (path, token) => send({ method: 'GET', path, token });
-export const del = (path, token) => send({ method: 'DELETE', path, token });
-export const post = (path, data, token) => send({ method: 'POST', path, data, token });
-export const put = (path, data, token) => send({ method: 'PUT', path, data, token });
+export const get = (path) => send({ method: 'GET', path });
+export const del = (path) => send({ method: 'DELETE', path });
+export const post = (path, data) => send({ method: 'POST', path, data });
+export const put = (path, data) => send({ method: 'PUT', path, data });

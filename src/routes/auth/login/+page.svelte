@@ -1,7 +1,7 @@
 <script>
   import * as api from '$lib/utils/api';
 
-  let email = 'teste2@gmail.com';
+  let email = 'acc@gmail.com';
   let password = 'teste2';
   let status = 200;
   const submit = async () => {
