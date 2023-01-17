@@ -3,6 +3,7 @@
   import Card from '$lib/components/Card.svelte';
   import Checkbox from '$lib/components/Checkbox.svelte';
   import SearchBar from '$lib/components/SearchBar.svelte';
+  import Selector from '$lib/components/Selector.svelte';
   import Table from '$lib/components/Table.svelte';
   import TextArea from '$lib/components/TextArea.svelte';
   import TextBox from '$lib/components/TextBox.svelte';
@@ -42,4 +43,8 @@
   <h1><b>TextBox Component</b></h1>
   <TextBox />
   <p class="m-10" />
+
+  <h1><b>Selector Component</b></h1>
+  <Selector options={[{"text":"aaa"},{"text":"bbb"},{"text":"ccc"}]}
+  display_func={o => o.text}/>
 </div>
