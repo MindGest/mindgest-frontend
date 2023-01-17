@@ -52,9 +52,9 @@
     <div class="flex flex-col items-center justify-center w-3/6 h-auto m-10 p-5 text-xl font-sans">
         <div class="text-m m-12">Fotografia de perfil:</div>
         {#if person.picture}
-            <Avatar src={person.picture} alt=''/>
+            <Avatar class="object-cover h-60 w-60" src={person.picture} alt=''/>
         {:else}
-            <Avatar src="/logo.png" alt=''/>
+            <Avatar class="object-cover h-60 w-60" src="/logo.png" alt=''/>
         {/if}
         <input class="m-5" type="file"  on:change={onChange} />
     </div>
