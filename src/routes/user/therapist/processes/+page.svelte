@@ -13,11 +13,6 @@ TODO
     import * as api from '$lib/utils/api';
     import { onMount } from "svelte";
 
-    /******************
-     *                *
-     * *FOR DEBUGGING *
-     *                *
-     *****************/
     class person { 
         constructor(name, role, proc) {
             this.name = name;
@@ -36,11 +31,6 @@ TODO
     let terp;
     let list_esp = [];
     let esps = [];
-    /******************
-     *                *
-     *FINISH DEBUGGING*
-    *                *
-    *****************/
 
     onMount(async () => {
 		const response = await api.get('process/listTherapist', {}, );
@@ -76,7 +66,7 @@ TODO
 
     
     let selectedEsp;
-    let text = '';
+    let text = "";
     let table;
     const newProc = () => alert("Novo Processo")
 
@@ -119,6 +109,11 @@ TODO
 
         if (table.length === 0) selectedEsp = "none"
 
+    }
+
+    $: if (!text || text === "") resetNameFilter();
+    const resetNameFilter = () => {
+        getTableData("all")
     }
 
 </script>
