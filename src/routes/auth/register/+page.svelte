@@ -1,9 +1,6 @@
 <script>
 	import Button from '$lib/components/button.svelte';
-    import {push, pop, replace} from 'svelte-spa-router';
-    import {goto} from '$app/navigation';
     import TextBox from '$lib/components/TextBox.svelte';
-    import TextArea from '$lib/components/TextDisplay.svelte';
     import Avatar from '$lib/components/Avatar.svelte';
     import Selector from '$lib/components/Selector.svelte';
 
@@ -72,7 +69,7 @@
             {/if}
             <TextBox id="email" label="Email:" bind:value={person.email} class="grid grid-cols-4 items-center font-bold"/>
             <TextBox id="password" label="Password:" bind:value={person.password} class="grid grid-cols-4 items-center font-bold"/>
-            <TextBox id="name" label="Confirme a sua password:" bind:value={password_validation} class="grid grid-cols-4 items-center font-bold"/>
+            <TextBox id="confirmpassword" label="Confirme a sua password:" bind:value={password_validation} class="grid grid-cols-4 items-center font-bold"/>
         </form>
         <div class="flex flex-row w-3/6 m-10 p-5 items-center justify-center space-x-56">
             <a class="text-orange-500 red w-full py-2 outline outline-1 rounded text-center" href="login">Voltar ao Login</a>
