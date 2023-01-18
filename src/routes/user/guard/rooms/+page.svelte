@@ -31,6 +31,13 @@ TODO
       this.title = title;
     }
   }
+  class room{
+    constructor(name, id){
+      this.name = name;
+      this.id = id;
+    }
+  }
+
   var list_apoint = [];
   var list_terps = [];
   var list_rooms = [];
@@ -119,6 +126,21 @@ TODO
       var result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
       return result * sortOrder;
     };
+  }
+
+  function getTherapist(ap){
+
+    let out = ""
+    
+    for (let i = 0; ap.terp.length > i; i++){
+      
+      if (i === 0) out += ap.terp[i].name;
+      else out += ", " + ap.terp[i].name;
+
+    }
+
+    return out;
+
   }
 
   /*
@@ -218,13 +240,14 @@ TODO
     {#each filterHour as h}
       {#each list_apoint.sort(sortRooms('hour_beg')) as ap}
         {#if selectedTerp === 'all' || !selectedTerp || ap.terp.some(terp => terp['name'] === selectedTerp.name)}
-          {#if r['name'] === ap.room && h >= ap.hour_beg && ap.hour_beg + ap.dur > h}
+
+          {#if r === ap.room && h >= ap.hour_beg && ap.hour_beg + ap.dur > h}
             <button
               class="bg-orange-300 hover:bg-orange-100 text-gray-800 font-semibold py-2 px-3"
-              on:click={isGuard}
-              id={ap}>{h}h, {ap.title}</button
-            >
-          {:else if r['name'] === ap.room && (selectedTerp === 'all' || !selectedTerp)}
+              on:click={isGuard}>
+              {getTherapist(ap)}; {h}h
+            </button>
+          {:else if r === ap.room && (selectedTerp === 'all' || !selectedTerp)}
             <button
               class="bg-green-300 hover:bg-green-100 text-gray-800 font-semibold py-2 px-3"
               on:click={isGuard}
