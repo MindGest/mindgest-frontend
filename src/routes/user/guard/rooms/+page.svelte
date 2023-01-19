@@ -1,19 +1,7 @@
-<!--
-TODO
-    - log + navbar + horas
-    - better styling
-
-    - conseguir aplicar os filtros
--->
 <script type="text/javascript">
   import { onMount } from "svelte";
   import * as api from '$lib/utils/api';
 
-  /******************
-   *                *
-   * *FOR DEBUGGING *
-   *                *
-   *****************/
   class person {
     constructor(name, role) {
       this.name = name;
@@ -21,7 +9,7 @@ TODO
     }
   }
   class appointment {
-    constructor(room, title, roomId, terp, hour_beg, dur, patient) {
+    constructor(room, title, roomId, terp, hour_beg, dur, patient, date) {
       this.room = room;
       this.terp = terp;
       this.hour_beg = hour_beg;
@@ -42,12 +30,7 @@ TODO
   var list_terps = [];
   var list_rooms = [];
   var hours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-  /******************
-   *                *
-   *FINISH DEBUGGING*
-   *                *
-   *****************/
-
+  
   let selectedRoom;
   let selectedTerp;
   let selectedHour;
@@ -241,7 +224,7 @@ TODO
       {#each list_apoint.sort(sortRooms('hour_beg')) as ap}
         {#if selectedTerp === 'all' || !selectedTerp || ap.terp.some(terp => terp['name'] === selectedTerp.name)}
 
-          {#if r === ap.room && h >= ap.hour_beg && ap.hour_beg + ap.dur > h}
+          {#if r === ap.room && h >= ap.hour_beg && ap.hour_beg + ap.dur > h && (ap.date.getFullYear() === Date().getFullYear() && ap.date.getMonth() === Date().getMonth() && ap.date.getDate() === Date().getDate())}
             <button
               class="bg-orange-300 hover:bg-orange-100 text-gray-800 font-semibold py-2 px-3"
               on:click={isGuard}>
