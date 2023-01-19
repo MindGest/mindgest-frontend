@@ -1,7 +1,9 @@
 {
-  "dashboard": "início",
-  "records": "processos",
-  "rooms": "salas",
-  "profile": "perfil",
-  "logout": "sair"
+    "dashboard": "início",
+    "records": "processos",
+    "rooms": "salas",
+    "profile": "perfil",
+    "logout": "sair",
+    "search": "pesquisar",
+    "therapistListing": "terapeutas"
 }

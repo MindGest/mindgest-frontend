@@ -1,7 +1,7 @@
 <script>
   export let placeholder;
-  export let query;
   export let filter;
+  let query;
 </script>
 
 <input
