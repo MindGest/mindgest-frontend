@@ -21,21 +21,39 @@
         }
     }
 
-    /* FOR DEBUG ONLY */
-    let terp = new person('Maria', 'terp');
-    let terp2 = new person('Joana', 'terp');
-    let pat1 = new person('Ana A', 'pat', null);
-    let pat2 = new person('Bruno', 'pat', null);
-    let pat3 = new person('Mariana', 'pat', null);
-    let ap1 = new process(pat1, 1234, null, [terp]);
-    let ap2 = new process(pat2, 5678, null, [terp, terp2]);
-    let ap3 = new process(pat3, 9087, null, [terp2]);
-
-
-    let aps = [ap1, ap2, ap3];
+    let aps = [];
     let text = "";
     let table;
     const newUt = () => alert("Novo Utente");
+
+    onMount(async () => {
+    const response = await api.get('therapist/listPatients', {});
+    if (response.ok) {
+      let json = await response.json();
+
+      let jsonInfo = json['message'];
+
+      let infoHelper = [];
+      for (var i = 0; i < jsonInfo.length; i++) {
+        let patientName = jsonInfo[i]["patientName"];
+        let newPatient = new person(patientName, 'pat', null);
+        let ref = jsonInfo[i]["ref"];
+        let speciality = jsonInfo[i]["speciality"];
+        let therapists = [];
+        let therapistsInfo = jsonInfo[i]["therapists"];
+
+        for(let j=0; j<therapistsInfo.length;j++){
+            therapists.push(new person(therapistsInfo[j]["name"], 'terp', null));
+        }
+        infoHelper.push(new process(newPatient, ref, speciality, therapists));
+        
+      }
+      aps = infoHelper;
+      getTableData("all");
+      return;
+    }
+    status = response.status;
+  });
 
     function getTherapist(ap){
 
