@@ -5,11 +5,11 @@
   let password = 'teste2';
   let status = 200;
   const submit = async () => {
-    const response = await api.post('auth/login', { 'email':email, 'password':password });
+    const response = await api.post('auth/login', { email: email, password: password });
     if (response.ok) {
       let json = await response.json();
-      api.setCookie("accessToken",json["accessToken"],1);
-      api.setCookie("refreshToken",json["refreshToken"],1);
+      api.setCookie('accessToken', json['accessToken'], 1);
+      api.setCookie('refreshToken', json['refreshToken'], 1);
       location.reload();
       return;
     }
@@ -18,7 +18,7 @@
 </script>
 
 <wrapper class="flex flex-col items-center justify-center h-full">
-  <img src="/logo.png" alt="logo" />
+  <img src="/img/logo.png" alt="logo" />
   <form class="flex flex-col items-center mt-4" on:submit|preventDefault={submit}>
     {#if status !== 200}
       <p class="outline outline-2 rounded-sm p-2 mt-4 outline-red-500">

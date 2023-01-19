@@ -45,6 +45,8 @@
   <p class="m-10" />
 
   <h1><b>Selector Component</b></h1>
-  <Selector options={[{"text":"aaa"},{"text":"bbb"},{"text":"ccc"}]}
-  display_func={o => o.text}/>
+  <Selector
+    options={[{ text: 'aaa' }, { text: 'bbb' }, { text: 'ccc' }]}
+    display_func={o => o.text}
+  />
 </div>

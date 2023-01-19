@@ -1,9 +1,8 @@
 <script type="text/javascript">
-  import { onMount } from "svelte";
+  import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
   import DatePicker from '$lib/components/DatePicker.svelte';
-  import { uploadProfilePicture, parseDate, reverseParseDate } from "$lib/utils/util";
-
+  import { uploadProfilePicture, parseDate, reverseParseDate } from '$lib/utils/util';
 
   class person {
     constructor(name, role) {
@@ -23,8 +22,8 @@
       this.date = date;
     }
   }
-  class room{
-    constructor(name, id){
+  class room {
+    constructor(name, id) {
       this.name = name;
       this.id = id;
     }
@@ -37,53 +36,63 @@
   let selectedDate;
 
   onMount(async () => {
-		const response = await api.get('rooms/list', {}, );
+    const response = await api.get('rooms/list', {});
     if (response.ok) {
-        let json = await response.json();
-        let jsonInfo = json["message"];
-        let infoHelper = [];
+      let json = await response.json();
+      let jsonInfo = json['message'];
+      let infoHelper = [];
 
-        for (var i = 0; i < jsonInfo.length; i++) { 
-            let name = jsonInfo[i]["name"];
-            let id = jsonInfo[i]["id"];
-            infoHelper.push({'name': name, 'id':id});
-        }
-        list_rooms = infoHelper;
+      for (var i = 0; i < jsonInfo.length; i++) {
+        let name = jsonInfo[i]['name'];
+        let id = jsonInfo[i]['id'];
+        infoHelper.push({ name: name, id: id });
+      }
+      list_rooms = infoHelper;
     }
     status = response.status;
-    
-    const response2 = await api.get('rooms/listAppointmentsRoom', {}, );
+
+    const response2 = await api.get('rooms/listAppointmentsRoom', {});
     if (response.ok) {
-        let json = await response2.json();
-        let jsonInfo = json["message"];
-        let infoHelper = [];
-        let therapistHelper = [];
-        for (var i = 0; i < jsonInfo.length; i++) { 
-            let appointments = jsonInfo[i]["appointmentsRoom"]
-            for(var k = 0; k<appointments.length; k++){
-              let startDate = new Date(appointments[k]['startDate']);
-              let endDate = new Date(appointments[k]['endDate']);
-              let durationInMs = endDate.getTime() - startDate.getTime();
-              let durationInHours = durationInMs / 3600000;
+      let json = await response2.json();
+      let jsonInfo = json['message'];
+      let infoHelper = [];
+      let therapistHelper = [];
+      for (var i = 0; i < jsonInfo.length; i++) {
+        let appointments = jsonInfo[i]['appointmentsRoom'];
+        for (var k = 0; k < appointments.length; k++) {
+          let startDate = new Date(appointments[k]['startDate']);
+          let endDate = new Date(appointments[k]['endDate']);
+          let durationInMs = endDate.getTime() - startDate.getTime();
+          let durationInHours = durationInMs / 3600000;
 
-              let initHour = startDate.getHours();
-              
-              //ISTO TA SO PARA DEBUG
-              let personH = new person(appointments[k]['userName'], 'patient');
-              infoHelper.push(new appointment(jsonInfo[i]['room'], appointments[k]['title'],jsonInfo[i]['roomId'], appointments[k]['therapists'], initHour, durationInHours, personH));
-              //infoHelper.push(new appointment(jsonInfo[i]['room'], appointments[k]['title'],jsonInfo[i]['roomId'], new person("TESTE", "terp"), initHour, durationInHours, personH));
+          let initHour = startDate.getHours();
 
-              for(var j=0; j < appointments[k]['therapists'].length; j++){
-                therapistHelper.push(new person(appointments[k]['therapists'][j]['name'], 'terp'))
-              }
-            }
+          //ISTO TA SO PARA DEBUG
+          let personH = new person(appointments[k]['userName'], 'patient');
+          infoHelper.push(
+            new appointment(
+              jsonInfo[i]['room'],
+              appointments[k]['title'],
+              jsonInfo[i]['roomId'],
+              appointments[k]['therapists'],
+              initHour,
+              durationInHours,
+              personH
+            )
+          );
+          //infoHelper.push(new appointment(jsonInfo[i]['room'], appointments[k]['title'],jsonInfo[i]['roomId'], new person("TESTE", "terp"), initHour, durationInHours, personH));
+
+          for (var j = 0; j < appointments[k]['therapists'].length; j++) {
+            therapistHelper.push(new person(appointments[k]['therapists'][j]['name'], 'terp'));
+          }
         }
-        list_apoint = infoHelper;
-        list_terps = therapistHelper;
+      }
+      list_apoint = infoHelper;
+      list_terps = therapistHelper;
     }
     resetFilter();
     status = response.status;
-	});
+  });
 
   /*
         If the user is a guard than the button value is null
@@ -113,47 +122,38 @@
     };
   }
 
-  function getTherapist(ap, d){
+  function getTherapist(ap, d) {
+    let out = '';
 
-    let out = ""
-    
-    for (let i = 0; ap.terp.length > i; i++){
-      
+    for (let i = 0; ap.terp.length > i; i++) {
       if (i === 0) out += ap.terp[i].name;
-      else out += ", " + ap.terp[i].name;
-
+      else out += ', ' + ap.terp[i].name;
     }
 
     return out;
-
   }
 
-
   // get today's date
-  function week_func(){
-
+  function week_func() {
     let out = [];
     let i = 0;
     let date = new Date();
 
-    while (i < 8){
-
+    while (i < 8) {
       if (i === 0) date.getDate();
       else date.setDate(date.getDate() + 1);
       let year = date.getFullYear();
       let month = date.getMonth() + 1;
       let day = date.getDate();
 
-      out.push([new Date(year, month-1, day), day + "/" + month + "/" + year]);
+      out.push([new Date(year, month - 1, day), day + '/' + month + '/' + year]);
       i = i + 1;
-
     }
 
     return out;
-
   }
 
-  let week = week_func()
+  let week = week_func();
 
   /*
         For the dropdown filters
@@ -167,13 +167,14 @@
   };
   $: if (selectedDate) getFilterDates();
   const getFilterDates = () => {
-    console.log("detetou nova data " + selectedDate);
-    week = [selectedDate, selectedDate.getDate() + "/" + selectedDate.getMonth()+1 + "/" + selectedDate.getFullYear()];
+    console.log('detetou nova data ' + selectedDate);
+    week = [
+      selectedDate,
+      selectedDate.getDate() + '/' + selectedDate.getMonth() + 1 + '/' + selectedDate.getFullYear()
+    ];
   };
   $: if (!selectedRoom) filterRoom = list_rooms;
   $: if (!selectedDate) week = week_func();
-
-
 </script>
 
 <!-- dropdown buttons -->
@@ -197,7 +198,12 @@
   </section>
 
   <section class="menu-cont">
-    <DatePicker id="filtro_date" label="Escolha uma Data:" value="{parseDate(selectedDate)}" class="grid grid-cols-3 items-center font-bold"/>
+    <DatePicker
+      id="filtro_date"
+      label="Escolha uma Data:"
+      value={parseDate(selectedDate)}
+      class="grid grid-cols-3 items-center font-bold"
+    />
   </section>
 </wrapper>
 
@@ -206,7 +212,6 @@
   class="flex flex-col"
   style="float:right; width:30%; position:relative; top:20%; bottom:10%; right:10%"
 >
-
   {#each week as d}
     <p class="font-normal text-2xl">{d[1]}</p>
 
@@ -215,11 +220,11 @@
 
       {#each hours as h}
         {#each list_apoint.sort(sortRooms('hour_beg')) as ap}
-
-          {#if r['name'] === ap.room && h >= ap.hour_beg && ap.hour_beg + ap.dur > h && (ap.date.getFullYear() === d[0].getFullYear() && ap.date.getMonth() === d[0].getMonth() && ap.date.getDate() === d[0].getDate())}
+          {#if r['name'] === ap.room && h >= ap.hour_beg && ap.hour_beg + ap.dur > h && ap.date.getFullYear() === d[0].getFullYear() && ap.date.getMonth() === d[0].getMonth() && ap.date.getDate() === d[0].getDate()}
             <button
               class="bg-orange-300 hover:bg-orange-100 text-gray-800 font-semibold py-2 px-3"
-              on:click={isGuard}>
+              on:click={isGuard}
+            >
               {getTherapist(ap, d)}; {h}h
             </button>
           {:else}
@@ -229,10 +234,8 @@
               id="">{h}h</button
             >
           {/if}
-
         {/each}
       {/each}
     {/each}
   {/each}
-
 </wrapper>
