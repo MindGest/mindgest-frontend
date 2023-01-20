@@ -5,18 +5,17 @@
 
   const buttons = Object.keys(import.meta.glob('./**/*.svelte'))
     .map(path => path.split('/').slice(1, 4))
-    .filter(path => path[0] === data.role && path[2] === '+page.svelte')
-    .map(([role, page]) => {
-      page = translate(page);
-      return { title: `${page[0].toUpperCase()}${page.slice(1)}`, href: `/user/${role}/${page}` };
-    });
+    .filter(
+      ([role, page, file]) => role === data.role && page !== 'profile' && file === '+page.svelte'
+    )
+    .map(([role, page]) => ({ text: translate(page), href: `/user/${role}/${page}` }));
   $: style = href => (href === data.href ? 'text-orange-500 underline underline-offset-4' : '');
 </script>
 
 <nav class="w-full fixed top-0 p-4 flex items-center shadow-md bg-white">
   <img src="/img/logo.png" alt="logo" class="h-12" />
-  {#each buttons as { title, href }}
-    <a {href} class={`ml-5 ${style(href)}`}>{title}</a>
+  {#each buttons as { text, href }}
+    <a {href} class={`ml-5 ${style(href)}`}>{text}</a>
   {/each}
   <div class="ml-auto">
     <!-- <a class={style('/user/profile')} href="/user/profile">Perfil</a> -->
