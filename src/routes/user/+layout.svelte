@@ -1,5 +1,6 @@
 <script>
   import translate from '$lib/utils/translate';
+  import navbar from '$lib/data/navbar.json';
 
   export let data;
 
@@ -8,6 +9,7 @@
     .filter(
       ([role, page, file]) => role === data.role && page !== 'profile' && file === '+page.svelte'
     )
+    .sort(([, page1], [, page2]) => navbar.indexOf(page1) - navbar.indexOf(page2))
     .map(([role, page]) => ({ text: translate(page), href: `/user/${role}/${page}` }));
   $: style = href => (href === data.href ? 'text-orange-500 underline underline-offset-4' : '');
 </script>

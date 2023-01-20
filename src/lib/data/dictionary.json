@@ -9,5 +9,9 @@
     "logout": "sair",
     "search": "pesquisar...",
     "empty": "nenhum item corresponde à sua pesquisa.",
-    "therapistListing": "terapeutas"
+    "therapistListing": "terapeutas",
+    "patientName": "pacientes",
+    "refCode": "número do processo",
+    "nextAppointment": "próxima consulta",
+    "speciality": "especialidade"
 }

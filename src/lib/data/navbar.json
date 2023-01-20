@@ -1,8 +1,12 @@
 [
     "dashboard",
+    "payments",
     "rooms",
     "records",
     "appointments",
     "patients",
-    "stats"
+    "users",
+    "services",
+    "stats",
+    "notifications"
 ]
