@@ -2,8 +2,12 @@
     "dashboard": "início",
     "records": "processos",
     "rooms": "salas",
+    "appointments": "consultas",
+    "users": "utilizadores",
+    "patients": "utentes",
     "profile": "perfil",
     "logout": "sair",
-    "search": "pesquisar",
+    "search": "pesquisar...",
+    "empty": "nenhum item corresponde à sua pesquisa.",
     "therapistListing": "terapeutas"
 }

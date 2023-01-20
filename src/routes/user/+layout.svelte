@@ -18,12 +18,7 @@
     <a {href} class={`ml-5 ${style(href)}`}>{text}</a>
   {/each}
   <div class="ml-auto">
-    <!-- <a class={style('/user/profile')} href="/user/profile">Perfil</a> -->
-    <a
-      class={style('/user/profile')}
-      href={buttons[0].href.split('/').slice(0, 3).join('/') + '/profile'}>{translate('profile')}</a
-    >
-    <!--FIXME-->
+    <a class={style(`user/${data.role}/profile`)} href={'profile'}>{translate('profile')}</a>
     <a class="ml-5" href="/logout">{translate('logout')}</a>
   </div>
 </nav>

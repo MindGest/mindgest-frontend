@@ -10,12 +10,14 @@
       return acc;
     }, {})
   ));
+  console.log(filteredData);
   const filter = query => {
-    filteredData = data.filter(element =>
-      Object.values(element).some(value => value.toLowerCase().includes(query.toLowerCase()))
+    filteredData = data.filter(row =>
+      Object.values(row).some(value => value.toLowerCase().includes(query.toLowerCase()))
     );
+    console.log(filteredData);
   };
 </script>
 
 <SearchBar placeholder={translate('search')} {filter} />
-<Table data={filteredData} />
+<Table placeholder={translate('empty')} data={filteredData} />
