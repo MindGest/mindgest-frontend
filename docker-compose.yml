@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  frontend:
+    image: mindgest-frontend:latest
+    container_name: mindgest-frontend
+    hostname: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - 5173:5173
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'curl --fail http://localhost:5173 || exit 1'"
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - mindgest-prod
+
+networks:
+  mindgest-prod:
