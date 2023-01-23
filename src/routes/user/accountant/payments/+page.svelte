@@ -143,7 +143,7 @@
     <div class="my-5">
       <bold class="font-bold">Morada Fiscal:</bold>
       {infoUtente.morada}
-    </div>
+    </div>search
     <div class="my-5">
       <bold class="font-bold">E-mail:</bold>
       {infoUtente.email}

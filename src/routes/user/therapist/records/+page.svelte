@@ -1,22 +1,30 @@
 <script>
+  // import { goto } from '$app/navigation';
   import TableMenu from '$lib/components/TableMenu.svelte';
 
+  const columns = [
+    { key: 'therapistListing', type: String, search: true, filter: false },
+    { key: 'patientName', type: String, search: true, filter: false },
+    { key: 'refCode', type: String, search: true, filter: false },
+    { key: 'nextAppointment', type: Date, search: false, filter: false },
+    { key: 'speciality', type: String, search: false, filter: true }
+  ];
   const data = [
     {
-      therapistListing: 'João',
+      therapistListing: ['João'],
       patientName: 'Ana',
       refCode: '1234',
       nextAppointment: '01/01/2021',
-      speciality: '01/01/2021'
+      speciality: "couple's therapy"
     },
     {
-      therapistListing: 'Pedro',
+      therapistListing: ['Pedro', 'João'],
       patientName: 'António',
       refCode: '1234',
       nextAppointment: '01/01/2021',
-      speciality: '01/01/2021'
+      speciality: 'massage'
     }
-  ]; // TODO: replace with API call
+  ];
 </script>
 
-<TableMenu {data} />
+<TableMenu {data} {columns} />

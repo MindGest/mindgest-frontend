@@ -1,0 +1,5 @@
+optional "new" button
+checkboxes for binary values
+support for lists, dates, binary values
+filters for specific parameters
+search only for one field

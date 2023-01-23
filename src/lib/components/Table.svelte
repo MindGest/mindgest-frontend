@@ -1,7 +1,9 @@
 <script>
   export let placeholder = '';
   export let data = [];
+  
   const sort = column => data.sort((a, b) => (a[column] > b[column]) - (b[column] > a[column]));
+  // TODO: deal with lists, tables
 </script>
 
 <table class="w-full border-spacing-y-1 border-separate">
