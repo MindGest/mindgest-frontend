@@ -13,5 +13,9 @@
     "patientName": "pacientes",
     "refCode": "número do processo",
     "nextAppointment": "próxima consulta",
-    "speciality": "especialidade"
+    "speciality": "especialidade",
+    "notifications": "notificações",
+    "services": "serviços",
+    "record:active": "Processo ativo",
+    "record:!active": "Processo inativo"
 }

@@ -1,23 +1,42 @@
 <script>
   import Table from '$lib/components/Table.svelte';
   import translate from '$lib/utils/translate';
+  import Checkbox from './Checkbox.svelte';
   import SearchBar from './SearchBar.svelte';
+  import Selector from './Selector.svelte';
 
+  export let object = '';
   export let data = [];
-  let filteredData = (data = data.map(row =>
-    Object.keys(row).reduce((acc, key) => {
-      acc[translate(key)] = row[key]; // TODO: deal with lists, tables
-      return acc;
-    }, {})
-  ));
-  console.log(filteredData);
-  const filter = query => {
-    filteredData = data.filter(row =>
-      Object.values(row).some(value => value.toLowerCase().includes(query.toLowerCase()))
+  export let select = '';
+  export let search = [];
+  export let check = '';
+
+  let query = '';
+  let selected = '';
+  let checked = [true, true];
+
+  $: filteredData = data
+    .filter(
+      row =>
+        search.some(key => row[key].toString().toLowerCase().includes(query.toLowerCase())) &&
+        (selected === '' || row[select] === selected) &&
+        checked[+row[check]]
+    )
+    .map(row =>
+      Object.entries(row).reduce((acc, [key, value]) => ({ ...acc, [translate(key)]: value }), {})
     );
-    console.log(filteredData);
-  };
 </script>
 
-<SearchBar placeholder={translate('search')} {filter} />
+{#if select}
+  <Selector
+    placeholder={translate('search')}
+    values={[...new Set(data.map(row => row[select]))]}
+    bind:value={selected}
+  />
+{/if}
+<SearchBar placeholder={translate('search')} bind:value={query} />
+{#if check}
+  <Checkbox label={translate(`${object}:${check}`)} bind:checked={checked[1]} />
+  <Checkbox label={translate(`${object}:!${check}`)} bind:checked={checked[0]} />
+{/if}
 <Table placeholder={translate('empty')} data={filteredData} />
