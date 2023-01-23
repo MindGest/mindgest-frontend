@@ -15,16 +15,23 @@
       patientName: 'Ana',
       refCode: '1234',
       nextAppointment: '01/01/2021',
-      speciality: "couple's therapy"
+      speciality: "Terapia de casal",
+      lol: true
     },
     {
       therapistListing: ['Pedro', 'João'],
       patientName: 'António',
       refCode: '1234',
       nextAppointment: '01/01/2021',
-      speciality: 'massage'
+      speciality: 'Terapia de casal',
+      lol: false,
     }
   ];
 </script>
 
-<TableMenu {data} {columns} />
+<TableMenu
+  {data}
+  search={['therapistListing', 'patientName', 'refCode']}
+  select={'speciality'}
+  check={'lol'}
+/>

@@ -2,34 +2,40 @@
   import Table from '$lib/components/Table.svelte';
   import translate from '$lib/utils/translate';
   import Checkbox from './Checkbox.svelte';
-  import DatePicker from './DatePicker.svelte';
   import SearchBar from './SearchBar.svelte';
   import Selector from './Selector.svelte';
 
   export let data = [];
-  export let columns = [];
-
-  data = data.map(row => columns.reduce((acc, { key }) => ({ ...acc, [key]: row[key] }), {}));
+  export let select = '';
+  export let search = [];
+  export let check = '';
 
   let query = '';
+  let selected = '';
+  let checked = [true, true];
 
-  $: filteredData = data.filter(row =>
-    columns.some(
-      ({ search, key }) => search && row[key].toString().toLowerCase().includes(query.toLowerCase())
+  $: filteredData = data
+    .filter(
+      row =>
+        search.some(key => row[key].toString().toLowerCase().includes(query.toLowerCase())) &&
+        (selected === '' || row[select] === selected) &&
+        checked[+row[check]]
     )
-  );
+    .map(row =>
+      Object.entries(row).reduce((acc, [key, value]) => ({ ...acc, [translate(key)]: value }), {})
+    );
 </script>
 
+{#if select}
+  <Selector
+    placeholder={translate('search')}
+    values={[...new Set(data.map(row => row[select]))]}
+    bind:value={selected}
+  />
+{/if}
 <SearchBar placeholder={translate('search')} bind:value={query} />
-{#each columns as { type, filter }}
-  {#if filter}
-    {#if type === String}
-      <Selector />
-    {:else if type === Date}
-      <DatePicker />
-    {:else if type === Boolean}
-      <Checkbox />
-    {/if}
-  {/if}
-{/each}
+{#if check}
+  <Checkbox label={check} bind:checked={checked[1]} />
+  <Checkbox label={`not ${check}`} bind:checked={checked[0]} />
+{/if}
 <Table placeholder={translate('empty')} data={filteredData} />
