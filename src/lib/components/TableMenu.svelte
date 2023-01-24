@@ -7,21 +7,21 @@
   import SearchBar from './SearchBar.svelte';
   import Selector from './Selector.svelte';
 
+  const path = $page.url.pathname;
+  const stem = path.split('/').slice(-1);
+
   export let data = [];
   export let select = '';
   export let search = [];
   export let check = '';
-  export let object = '';
   export let add = false;
   export let id = '';
-
-  console.log($page.url.pathname);
 
   let query = '';
   let selected = '';
   let checked = [true, true];
 
-  $: filteredData = data.filter(
+  $: filtered = data.filter(
     row =>
       search.some(key => row[key].toString().toLowerCase().includes(query.toLowerCase())) &&
       (selected === '' || row[select] === selected) &&
@@ -38,14 +38,14 @@
 {/if}
 <SearchBar placeholder={'search'} bind:value={query} />
 {#if add}
-  <Button on:click={() => goto(`${$page.url.pathname}/new`)}>{object}:add</Button>
+  <Button on:click={() => goto(`${path}/new`)}>{stem}:add</Button>
 {/if}
 {#if check}
-  <Checkbox label={`${object}:${check}`} bind:checked={checked[1]} />
-  <Checkbox label={`${object}:!${check}`} bind:checked={checked[0]} />
+  <Checkbox label={`${stem}:${check}`} bind:checked={checked[1]} />
+  <Checkbox label={`${stem}:!${check}`} bind:checked={checked[0]} />
 {/if}
 <Table
   placeholder={'empty'}
-  data={filteredData}
-  on:click={({ detail: { row } }) => goto(`${$page.url.pathname}/${row[id]}`)}
+  data={filtered}
+  on:click={({ detail: { row } }) => goto(`${path}/${row[id]}`)}
 />

@@ -5,7 +5,6 @@
   export let placeholder = '';
   export let data = [];
 
-  console.log(data);
   const sort = key => (data = data.sort((a, b) => (a[key] > b[key]) - (b[key] > a[key])));
   const dispatch = createEventDispatcher();
   // TODO: deal with lists, dates
