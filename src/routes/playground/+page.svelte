@@ -10,21 +10,29 @@
   import TextBox from '$lib/components/TextBox.svelte';
 
   let query = '';
+  let checked = false;
 </script>
 
 <wrapper class="block mb-10 p-5">
   <h1>Button</h1>
   <Button class="w-72" text="big" on:click={() => alert('big')} />
   <Button class="ml-5 w-20" text="small" on:click={() => alert('small')} />
+
   <h1>Link</h1>
-  <Link text="link" />
+  <Link text="left" on:click={() => alert('left')} />
+  <Link class="ml-5" text="right" on:click={() => alert('right')} />
+
+  <h1>Checkbox</h1>
+  <Checkbox label={checked ? 'uncheck me' : 'check me'} bind:checked />
+  <Checkbox class="ml-5" label="already checked" checked />
+
   <h1>Card</h1>
   <Card title="This is the title" subtitle="This is the subtitle" />
-  <h1>Checkbox</h1>
-  <Checkbox label="A simple checkbox" />
+
   <h1>SearchBar</h1>
   <SearchBar placeholder="search" bind:value={query} />
   <p>Query: {query}</p>
+
   <h1>Table</h1>
   <Table
     data={[
@@ -33,10 +41,13 @@
       { id: 3, name: 'Charlie', age: 35 }
     ]}
   />
+
   <h1>TextArea</h1>
   <TextArea />
+
   <h1>TextBox</h1>
   <TextBox />
+
   <h1>Selector</h1>
   <h2>Labeled</h2>
   <Selector label="label" placeholder="search" values={['one', 'two', 'three']} />
