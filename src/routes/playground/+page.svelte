@@ -7,26 +7,21 @@
   import Table from '$lib/components/Table.svelte';
   import TextArea from '$lib/components/TextArea.svelte';
   import TextBox from '$lib/components/TextBox.svelte';
+
+  let query = '';
 </script>
 
-<div class="m-5">
-  <h1><b>Button Component</b></h1>
+<wrapper class="block mb-10 p-5">
+  <h1>Button</h1>
   <Button class="w-1/4 m-5">Click me</Button>
-  <p class="m-10" />
-
-  <h1><b>Card Component</b></h1>
+  <h1>Card</h1>
   <Card title="This is the title" subtitle="This is the subtitle" />
-  <p class="m-10" />
-
-  <h1><b>Checkbox Component</b></h1>
+  <h1>Checkbox</h1>
   <Checkbox label="A simple checkbox" />
-  <p class="m-10" />
-
-  <h1><b>SearchBar Component</b></h1>
-  <SearchBar />
-  <p class="m-10" />
-
-  <h1><b>Table Component</b></h1>
+  <h1>SearchBar</h1>
+  <SearchBar placeholder="search" bind:value={query}/>
+  <p>Query: {query}</p>
+  <h1>Table</h1>
   <Table
     data={[
       { id: 1, name: 'Alice', age: 25 },
@@ -34,19 +29,27 @@
       { id: 3, name: 'Charlie', age: 35 }
     ]}
   />
-  <p class="m-10" />
-
-  <h1><b>TextArea Component</b></h1>
+  <h1>TextArea</h1>
   <TextArea />
-  <p class="m-10" />
-
-  <h1><b>TextBox Component</b></h1>
+  <h1>TextBox</h1>
   <TextBox />
-  <p class="m-10" />
+  <h1>Selector</h1>
+  <h2>Labeled</h2>
+  <Selector label="label" placeholder="search" values={['one', 'two', 'three']} />
+  <h2>Unlabeled</h2>
+  <Selector placeholder="search" values={['one', 'two', 'three']} />
+</wrapper>
 
-  <h1><b>Selector Component</b></h1>
-  <Selector
-    options={[{ text: 'aaa' }, { text: 'bbb' }, { text: 'ccc' }]}
-    display_func={o => o.text}
-  />
-</div>
+<style>
+  h1 {
+    @apply text-2xl;
+  }
+
+  h1:not(:first-child) {
+    @apply my-5;
+  }
+
+  h2 {
+    @apply text-xl my-4;
+  }
+</style>

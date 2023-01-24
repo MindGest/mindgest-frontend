@@ -1,11 +1,13 @@
 <script>
-  export let placeholder;
+  import translate from '$lib/utils/translate';
+
+  export let placeholder = '';
   export let value = '';
 </script>
 
 <input
-  class="border-2 border-orange-500 p-1 rounded-lg m-5 focus:outline-orange-200 focus:outline-offset-2"
+  class="border-2 border-orange-500 w-72 p-1 rounded-lg focus:outline-orange-200 focus:outline-offset-2"
   type="text"
-  {placeholder}
+  placeholder={translate(placeholder)}
   bind:value
 />

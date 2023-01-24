@@ -11,7 +11,7 @@
   <input
     {id}
     type="text"
-    class="border-2 border-orange-500 rounded-lg focus:outline-orange-200 focus:outline-offset-2 font-normal p-1 m-2"
+    class="border-2 border-orange-500 rounded-lg focus:outline-orange-200 focus:outline-offset-2 font-normal p-1 w-72"
     bind:value
   />
 </div>

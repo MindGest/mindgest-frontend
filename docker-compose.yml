@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
   frontend:
@@ -14,11 +14,7 @@ services:
     ports:
       - 5173:5173
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "sh -c 'curl --fail http://localhost:5173 || exit 1'"
-        ]
+      test: ['CMD-SHELL', "sh -c 'curl --fail http://localhost:5173 || exit 1'"]
       interval: 10s
       timeout: 3s
       retries: 3

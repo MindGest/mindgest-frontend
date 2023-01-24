@@ -1,12 +1,12 @@
 [
-    "dashboard",
-    "payments",
-    "rooms",
-    "records",
-    "appointments",
-    "patients",
-    "users",
-    "services",
-    "stats",
-    "notifications"
+  "dashboard",
+  "payments",
+  "rooms",
+  "records",
+  "appointments",
+  "patients",
+  "users",
+  "services",
+  "stats",
+  "notifications"
 ]
