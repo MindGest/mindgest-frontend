@@ -20,12 +20,11 @@
   let query = '';
   let selected = '';
   let checked = [true, true];
-
   $: filtered = data.filter(
     row =>
       search.some(key => row[key].toString().toLowerCase().includes(query.toLowerCase())) &&
-      (selected === '' || row[select] === selected) &&
-      checked[+row[check]]
+      (!selected || row[select] === selected) &&
+      (!check || checked[+row[check]])
   );
 </script>
 
