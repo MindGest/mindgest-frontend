@@ -2,6 +2,7 @@
   import Button from '$lib/components/Button.svelte';
   import Card from '$lib/components/Card.svelte';
   import Checkbox from '$lib/components/Checkbox.svelte';
+  import Link from '$lib/components/Link.svelte';
   import SearchBar from '$lib/components/SearchBar.svelte';
   import Selector from '$lib/components/Selector.svelte';
   import Table from '$lib/components/Table.svelte';
@@ -13,13 +14,16 @@
 
 <wrapper class="block mb-10 p-5">
   <h1>Button</h1>
-  <Button class="w-1/4 m-5">Click me</Button>
+  <Button class="w-72" text="big" on:click={() => alert('big')} />
+  <Button class="ml-5 w-20" text="small" on:click={() => alert('small')} />
+  <h1>Link</h1>
+  <Link text="link" />
   <h1>Card</h1>
   <Card title="This is the title" subtitle="This is the subtitle" />
   <h1>Checkbox</h1>
   <Checkbox label="A simple checkbox" />
   <h1>SearchBar</h1>
-  <SearchBar placeholder="search" bind:value={query}/>
+  <SearchBar placeholder="search" bind:value={query} />
   <p>Query: {query}</p>
   <h1>Table</h1>
   <Table
@@ -42,11 +46,11 @@
 
 <style>
   h1 {
-    @apply text-2xl;
+    @apply text-2xl mb-5;
   }
 
   h1:not(:first-child) {
-    @apply my-5;
+    @apply mt-5;
   }
 
   h2 {
