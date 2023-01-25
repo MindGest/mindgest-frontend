@@ -8,7 +8,7 @@
 </script>
 
 <div class={class_}>
-  <button class={`border-2 border-slate-500 p-5 rounded-lg`} on:click>
+  <button class={`border-2 border-zinc-500 p-5 rounded-lg`} on:click>
     <div class="grid justify-items-start">
       <h1 class="font-bold">{translate(title)}</h1>
       <h1>{translate(subtitle)}</h1>
