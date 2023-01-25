@@ -25,6 +25,6 @@
   </div>
 </nav>
 
-<wrapper class="block w-full h-full pt-20">
+<wrapper class="block w-full h-full p-5 pt-[6.25rem]">
   <slot />
 </wrapper>

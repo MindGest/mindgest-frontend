@@ -28,22 +28,28 @@
   );
 </script>
 
-{#if select}
-  <Selector
-    placeholder={'search'}
-    values={[...new Set(data.map(row => row[select]))]}
-    bind:value={selected}
-  />
-{/if}
-<SearchBar placeholder={'search'} bind:value={query} />
-{#if add}
-  <Button on:click={() => goto(`${path}/new`)}>{stem}:add</Button>
-{/if}
+<wrapper class="w-full flex">
+  {#if select}
+    <Selector
+      class="w-80 mr-5"
+      placeholder={'search'}
+      values={[...new Set(data.map(row => row[select]))]}
+      bind:value={selected}
+    />
+  {/if}
+  <SearchBar class="w-full" placeholder={'search'} bind:value={query} />
+  {#if add}
+    <Button class="w-80 ml-5" text="{stem}:add" on:click={() => goto(`${path}/new`)} />
+  {/if}
+</wrapper>
 {#if check}
-  <Checkbox label={`${stem}:${check}`} bind:checked={checked[1]} />
-  <Checkbox label={`${stem}:!${check}`} bind:checked={checked[0]} />
+  <wrapper class="mt-5 flex">
+    <Checkbox label={`${stem}:${check}`} bind:checked={checked[1]} />
+    <Checkbox class="ml-5" label={`${stem}:!${check}`} bind:checked={checked[0]} />
+  </wrapper>
 {/if}
 <Table
+  class="mt-5"
   placeholder={'empty'}
   data={filtered}
   on:click={({ detail: row }) => goto(`${path}/${row[id]}`)}
