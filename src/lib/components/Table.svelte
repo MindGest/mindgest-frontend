@@ -10,7 +10,7 @@
   // TODO: deal with lists, dates
 </script>
 
-<table class="w-full border-spacing-y-1 border-separate">
+<table class="w-full border border-zinc-500 rounded-md border-spacing-y-1 border-separate">
   <thead>
     <tr>
       {#if data.length === 0}
@@ -25,9 +25,9 @@
   {#if data.length > 0}
     <tbody class="text-center">
       {#each data as row}
-        <tr class="cursor-pointer hover:bg-orange-200" on:click={() => dispatch('click', { row })}>
+        <tr class="cursor-pointer hover:bg-orange-200 p=3" on:click={() => dispatch('click', { row })}>
           {#each Object.values(row) as value}
-            <td>{value}</td>
+            <td class="p-2 ">{value}</td>
           {/each}
         </tr>
       {/each}

@@ -27,14 +27,19 @@
   <h1>TextArea</h1>
   <TextArea class="h-72" label="big text area" bind:value={text} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Text: {text}</div>
-  <TextArea class="mt-5" />
+  <TextArea class="mt-5" placeholder="small text area" />
 
   <h1>SearchBar</h1>
   <SearchBar placeholder="search" bind:value={query} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Query: {query}</div>
 
   <h1>Selector</h1>
-  <Selector label="label" placeholder="search" values={['one', 'two', 'three']} bind:value={selected} />
+  <Selector
+    label="label"
+    placeholder="search"
+    values={['one', 'two', 'three']}
+    bind:value={selected}
+  />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Selected: {selected}</div>
   <Selector class="mt-5" placeholder="search" values={['one', 'two', 'three']} />
 
@@ -74,7 +79,14 @@
   </form>
 
   <h1>Card</h1>
-  <Card title="This is the title" subtitle="This is the subtitle" />
+  {#each [1, 2, 3, 4, 5] as number}
+    <Card
+      class="mt-5"
+      title={`card #${number}`}
+      text="try clicking me"
+      on:click={() => alert(`card ${number}`)}
+    />
+  {/each}
 </wrapper>
 
 <style>

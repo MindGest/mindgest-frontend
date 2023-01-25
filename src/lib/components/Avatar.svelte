@@ -1,5 +1,5 @@
 <script>
-  let class_;
+  let class_ = '';
   export { class_ as class };
   export let src, id;
 </script>
