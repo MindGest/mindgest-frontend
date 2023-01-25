@@ -24,7 +24,7 @@
   <TextBox class="mt-2" type="number" label="number" />
   <TextBox class="mt-2" type="password" label="password" />
   <TextBox class="mt-2" type="date" label="date" />
-  
+
   <h1>TextArea</h1>
   <TextArea class="h-72" label="big text area" bind:value={text} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Text: {text}</div>
@@ -35,11 +35,7 @@
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Query: {query}</div>
 
   <h1>Selector</h1>
-  <Selector
-    label="label"
-    values={['one', 'two', 'three']}
-    bind:value={selected}
-  />
+  <Selector label="label" values={['one', 'two', 'three']} bind:value={selected} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Selected: {selected}</div>
   <Selector class="mt-5" placeholder="all" values={['one', 'two', 'three']} />
 
@@ -62,22 +58,6 @@
     <Checkbox class="ml-2" label="i'm the third checkbox" />
   </checkboxes>
 
-  <h1>Table</h1>
-  <Table
-    data={[
-      { id: 1, name: 'Alice', age: 25 },
-      { id: 2, name: 'Bob', age: 30 },
-      { id: 3, name: 'Charlie', age: 35 }
-    ]}
-  />
-
-  <h1>Form</h1>
-  <form class="w-72" on:submit|preventDefault={() => alert(`${email}, ${password}`)}>
-    <TextBox type="email" label="email" bind:value={email} />
-    <TextBox class="mt-2" type="password" label="password" bind:value={password} />
-    <Button class="mt-5 w-full" text="submit" type="submit" />
-  </form>
-
   <h1>Card</h1>
   {#each [1, 2, 3] as number}
     <Card
@@ -89,6 +69,26 @@
   {/each}
   <Card class="mt-5" title="card with no text" />
   <Card class="mt-5" text="card with no title" />
+
+  <h1>Table</h1>
+  <Table
+    data={[
+      { code: 1, name: 'Alice', age: 25 },
+      { code: 2, name: 'Bob', age: 30 },
+      { code: 3, name: 'Charlie', age: 35 }
+    ]}
+  />
+
+  <h1>Form</h1>
+  <form on:submit|preventDefault={() => alert(`${email}, ${password}`)}>
+    <TextBox type="email" label="email" bind:value={email} />
+    <TextBox class="mt-2" type="password" label="password" bind:value={password} />
+    <TextBox class="mt-2" type="date" label="birth date" />
+    <buttons class="flex mt-5">
+      <Button class="w-full" text="cancel" />
+      <Button class="ml-5 w-full" text="submit" type="submit" />
+    </buttons>
+  </form>
 </wrapper>
 
 <style>

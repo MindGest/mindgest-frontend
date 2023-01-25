@@ -10,14 +10,14 @@
   // TODO: deal with lists, dates
 </script>
 
-<table class="w-full border border-zinc-500 rounded-md border-spacing-y-1 border-separate">
+<table class="w-full rounded-md border-separate border-spacing-0">
   <thead>
     <tr>
       {#if data.length === 0}
         <th class="text-gray-500 italic font-semibold">{placeholder}</th>
       {:else}
         {#each Object.keys(data[0]) as key}
-          <th class="cursor-pointer" on:click={() => sort(key)}>{translate(key)}</th>
+          <th class="border-zinc-400 border-r first:border-l border-y first:rounded-tl-md last:rounded-tr-md cursor-pointer p-2 font-normal bg-zinc-100" on:click={() => sort(key)}>{translate(key)}</th>
         {/each}
       {/if}
     </tr>
@@ -25,9 +25,9 @@
   {#if data.length > 0}
     <tbody class="text-center">
       {#each data as row}
-        <tr class="cursor-pointer hover:bg-orange-200 p=3" on:click={() => dispatch('click', { row })}>
+        <tr class="cursor-pointer hover:bg-orange-200 group" on:click={() => dispatch('click', { row })}>
           {#each Object.values(row) as value}
-            <td class="p-2 ">{value}</td>
+            <td class="first:border-l border-r border-b border-zinc-400 group-last:first:rounded-bl-md group-last:last:rounded-br-md p-2">{value}</td>
           {/each}
         </tr>
       {/each}
