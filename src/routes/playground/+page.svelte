@@ -12,6 +12,7 @@
   let query = '';
   let text = '';
   let checked = false;
+  let selected = '';
   let email = '';
   let password = '';
 </script>
@@ -24,13 +25,18 @@
   <TextBox class="mt-2" type="password" label="password" />
 
   <h1>TextArea</h1>
-  <TextArea class="h-72" label="big text area" bind:value={text}/>
-  <TextArea class="mt-5"/>
+  <TextArea class="h-72" label="big text area" bind:value={text} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Text: {text}</div>
+  <TextArea class="mt-5" />
 
   <h1>SearchBar</h1>
   <SearchBar placeholder="search" bind:value={query} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Query: {query}</div>
+
+  <h1>Selector</h1>
+  <Selector label="label" placeholder="search" values={['one', 'two', 'three']} bind:value={selected} />
+  <div class="mt-5 border border-zinc-400 rounded-md p-2">Selected: {selected}</div>
+  <Selector class="mt-5" placeholder="search" values={['one', 'two', 'three']} />
 
   <h1>Button</h1>
   <buttons class="flex">
@@ -60,14 +66,6 @@
     ]}
   />
 
-
-
-  <h1>Selector</h1>
-  <h2>Labeled</h2>
-  <Selector label="label" placeholder="search" values={['one', 'two', 'three']} />
-  <h2>Unlabeled</h2>
-  <Selector placeholder="search" values={['one', 'two', 'three']} />
-
   <h1>Form</h1>
   <form class="w-72" on:submit|preventDefault={() => alert(`${email}, ${password}`)}>
     <TextBox type="email" label="email" bind:value={email} />
@@ -86,9 +84,5 @@
 
   h1:not(:first-child) {
     @apply mt-5;
-  }
-
-  h2 {
-    @apply text-xl my-4;
   }
 </style>
