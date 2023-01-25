@@ -14,7 +14,7 @@
   $: style = href => (href === data.href ? 'text-orange-500 underline underline-offset-4' : '');
 </script>
 
-<nav class="w-full fixed top-0 p-4 flex items-center shadow-md bg-white">
+<nav class="w-full fixed top-0 p-4 flex items-center bg-zinc-50 shadow-sm border border-b-zinc-400">
   <img src="/img/logo.png" alt="logo" class="h-12" />
   {#each buttons as { text, href }}
     <a {href} class={`ml-5 ${style(href)}`}>{text}</a>
