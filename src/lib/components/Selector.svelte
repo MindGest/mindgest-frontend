@@ -16,11 +16,13 @@
   {/if}
   <div class="border border-zinc-400 rounded-md bg-zinc-50">
     <select
-      class="border-r-8 border-transparent rounded-md bg-transparent focus:outline-orange-200 focus:outline-offset-1 w-full p-2"
+      class="border-r-8 border-transparent rounded-md bg-transparent focus:outline-orange-200 focus:outline-offset-1 w-full p-2 cursor-pointer"
       id={label}
       bind:value
     >
-      <option value="" disabled selected hidden>{translate(placeholder)}</option>
+      {#if placeholder}
+        <option value="">{translate(placeholder)}</option>
+      {/if}
       {#each values as value}
         <option {value}>{value}</option>
       {/each}

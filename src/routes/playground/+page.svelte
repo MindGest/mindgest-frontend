@@ -23,7 +23,8 @@
   <TextBox class="mt-2" label="name" />
   <TextBox class="mt-2" type="number" label="number" />
   <TextBox class="mt-2" type="password" label="password" />
-
+  <TextBox class="mt-2" type="date" label="date" />
+  
   <h1>TextArea</h1>
   <TextArea class="h-72" label="big text area" bind:value={text} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Text: {text}</div>
@@ -36,12 +37,11 @@
   <h1>Selector</h1>
   <Selector
     label="label"
-    placeholder="search"
     values={['one', 'two', 'three']}
     bind:value={selected}
   />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Selected: {selected}</div>
-  <Selector class="mt-5" placeholder="search" values={['one', 'two', 'three']} />
+  <Selector class="mt-5" placeholder="all" values={['one', 'two', 'three']} />
 
   <h1>Button</h1>
   <buttons class="flex">
@@ -79,7 +79,7 @@
   </form>
 
   <h1>Card</h1>
-  {#each [1, 2, 3, 4, 5] as number}
+  {#each [1, 2, 3] as number}
     <Card
       class="mt-5"
       title={`card #${number}`}
@@ -87,6 +87,8 @@
       on:click={() => alert(`card ${number}`)}
     />
   {/each}
+  <Card class="mt-5" title="card with no text" />
+  <Card class="mt-5" text="card with no title" />
 </wrapper>
 
 <style>
