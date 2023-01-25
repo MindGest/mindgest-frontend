@@ -46,5 +46,5 @@
 <Table
   placeholder={'empty'}
   data={filtered}
-  on:click={({ detail: { row } }) => goto(`${path}/${row[id]}`)}
+  on:click={({ detail: row }) => goto(`${path}/${row[id]}`)}
 />

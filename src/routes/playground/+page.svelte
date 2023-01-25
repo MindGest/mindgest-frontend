@@ -71,12 +71,15 @@
   <Card class="mt-5" text="card with no title" />
 
   <h1>Table</h1>
+  <Table placeholder="empty table" />
   <Table
+    class="mt-5"
     data={[
       { code: 1, name: 'Alice', age: 25 },
       { code: 2, name: 'Bob', age: 30 },
       { code: 3, name: 'Charlie', age: 35 }
     ]}
+    on:click={({ detail: row }) => alert(Object.values(row).join(', '))}
   />
 
   <h1>Form</h1>
