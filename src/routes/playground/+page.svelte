@@ -11,9 +11,19 @@
 
   let query = '';
   let checked = false;
+  let email = '';
+  let password = '';
 </script>
 
 <wrapper class="block mb-10 p-5">
+  <h1>TextBox</h1>
+  <wrapper class="block w-[24.5rem]">
+    <TextBox placeholder="placeholder"/>
+    <TextBox class="mt-2" label="name" />
+    <TextBox class="mt-2" type="number" label="number" />
+    <TextBox class="mt-2" type="password" label="password" />  
+  </wrapper>
+  
   <h1>Button</h1>
   <Button class="w-72" text="big" on:click={() => alert('big')} />
   <Button class="ml-5 w-20" text="small" on:click={() => alert('small')} />
@@ -24,7 +34,7 @@
 
   <h1>Checkbox</h1>
   <Checkbox label={checked ? 'uncheck me' : 'check me'} bind:checked />
-  <Checkbox class="ml-5" label="already checked" checked />
+  <Checkbox class="mt-2" label="already checked" checked />
 
   <h1>Card</h1>
   <Card title="This is the title" subtitle="This is the subtitle" />
@@ -45,14 +55,18 @@
   <h1>TextArea</h1>
   <TextArea />
 
-  <h1>TextBox</h1>
-  <TextBox />
-
   <h1>Selector</h1>
   <h2>Labeled</h2>
   <Selector label="label" placeholder="search" values={['one', 'two', 'three']} />
   <h2>Unlabeled</h2>
   <Selector placeholder="search" values={['one', 'two', 'three']} />
+
+  <h1>Form</h1>
+  <form class="w-72" on:submit|preventDefault={() => alert(`${email}, ${password}`)}>
+    <TextBox type="email" label="email" bind:value={email} />
+    <TextBox class="mt-2" type="password" label="password" bind:value={password} />
+    <Button class="mt-5 w-full" text="submit" type="submit" />
+  </form>
 </wrapper>
 
 <style>

@@ -5,9 +5,7 @@
   export let value = '';
 </script>
 
-<input
-  class="border-2 border-orange-500 w-72 p-1 rounded-lg focus:outline-orange-200 focus:outline-offset-2"
-  type="text"
-  placeholder={translate(placeholder)}
-  bind:value
-/>
+<div class="border border-zinc-400 bg-zinc-50 rounded-md focus:outline-orange-200 focus:outline-offset-1 flex p-2">
+  <img class="w-4" src="/img/search.svg" alt=""/>
+  <input class="bg-zinc-50 outline-none ml-2 w-full" placeholder={translate(placeholder)} bind:value/>
+</div>
