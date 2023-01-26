@@ -1,7 +1,7 @@
-const base = 'http://localhost:8080/api/'; // TODO: change to environment variable
+import { PUBLIC_API_URL } from '$env/static/public';
 
 const send = async ({ method, path, data, token }) =>
-  fetch(base + path, {
+  fetch(PUBLIC_API_URL + '/' + path, {
     method,
     credentials: 'include',
     headers: {

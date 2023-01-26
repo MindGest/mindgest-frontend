@@ -8,8 +8,10 @@
     export let imgRequestURL = 'user/profile/picture';
     
     let data = {};
-  
-    onMount(async () => { data = await requestProfileInfo(infoRequestURL, imgRequestURL);});
+
+    onMount(async () => { 
+      data = await requestProfileInfo(infoRequestURL, imgRequestURL);
+    });
 
   </script>
   
