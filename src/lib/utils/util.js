@@ -46,3 +46,48 @@ export function uploadProfilePicture(component) {
       });
   };
 }
+
+/*
+*   Request Profile Data 
+*/
+export async function requestProfileInfo(infoRequestURL, imgRequestURL) {
+	try {
+		const response = await api.get(infoRequestURL, {});
+		if (response.ok) {
+			let json = await response.json();
+			let jsonInfo = json['info'];
+			
+			data = {
+				name: jsonInfo['name'],
+				id: jsonInfo['id'],
+				birth_date: reverseParseDate(jsonInfo['birth_date']),
+				address: jsonInfo['address'],
+				email: jsonInfo['email'],
+				phone_number: jsonInfo['phone_number'],
+				tax_number: jsonInfo['tax_number'],
+				// role: role,
+			};
+
+			const response2 = await api.get(imgRequestURL, {});
+			if (response2.ok) {
+				const blob = await response2.blob();
+				const objectURL = URL.createObjectURL(blob);
+				
+				const img = document.getElementById('avatar');
+				img.src = objectURL;
+			}
+			return data;
+		}
+	} catch (error) {
+		console.log(error)
+	}
+	return {
+		name: "NomeDefault",
+		id: "123456789",
+		birth_date: reverseParseDate("2000-01-02"),
+		address: "MoradaDefault",
+		email: "EmailDefault",
+		phone_number: "ContactoDefault",
+		tax_number: "nifDefault",
+	};
+}
