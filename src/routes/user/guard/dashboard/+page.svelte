@@ -1,32 +1,43 @@
 <script>
     import Card from "$lib/components/Card.svelte";
     import { onMount } from "svelte";
-    
+    import * as api from '$lib/utils/api';
+
+
     let consultas = [
-        {
-            "appointmentStartTime": "2023-01-26T15:03:00.000Z",
-            "appointmentEndTime": "2023-01-26T15:30:00.000Z",
-            "appointmentRoom": "Sala X",
-            "therapists": [
-                {"name": "Miguel1"},
-                {"name": "Gabriel1"}
-            ],
-            "speciality": "string"
-        },
-        {
-            "appointmentStartTime": "2023-01-26T20:03:00.000Z",
-            "appointmentEndTime": "2023-01-26T20:30:00.000Z",
-            "appointmentRoom": "Sala X",
-            "therapists": [
-                {"name": "Miguel2"},
-                {"name": "Gabriel2"}
-            ],
-            "speciality": "string"
-        },
+        // {
+        //     "appointmentStartTime": "2023-01-26T15:03:00.000Z",
+        //     "appointmentEndTime": "2023-01-26T15:30:00.000Z",
+        //     "appointmentRoom": "Sala X",
+        //     "therapists": [
+        //         {"name": "Miguel1"},
+        //         {"name": "Gabriel1"}
+        //     ],
+        //     "speciality": "string"
+        // },
+        // {
+        //     "appointmentStartTime": "2023-01-26T20:03:00.000Z",
+        //     "appointmentEndTime": "2023-01-26T20:30:00.000Z",
+        //     "appointmentRoom": "Sala X",
+        //     "therapists": [
+        //         {"name": "Miguel2"},
+        //         {"name": "Gabriel2"}
+        //     ],
+        //     "speciality": "string"
+        // },
     ]
 
     //TODO: Integrate
-    onMount(async () => {})
+    // À partida está feito.
+    onMount(async () => {
+        const response = await api.get("/appointment/listAppointmentsOfTheDayGuard", {});
+
+        if (response.ok){
+            let json = await response.json();
+            let jsonInfo = json['data'];
+            consultas = jsonInfo;
+        }
+    })
 
     function getTitle(therapists) {
         let str = "Dr. " +therapists[0].name

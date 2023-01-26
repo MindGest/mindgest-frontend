@@ -1,14 +1,15 @@
 <script>
   import TextBox from '$lib/components/TextBox.svelte';
   import Button from '$lib/components/Button.svelte';
-  import DatePicker from '$lib/components/DatePicker.svelte';
+  //import DatePicker from '$lib/components/DatePicker.svelte';
   import Selector from '$lib/components/Selector.svelte';
   import { parseDate } from '$lib/utils/util';
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
 
   /* PARA DEBUGGG*/
-  let proc = [{ text: 'Proc1' }, { text: 'Proc2' }, { text: 'Proc3' }];
+  // let proc = [{ text: 'Proc1' }, { text: 'Proc2' }, { text: 'Proc3' }];
+  let proc = [];
   let rooms = [{ text: 's1' }, { text: 's2' }, { text: 's3' }];
 
   let hours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
@@ -22,6 +23,19 @@
 
   onMount(async () => {
     /* help */
+
+    // obter os processos do terapeuta
+    const responseProcesses = api.get("/process/listTherapist", {});
+    if (responseProcesses.ok){
+      let json = await responseProcesses.json();
+      var list = json['list'];
+      for (let i = 0; i < list.length; i++){
+        proc.push({text: list[i]['refCode']});
+      }
+    }
+
+    // obter as salas
+
   });
 
   async function addAppointment() {
@@ -61,12 +75,12 @@
     bind:value={new_apoint.dur}
     class="grid grid-cols-4 items-center font-bold"
   />
-  <DatePicker
+  <!-- <DatePicker
     id="date"
     label="Data:"
     value={parseDate(new_apoint.date)}
     class="grid grid-cols-4 items-center font-bold"
-  />
+  /> -->
 </div>
 <div class="my-5 grid grid-cols-2" style="position:relative; left:60%; width:40%">
   <Button class="mt-10 " on:click={addAppointment}>Enviar pedido de novo processo</Button>
