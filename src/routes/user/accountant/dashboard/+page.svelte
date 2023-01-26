@@ -3,7 +3,6 @@
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
 
-  // FIXME: Integrar com backend
   let consultas = [];
 
   onMount(async () => {

@@ -21,14 +21,14 @@
             address: "morada",
             email: "email",
             responsavel: "responsavel",
-            estado: "pago",
+            estado: "Pago",
             data: "03/02/2000",
             custo: 40
         }   
     }
     
     function updatePaymentStatus(payed) {
-        // TODO: Integração
+        // TODO: Integração BD
         // payed: False -> Desmarcar como pago
         //        True  -> Marcar como pago
         if (payed) {
