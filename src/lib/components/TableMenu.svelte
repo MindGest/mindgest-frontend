@@ -1,42 +1,56 @@
 <script>
+  import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
   import Table from '$lib/components/Table.svelte';
-  import translate from '$lib/utils/translate';
+  import Button from './Button.svelte';
   import Checkbox from './Checkbox.svelte';
   import SearchBar from './SearchBar.svelte';
   import Selector from './Selector.svelte';
 
-  export let object = '';
+  const path = $page.url.pathname;
+  const stem = path.split('/').slice(-1);
+
   export let data = [];
   export let select = '';
   export let search = [];
   export let check = '';
+  export let add = false;
+  export let id = '';
 
   let query = '';
   let selected = '';
   let checked = [true, true];
-
-  $: filteredData = data
-    .filter(
-      row =>
-        search.some(key => row[key].toString().toLowerCase().includes(query.toLowerCase())) &&
-        (selected === '' || row[select] === selected) &&
-        checked[+row[check]]
-    )
-    .map(row =>
-      Object.entries(row).reduce((acc, [key, value]) => ({ ...acc, [translate(key)]: value }), {})
-    );
+  $: filtered = data.filter(
+    row =>
+      search.some(key => row[key].toString().toLowerCase().includes(query.toLowerCase())) &&
+      (!selected || row[select] === selected) &&
+      (!check || checked[+row[check]])
+  );
 </script>
 
-{#if select}
-  <Selector
-    placeholder={translate('search')}
-    values={[...new Set(data.map(row => row[select]))]}
-    bind:value={selected}
-  />
-{/if}
-<SearchBar placeholder={translate('search')} bind:value={query} />
+<wrapper class="w-full flex">
+  {#if select}
+    <Selector
+      class="w-80 mr-5"
+      placeholder={'search'}
+      values={[...new Set(data.map(row => row[select]))]}
+      bind:value={selected}
+    />
+  {/if}
+  <SearchBar class="w-full" placeholder={'search'} bind:value={query} />
+  {#if add}
+    <Button class="w-80 ml-5" text="{stem}:add" on:click={() => goto(`${path}/new`)} />
+  {/if}
+</wrapper>
 {#if check}
-  <Checkbox label={translate(`${object}:${check}`)} bind:checked={checked[1]} />
-  <Checkbox label={translate(`${object}:!${check}`)} bind:checked={checked[0]} />
+  <wrapper class="mt-5 flex">
+    <Checkbox label={`${stem}:${check}`} bind:checked={checked[1]} />
+    <Checkbox class="ml-5" label={`${stem}:!${check}`} bind:checked={checked[0]} />
+  </wrapper>
 {/if}
-<Table placeholder={translate('empty')} data={filteredData} />
+<Table
+  class="mt-5"
+  placeholder={'empty'}
+  data={filtered}
+  on:click={({ detail: row }) => goto(`${path}/${row[id]}`)}
+/>
