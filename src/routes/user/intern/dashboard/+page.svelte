@@ -1,1 +1,5 @@
-<h1>Estagiário</h1>
+<script>
+    import DailyDashboard from "$lib/components/DailyDashboard.svelte";
+</script>
+  
+<DailyDashboard/>
