@@ -32,7 +32,7 @@
       phoneNumber: parseInt(document.getElementById('Contacto Telefónico').value),
       taxNumber: document.getElementById('NIF').value,
       email: data.email,
-      password: null
+      password: "_null"
     };
     const response = await api.put(updateRequestURL, body);
     if (response.ok) {

@@ -1,12 +1,10 @@
 <script>
     import Avatar from '$lib/components/Avatar.svelte';
     import TextDisplay from '$lib/components/TextDisplay.svelte';
-    import TextBox from '$lib/components/TextBox.svelte';
-    import { uploadProfilePicture, requestProfileInfo} from '$lib/utils/util';
+    import {requestProfileInfo} from '$lib/utils/util';
     import { onMount } from 'svelte';
-    import * as api from '$lib/utils/api';
-    
 
+    
     export let role;
     export let infoRequestURL = 'user/profile/info';
     export let imgRequestURL = 'user/profile/picture';
