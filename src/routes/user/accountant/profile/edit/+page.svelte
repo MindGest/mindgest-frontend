@@ -2,4 +2,4 @@
   import EditProfile from '$lib/components/EditProfile.svelte';
 </script>
 
-<EditProfile role="Contabilista"/>
+<EditProfile/>

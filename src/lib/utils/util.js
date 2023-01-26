@@ -65,7 +65,7 @@ export async function requestProfileInfo(infoRequestURL, imgRequestURL) {
 				email: jsonInfo['email'],
 				phone_number: jsonInfo['phone_number'],
 				tax_number: jsonInfo['tax_number'],
-				// role: role,
+				role: role,
 			};
 
 			const response2 = await api.get(imgRequestURL, {});

@@ -4,8 +4,6 @@
     import {requestProfileInfo} from '$lib/utils/util';
     import { onMount } from 'svelte';
 
-    
-    export let role;
     export let infoRequestURL = 'user/profile/info';
     export let imgRequestURL = 'user/profile/picture';
     
@@ -33,7 +31,7 @@
       <div class="my-5">
         <TextDisplay
           label="Função:"
-          value={role}
+          value={data.role}
           class="grid grid-cols-4 items-center font-bold"
         />
       </div>

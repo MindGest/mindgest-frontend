@@ -12,7 +12,6 @@
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
 
-  export let role;
   export let infoRequestURL = 'user/profile/info';
   export let updateRequestURL = 'user/profile/info';
   export let imgRequestURL = 'user/profile/picture';
