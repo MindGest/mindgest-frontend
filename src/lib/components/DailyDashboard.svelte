@@ -1,32 +1,50 @@
 <script>
     import Card from "$lib/components/Card.svelte";
     import { onMount } from "svelte";
+    import * as api from '$lib/utils/api';
 
     let consultas = [
-        {
-            "appointmentStartTime": "2023-01-26T15:03:00.000Z",
-            "appointmentEndTime": "2023-01-26T15:30:00.000Z",
-            "appointmentRoom": "Sala X",
-            "therapists": [
-                {"name": "Miguel1"},
-                {"name": "Gabriel1"}
-            ],
-            "speciality": "string"
-        },
-        {
-            "appointmentStartTime": "2023-01-26T20:03:00.000Z",
-            "appointmentEndTime": "2023-01-26T20:30:00.000Z",
-            "appointmentRoom": "Sala X",
-            "therapists": [
-                {"name": "Miguel2"},
-                {"name": "Gabriel2"}
-            ],
-            "speciality": "string"
-        },
+        // {
+        //     "appointmentStartTime": "2023-01-26T15:03:00.000Z",
+        //     "appointmentEndTime": "2023-01-26T15:30:00.000Z",
+        //     "appointmentRoom": "Sala X",
+        //     "therapists": [
+        //         {"name": "Miguel1"},
+        //         {"name": "Gabriel1"}
+        //     ],
+        //     "speciality": "string"
+        // },
+        // {
+        //     "appointmentStartTime": "2023-01-26T20:03:00.000Z",
+        //     "appointmentEndTime": "2023-01-26T20:30:00.000Z",
+        //     "appointmentRoom": "Sala X",
+        //     "therapists": [
+        //         {"name": "Miguel2"},
+        //         {"name": "Gabriel2"}
+        //     ],
+        //     "speciality": "string"
+        // },
     ]
 
     //TODO: Integrate (consultas do próprio (logged in user))
-    onMount(async () => {})
+    // Acho que está integrado.
+    onMount(async () => {
+        let decodedToken = getCookie('accessToken');
+        let callerRole = decodedToken.role;
+        let response = null;
+
+        if (callerRole == 'therapist'){
+            response = await api.get("/listAppointmentsOfTheDayTherapist");
+        } else if(callerRole == 'intern'){
+            response = await api.get("/listAppointmentsOfTheDayIntern");
+        } else {
+            // erro
+            return;
+        }
+        
+        let json = await response.json();
+        consultas = json['data'];
+    })
 
     function getTitle(therapists) {
         let str = "Dr. " +therapists[0].name
