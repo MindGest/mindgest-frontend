@@ -3,6 +3,7 @@
   import Card from '$lib/components/Card.svelte';
   import Checkbox from '$lib/components/Checkbox.svelte';
   import Link from '$lib/components/Link.svelte';
+  import List from '$lib/components/List.svelte';
   import SearchBar from '$lib/components/SearchBar.svelte';
   import Selector from '$lib/components/Selector.svelte';
   import Table from '$lib/components/Table.svelte';
@@ -69,6 +70,19 @@
   {/each}
   <Card class="mt-5" title="card with no text" />
   <Card class="mt-5" text="card with no title" />
+
+  <h1>List</h1>
+
+  <List placeholder="empty list" />
+  <List
+    class="mt-5"
+    data={[
+      { title: 'Appointment 1', text: 'Room 1 (11:00)' },
+      { title: 'Appointment 2', text: 'Room 2 (12:00)' },
+      { title: 'Appointment 3', text: 'Room 3 (14:30)' }
+    ]}
+    on:click={({ detail: index }) => alert(index)}
+  />
 
   <h1>Table</h1>
   <Table placeholder="empty table" />

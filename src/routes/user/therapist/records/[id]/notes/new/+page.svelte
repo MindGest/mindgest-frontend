@@ -2,12 +2,25 @@
   import Button from '$lib/components/Button.svelte';
   import TextBox from '$lib/components/TextBox.svelte';
   import TextArea from '$lib/components/TextArea.svelte';
+  import * as api from '$lib/utils/api';
+  import { page } from '$app/stores';
+  
+  const id =$page.params['id'];
 
   let title = '';
   let text = '';
   const date = new Date().toISOString().slice(0, 10);
 
-  const submit = () => alert('Saved!');
+  async function submit() {
+    let body = {'title':title, 'body':text};
+    const response = await api.post(`process/${id}/createNote`, body);
+    if (response.ok) {
+      //TODO: FAZER ALGO A DIZER Q FOI MODIFICADO
+    } else {
+      //TODO: FAZER CENA A DIZER Q HOUVE ERRO
+    }
+
+  };
   const back = () => alert('Going back');
 </script>
 
