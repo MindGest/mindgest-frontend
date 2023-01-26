@@ -1,11 +1,10 @@
 <script>
-  import Button from '$lib/components/button.svelte';
+  import Button from '$lib/components/Button.svelte';
   import TextBox from '$lib/components/TextBox.svelte';
   import Avatar from '$lib/components/Avatar.svelte';
   import Selector from '$lib/components/Selector.svelte';
 
-  //TODO: Add validation to email and password, save to database.
-
+  // TODO: Add validation to email and password, save to database.
   let roles = [{ text: 'Terapeuta' }, { text: 'Segurança' }, { text: 'Contabilista' }];
 
   let person = {
@@ -25,7 +24,7 @@
 
   function onSubmit() {}
 
-  //Funtion to update Profile Picture
+  // Function to update Profile Picture
   function onChange(event) {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();

@@ -1,8 +1,8 @@
 <script>
   import * as api from '$lib/utils/api';
 
-  let email = 'acc@gmail.com';
-  let password = 'teste2';
+  let email = 'user@uc.pt';
+  let password = 'test123';
   let status = 200;
   const submit = async () => {
     const response = await api.post('auth/login', { email: email, password: password });
