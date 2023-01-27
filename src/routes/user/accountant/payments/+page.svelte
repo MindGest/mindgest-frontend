@@ -3,7 +3,7 @@
   import TableMenu from '$lib/components/TableMenu.svelte';
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
-
+  
   let data = [];
 
   onMount(async () => {
@@ -12,7 +12,8 @@
       let json = await response.json();
 
       let jsonInfo = json['message'];
-      data = jsonInfo; //TODO: ISTO RETORNA BUE DADOS Q E PARA NA PAGINA SEGUINTE NAO TER DE DAR LOAD A ELES TODOS AGAIN, NSEI COMO EQ SE ESCONDE PORTANTO DO THAT
+      data = jsonInfo; 
+      
 
       return;
     }
@@ -27,6 +28,6 @@
   id="appointmentCode"
   add={false}
   search={['patientName', 'therapistListing', 'appointmentCode']}
-  check="paid"
+  check="paid",
 />
 {/if}
