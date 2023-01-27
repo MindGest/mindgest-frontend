@@ -2,14 +2,28 @@
   import Button from "$lib/components/Button.svelte";
   import TextArea from "$lib/components/TextArea.svelte";
   import TextBox from "$lib/components/TextBox.svelte";
+  import * as api from '$lib/utils/api';
 
   let name = '';
   let code = '';
   let description = '';
 
   async function create() {
-    alert(`${name}, ${code}, ${description}`);
-    //TODO: Integrate (create new specialty)
+    let body = {
+      speciality: name,
+      code: code,
+      description: description
+    }
+
+    const response = await api.post('speciality/create', body);
+
+    if(response.ok){
+      //TODO: ALGO
+    }
+    else{
+      //TODO: ALGO
+    }
+
   }
 
 </script>

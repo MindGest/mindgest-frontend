@@ -29,7 +29,7 @@
     //TODO: Integrate (consultas do próprio (logged in user))
     // Acho que está integrado.
     onMount(async () => {
-        let decodedToken = getCookie('accessToken');
+        let decodedToken = api.getCookie('accessToken');
         let callerRole = decodedToken.role;
         let response = null;
 
