@@ -1,4 +1,6 @@
 <script>
+  import { goto } from '$app/navigation';
+
 
     import Button from '$lib/components/Button.svelte';
 
@@ -50,7 +52,7 @@
     }
 
     function back(){
-        /* ir para o menu de pesquisa */
+        goto("/user/therapist/records")
     }
 
 
@@ -67,19 +69,15 @@
 </wrapper>
 
 <wrapper class="flex flex-col" style="float:right; width:20%; position:relative; top:20%; bottom:10%; right:10%">
-    <Button on:click={gotoNotes}>Ver Notas</Button>
-    <br>
-    <Button on:click={gotoApp}>Ver Consultas</Button>
-    <br>
-    <Button on:click={gotoPay}>Ver Pagamentos</Button>
-    <br>
+    <Button class="my-5" text="Ver Notas" on:click={gotoNotes}/>
+    <Button class="my-5" text="Ver Consultas" on:click={gotoApp}/>
+    <Button class="my-5" text="Ver Pagamentos" on:click={gotoPay}/>
     {#if data.fin === false}
-        <Button on:click={gotoPay}>Verificação de pagamentos em atraso</Button>
+        <Button class="my-5" text="Verificação de pagamentos em atraso" on:click={gotoPay}/>
     {/if}
 </wrapper>
 
 <div style="margin: 100px; float:left; width:40%; position:relative; top:10%">
-    <Button on:click={edit}>Editar Processo</Button>
-    <br>
-    <Button on:click={back}>Voltar ao Menu de Pesquisa</Button>
+    <Button text="Editar Processo" on:click={edit}/>
+    <Button text="Voltar ao Menu de Pesquisa" on:click={back}/>
 </div>
