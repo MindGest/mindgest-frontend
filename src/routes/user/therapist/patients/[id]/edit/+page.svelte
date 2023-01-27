@@ -3,7 +3,7 @@
   import TextArea from '$lib/components/TextArea.svelte';
   import Button from '$lib/components/Button.svelte';
   import Selector from '$lib/components/Selector.svelte';
-  import DatePicker from '$lib/components/DatePicker.svelte';
+  //import DatePicker from '$lib/components/DatePicker.svelte';
   import { text } from 'svelte/internal';
 
   //TODO: Get patient data from database
@@ -89,11 +89,11 @@
       <TextBox label="Nome:" value={patient.name} class="grid grid-cols-3 items-center font-bold" />
     </div>
     <div class="my-5">
-      <DatePicker
+      <!-- <DatePicker
         label="Data de Nascimento:"
         value={patient.birth_date}
         class="grid grid-cols-3 items-center font-bold"
-      />
+      /> -->
     </div>
     <div class="my-5">
       <TextBox
@@ -233,11 +233,11 @@
         />
       </div>
       <div class="my-5">
-        <DatePicker
+        <!-- <DatePicker
           label="Data de Nascimento do Cônjuge:"
           value={patient.conj_birth_date}
           class="grid grid-cols-3 items-center font-bold"
-        />
+        /> -->
       </div>
       <div class="my-5">
         <TextBox
@@ -282,11 +282,11 @@
               />
             </div>
             <div class="my-5">
-              <DatePicker
+              <!-- <DatePicker
                 label="Data de Nascimento do Membro:"
                 value={member.birth_date}
                 class="grid grid-cols-3 items-center font-bold"
-              />
+              /> -->
             </div>
             <div class="my-5">
               <TextBox

@@ -296,6 +296,6 @@
     />
   </div>
   <div class="my-5 grid grid-cols-2">
-    <Button class="mt-10 " on:click={addProcess}>Enviar pedido de novo processo</Button>
+    <Button class="mt-10 " text="Enviar pedido de novo processo" on:click={addProcess}/>
   </div>
 </div>

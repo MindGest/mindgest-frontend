@@ -1,7 +1,7 @@
 <script type="text/javascript">
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
-  import DatePicker from '$lib/components/DatePicker.svelte';
+  // import DatePicker from '$lib/components/DatePicker.svelte';
   import { uploadProfilePicture, parseDate, reverseParseDate } from '$lib/utils/util';
 
   class person {
@@ -198,12 +198,12 @@
   </section>
 
   <section class="menu-cont">
-    <DatePicker
+    <!-- <DatePicker
       id="filtro_date"
       label="Escolha uma Data:"
       value={parseDate(selectedDate)}
       class="grid grid-cols-3 items-center font-bold"
-    />
+    /> -->
   </section>
 </wrapper>
 

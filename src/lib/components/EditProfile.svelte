@@ -2,7 +2,7 @@
   import Avatar from '$lib/components/Avatar.svelte';
   import Button from '$lib/components/Button.svelte';
   import TextBox from '$lib/components/TextBox.svelte';
-  import TextDisplay from '$lib/components/TextDisplay.svelte';
+  // import TextDisplay from '$lib/components/TextDisplay.svelte';
   import {
     uploadProfilePicture,
     parseDate,
@@ -12,14 +12,14 @@
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
 
-  export let infoRequestURL = 'user/profile/info';
-  export let updateRequestURL = 'user/profile/info';
+  export let infoRequestURL = 'user/profile/info'; 
+  export let updateRequestURL = 'user/profile/info'; 
   export let imgRequestURL = 'user/profile/picture';
 
   let data = {};
 
   onMount(async () => {
-    data = await requestProfileInfo(infoRequestURL, imgRequestURL);
+    data = await requestProfileInfo(infoRequestURL, imgRequestURL); 
     console.log(data)
   });
 

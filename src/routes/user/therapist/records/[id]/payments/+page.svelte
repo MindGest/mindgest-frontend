@@ -1,13 +1,21 @@
 <script>
     import TableMenu from "$lib/components/TableMenu.svelte";
+    import * as api from '$lib/utils/api';
+    import { onMount } from 'svelte';
 
-    const data = [
-        {data: '15/06/2022', estado: 'Pago', referencia: '987654321', valor: '30'},
-        {data: '22/06/2022', estado: 'Em Processamento', referencia: '', valor: '30'},
-        {data: '23/06/2022', estado: 'Por Pagar', referencia: '', valor: '30'}
-    ]
+    let data = []
+
+    onMount(async () => {
+      let process = window.location.href.split("/")[6];
+      const response = await api.get(`process/appointments/${process}`);
+      if (response.ok) {
+        let jsonInfo = await response.json();
+        data = jsonInfo['message'];
+      }
+    });
 </script>
 
+{#if data!=[]}
 <TableMenu
   {data}
   object="payment"
@@ -15,3 +23,4 @@
   add={false}
   search={['referencia', 'data']}
 />
+{/if}

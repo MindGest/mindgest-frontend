@@ -26,6 +26,9 @@
 
 </script>
 
+<!--NOTE TO SELF: maybe tenta fazer uma grid ou something para que as coisas fiquem
+minimamente arranjadas (?)-->
+
 <div class="flex flex-col justify-center h-auto w-5/6 m-10 p-5 width = 20%">
     
     <p class="font-normal text-xl">Notificações Pendentes</p>

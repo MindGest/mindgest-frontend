@@ -21,6 +21,19 @@
 
   onMount(async () => {
     /* help */
+
+    // obter os processos do terapeuta
+    const responseProcesses = api.get("/process/listTherapist", {});
+    if (responseProcesses.ok){
+      let json = await responseProcesses.json();
+      var list = json['list'];
+      for (let i = 0; i < list.length; i++){
+        proc.push({text: list[i]['refCode']});
+      }
+    }
+
+    // obter as salas
+
   });
 
   async function addAppointment() {

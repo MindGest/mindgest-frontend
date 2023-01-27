@@ -16,9 +16,9 @@
   export let check = '';
   export let add = false;
   export let id = '';
+  export let selected = '';
 
   let query = '';
-  let selected = '';
   let checked = [true, true];
   $: filtered = data.filter(
     row =>

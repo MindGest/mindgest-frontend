@@ -6,6 +6,7 @@
   let consultas = [];
 
   onMount(async () => {
+    api.check("accountant")
     const response = await api.get('appointment/listLastTerminated', {});
     if (response.ok) {
       let json = await response.json();
