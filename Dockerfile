@@ -3,8 +3,8 @@ FROM node:18
 LABEL MAINTAINER="Pedro Rodrigues <pedror@student.dei.uc.pt>"
 LABEL VERSION="0.1.0"
 
-RUN apt update -y
-RUN apt install curl -y
+RUN apt-get update -y
+RUN apt-get install curl -y
 
 WORKDIR /usr/src/mindgest
 

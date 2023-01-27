@@ -12,7 +12,6 @@
     onMount(async () => { 
       data = await requestProfileInfo(infoRequestURL, imgRequestURL);
     });
-
   </script>
   
   <div class="m-10 flex items-stretch">
