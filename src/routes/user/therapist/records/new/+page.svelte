@@ -61,5 +61,5 @@
     />
 </div>
 <div class="my-5 grid grid-cols-2" style="position:relative; left:60%; width:50%">
-    <Button class="mt-10 " on:click={addAppointment}>Enviar pedido de criação de processo</Button>
+    <Button text="Enviar pedido de criação de processo" class="mt-10 " on:click={addAppointment}/>
 </div>
