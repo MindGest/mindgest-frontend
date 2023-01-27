@@ -50,7 +50,7 @@
   <a href="/auth/register" class="text-sm text-black underline underline-offset-8 w-fit mt-10">
     Criar uma nova conta
   </a>
-  <a href="/auth/replace" class="text-sm text-black underline underline-offset-8 w-fit mt-4" on:click={() => {}}>
+  <a href="/auth/recover" class="text-sm text-black underline underline-offset-8 w-fit mt-4" on:click={() => {}}>
     Esqueci-me da password
   </a>
 </wrapper>

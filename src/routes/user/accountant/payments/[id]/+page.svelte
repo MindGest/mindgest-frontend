@@ -2,6 +2,7 @@
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     import Button from '$lib/components/Button.svelte';
+    import * as api from '$lib/utils/api';
 
     
     let paymentId = "";
@@ -14,20 +15,21 @@
 
     async function getPaymentData(id) {
         // TODO: Integração
-        return {
-            name: "nome",
-            tax_number: "tax_number",
-            sns: "sns",
-            address: "morada",
-            email: "email",
-            responsavel: "responsavel",
-            estado: "Pago",
-            data: "03/02/2000",
-            custo: 40
-        }   
+
+        const response = await api.get(`receipts/info/${id}`);
+
+        if (response.ok) {
+            let json = await response.json();
+            if (json['paid']) {
+                json.estado = "Pago"
+            } else {
+                json.estado = "Por Pagar"
+            }
+            return json;
+        } 
     }
     
-    function updatePaymentStatus(payed) {
+    async function updatePaymentStatus(payed) {
         // TODO: Integração BD
         // payed: False -> Desmarcar como pago
         //        True  -> Marcar como pago
@@ -35,6 +37,15 @@
             data.estado = "Pago"
         } else {
             data.estado = "Por Pagar"
+        }
+
+        const response = await api.put(`receipts/pay/${paymentId}`);
+
+        if (response.ok) {
+            //TODO: MOSTRAR ALGO
+        } 
+        else{
+            //TODO: MOSTRAR ALGO
         }
     }
 
@@ -72,7 +83,7 @@
     </div>
 
     <div class="mx-40 grid grid-cols-2">
-        <Button class="m-5" text="Voltar" on:click={() => {goto(window.location.href.slice(0, window.location.href.lastIndexOf('/')))}}/>
+        <Button class="m-5" text="Voltar"/>
         {#if data.estado == "Pago"}
             <Button class="m-5" text="Desmarcar como Pago" on:click={() => updatePaymentStatus(false)}  />
         {:else}
