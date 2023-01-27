@@ -83,5 +83,5 @@
   /> -->
 </div>
 <div class="my-5 grid grid-cols-2" style="position:relative; left:60%; width:40%">
-  <Button class="mt-10 " on:click={addAppointment}>Enviar pedido de novo processo</Button>
+  <Button text="Criar Consulta" class="mt-10 " on:click={addAppointment}/>
 </div>
