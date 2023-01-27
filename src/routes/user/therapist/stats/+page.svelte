@@ -18,14 +18,15 @@
 
   async function generate() {
     let body = {
-        "startDate": new Date(start).toISOString,
-        "endDate": new Date(end).toISOString,
+        "startDate": new Date(start).toISOString(),
+        "endDate": new Date(end).toISOString(),
         "processId": record,
         "specialityId": speciality,
         // "therapistId": null
     };
 
     //TODO: getStatistic()
+    console.log(body)
   }
 
 </script>
