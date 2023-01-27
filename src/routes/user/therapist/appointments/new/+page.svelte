@@ -1,22 +1,21 @@
 <script>
   import TextBox from '$lib/components/TextBox.svelte';
   import Button from '$lib/components/Button.svelte';
-  import DatePicker from '$lib/components/DatePicker.svelte';
   import Selector from '$lib/components/Selector.svelte';
   import { parseDate } from '$lib/utils/util';
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
 
   /* PARA DEBUGGG*/
-  let proc = [{ text: 'Proc1' }, { text: 'Proc2' }, { text: 'Proc3' }];
-  let rooms = [{ text: 's1' }, { text: 's2' }, { text: 's3' }];
+  let proc = ['Proc1', 'Proc2', 'Proc3'];
+  let rooms = ['s1', 's2', 's3'];
 
   let hours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
   let new_apoint = {
     proc: '',
     room: '',
-    h: '',
-    dur: '',
+    beg: 0,
+    end: 0,
     date: ''
   };
 
@@ -27,47 +26,29 @@
   async function addAppointment() {
     /* help */
   }
+
+  $: if (new_apoint.end > 0 && new_apoint.beg >= new_apoint.end) hourAlert();
+  const hourAlert = () => {
+    new_apoint.end = 0;
+    alert("A hora de fim tem que ser superior à hora de início!")
+  };
+
 </script>
 
 <div class="flex flex-col justify-center h-auto w-5/6 m-10 p-5 items-stretch">
   <p class="font-normal text-xl">Nova Consulta</p>
-  <Selector
-    id="proc"
-    label="Selecione um Processo:"
-    options={proc}
-    display_func={o => o.text}
-    bind:value={new_apoint.proc}
-    class="grid grid-cols-4 items-center font-bold"
-  />
-  <Selector
-    id="proc"
-    label="Selecione a hora de início:"
-    options={hours}
-    display_func={o => o}
-    bind:value={new_apoint.h}
-    class="grid grid-cols-4 items-center font-bold"
-  />
-  <Selector
-    id="proc"
-    label="Selecione a sala desejada:"
-    options={rooms}
-    display_func={o => o.text}
-    bind:value={new_apoint.room}
-    class="grid grid-cols-4 items-center font-bold"
-  />
-  <TextBox
-    id="dur"
-    label="Duração prevista:"
-    bind:value={new_apoint.dur}
-    class="grid grid-cols-4 items-center font-bold"
-  />
-  <DatePicker
-    id="date"
-    label="Data:"
-    value={parseDate(new_apoint.date)}
-    class="grid grid-cols-4 items-center font-bold"
-  />
+  <Selector id="proc" label="Selecione um Processo:" values={proc} bind:value={new_apoint.proc} />
+  <br>
+  <Selector id="beg" label="Selecione a hora de início:" values={hours} bind:value={new_apoint.beg} />
+  <br>
+  <Selector id="end" label="Selecione a hora de fim:" values={hours} bind:value={new_apoint.end} />
+  <br>
+  {#if new_apoint.beg > 0 && new_apoint.end > 0}
+    <Selector id="room" label="Selecione a sala desejada:" values={rooms} bind:value={new_apoint.room} />
+  {/if}
+  <br>
+  <TextBox class="mt-2" type="date" label="Data:" id="date" value={parseDate(new_apoint.date)}/>
 </div>
 <div class="my-5 grid grid-cols-2" style="position:relative; left:60%; width:40%">
-  <Button class="mt-10 " on:click={addAppointment}>Enviar pedido de novo processo</Button>
+  <Button text="Enviar pedido de novo processo" class="mt-10 " on:click={addAppointment}/>
 </div>
