@@ -23,5 +23,6 @@
   "appointmentDate": "Data da Consulta",
   "paid": "pago",
   "payments:!paid": "por pagar",
-  "payments:paid": "Pago"
+  "payments:paid": "Pago",
+  "stats": "Estatísticas"
 }
