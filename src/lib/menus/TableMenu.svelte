@@ -2,10 +2,10 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import Table from '$lib/components/Table.svelte';
-  import Button from '../components/Button.svelte';
-  import Checkbox from '../components/Checkbox.svelte';
-  import SearchBar from '../components/SearchBar.svelte';
-  import Selector from '../components/Selector.svelte';
+  import Button from '$lib/components/Button.svelte';
+  import Checkbox from '$lib/components/Checkbox.svelte';
+  import SearchBar from '$lib/components/SearchBar.svelte';
+  import Selector from '$lib/components/Selector.svelte';
 
   const path = $page.url.pathname;
   const stem = path.split('/').slice(-1);
@@ -19,12 +19,15 @@
   export let selected = '';
 
   let query = '';
-  let checked = [true, true];
+  let checked = Object.fromEntries(data.map(row => [row[check], true]));
+
+  console.log(checked)
+
   $: filtered = data.filter(
     row =>
       search.some(key => row[key].toString().toLowerCase().includes(query.toLowerCase())) &&
       (!selected || row[select] === selected) &&
-      (!check || checked[+row[check]])
+      checked[row[check]]
   );
 </script>
 
@@ -43,9 +46,10 @@
   {/if}
 </wrapper>
 {#if check}
-  <wrapper class="mt-5 flex">
-    <Checkbox label={`${stem}:${check}`} bind:checked={checked[1]} />
-    <Checkbox class="ml-5" label={`${stem}:!${check}`} bind:checked={checked[0]} />
+  <wrapper class="mt-5 flex space-x-5">
+    {#each Object.keys(checked) as key}
+      <Checkbox label={key} bind:checked={checked[key]} />
+    {/each}
   </wrapper>
 {/if}
 <Table
