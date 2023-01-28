@@ -129,11 +129,11 @@ import Selector from "$lib/components/Selector.svelte";
 {#if data != null}
     <form class="grid grid-cols-2" on:submit|preventDefault={ async () => await editRecord() }>
         <div>
+            <Selector class="my-5 w-1/2 m-auto" label="Profissional Responsável:" values={data.therapists_names} bind:value={data.new_responsavel}/>
             <TextDisplay class="my-5 w-1/2 m-auto" label="Processo" value="{data.processId}" />
             <TextDisplay class="my-5 w-1/2 m-auto" label="Estado do Processo" bind:value="{data.status}" />
             <TextDisplay class="my-5 w-1/2 m-auto" label="Utente" bind:value={data.patient} />
             <TextDisplay class="my-5 w-1/2 m-auto" label="Profissional Responsável" bind:value="{data.responsavel}" />
-            <Selector class="my-5 w-1/2 m-auto" label="Pedido de alteração de responsável para" values={data.therapists_names} bind:value={data.new_responsavel}/>
             <Selector class="my-5 w-1/2 m-auto" label="Especialidade" values={data.specialities} bind:value={data.speciality}/>
             <Button class="my-5 w-1/2 m-auto"  text="Gravar" type="submit"/>
         </div>
