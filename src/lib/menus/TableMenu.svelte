@@ -31,7 +31,7 @@
   );
 </script>
 
-<wrapper class="w-full flex">
+<div class="w-full flex">
   {#if select}
     <Selector
       class="w-80 mr-5"
@@ -44,13 +44,13 @@
   {#if add}
     <Button class="w-80 ml-5" text="{stem}:add" on:click={() => goto(`${path}/new`)} />
   {/if}
-</wrapper>
+</div>
 {#if check}
-  <wrapper class="mt-5 flex space-x-5">
+  <div class="mt-5 flex space-x-5">
     {#each Object.keys(checked) as key}
       <Checkbox label={key} bind:checked={checked[key]} />
     {/each}
-  </wrapper>
+  </div>
 {/if}
 <Table
   class="mt-5"
