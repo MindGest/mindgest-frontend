@@ -2,10 +2,10 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import Table from '$lib/components/Table.svelte';
-  import Button from './Button.svelte';
-  import Checkbox from './Checkbox.svelte';
-  import SearchBar from './SearchBar.svelte';
-  import Selector from './Selector.svelte';
+  import Button from '../components/Button.svelte';
+  import Checkbox from '../components/Checkbox.svelte';
+  import SearchBar from '../components/SearchBar.svelte';
+  import Selector from '../components/Selector.svelte';
 
   const path = $page.url.pathname;
   const stem = path.split('/').slice(-1);
