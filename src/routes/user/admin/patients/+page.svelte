@@ -1,6 +1,6 @@
 <script>
   // import { goto } from '$app/navigation';
-  import TableMenu from '$lib/components/TableMenu.svelte';
+  import TableMenu from '$lib/menus/TableMenu.svelte';
 
   const data = [
     {
