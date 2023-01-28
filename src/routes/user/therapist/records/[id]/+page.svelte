@@ -1,7 +1,5 @@
 <script>
-  import { goto } from '$app/navigation';
-
-
+    import { goto } from '$app/navigation';
     import Button from '$lib/components/Button.svelte';
 
     let data = {
@@ -83,7 +81,7 @@
 </div>
 
 <div style="margin: 100px; float:left; width:40%; position:relative; top:10%">
-    <Button on:click={edit}>Editar Processo</Button>
+    <Button text="Editar Processo" on:click={edit}/>
     <br>
-    <Button on:click={back}>Voltar ao Menu de Pesquisa</Button>
+    <Button text="Voltar ao Menu de Pesquisa" on:click={back}/>
 </div>
