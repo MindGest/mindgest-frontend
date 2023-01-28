@@ -1,5 +1,5 @@
 <script>
-  import { goto } from '$app/navigation';
+  // import { goto } from '$app/navigation';
   import TableMenu from '$lib/menus/TableMenu.svelte';
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
