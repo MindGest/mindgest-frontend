@@ -6,7 +6,6 @@
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
 
-  /* PARA DEBUGGG*/
   let proc = ['Proc1', 'Proc2', 'Proc3'];
   let rooms = ['s1', 's2', 's3'];
 
