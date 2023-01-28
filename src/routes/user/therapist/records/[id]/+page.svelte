@@ -6,7 +6,7 @@
 
     let data = {
         terp: "João Pedro",
-        proc: "EspA2022-2023",
+        proc: "123",
         esp: "Especialidade A",
         col:[],
         ut: "Manuel Pedro",
@@ -36,7 +36,7 @@
     }
 
     function gotoNotes(){
-        /* ir para o ecrã com as notas do processo */
+        goto("/user/therapist/records/" + data.proc + "/notes" )
     }
 
     function gotoApp(){
@@ -48,7 +48,7 @@
     }
 
     function edit(){
-        /* ir para o ecrã para editar o processo */
+        goto("/user/therapist/records/" + data.proc + "/edit" )
     }
 
     function back(){
