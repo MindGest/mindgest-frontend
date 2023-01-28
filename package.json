@@ -30,6 +30,7 @@
   "type": "module",
   "dependencies": {
     "axios": "^1.2.0",
+    "http-status-codes": "^2.2.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.28",
     "jwt-decode": "^3.1.2",
