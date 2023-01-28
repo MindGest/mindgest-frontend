@@ -4,6 +4,7 @@
   import TextArea from '$lib/components/TextArea.svelte';
   import * as api from '$lib/utils/api';
   import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   
   const id =$page.params['id'];
 
@@ -21,15 +22,14 @@
     }
 
   };
-  const back = () => alert('Going back');
 </script>
 
 <form class="flex flex-col h-full p-8" on:submit|preventDefault={submit}>
-  <TextBox label="Title" bind:value={title} />
-  <TextArea class="mt-2 grow" label="Text" bind:value={text} />
+  <TextBox label="Titulo da Nota" bind:value={title} />
+  <TextArea class="mt-2 grow" label="Notas" bind:value={text} />
   <p class="text-gray-700 mt-2">Data de criação: {date}</p>
   <div class="flex mt-3">
-    <Button type="submit">Guardar</Button>
-    <Button class="ml-4" on:click={back}>Cancelar</Button>
+    <Button text="Guardar" type="submit"/>
+    <Button text="Cancelar" class="ml-4" on:click={() => goto(window.location.href.slice(0, window.location.href.length - "/new".length))}/>
   </div>
 </form>

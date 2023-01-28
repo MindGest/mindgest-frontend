@@ -9,6 +9,7 @@
   import Table from '$lib/components/Table.svelte';
   import TextArea from '$lib/components/TextArea.svelte';
   import TextBox from '$lib/components/TextBox.svelte';
+  import TextDisplay from '$lib/components/TextDisplay.svelte';
 
   let query = '';
   let text = '';
@@ -106,6 +107,9 @@
       <Button class="ml-5 w-full" text="submit" type="submit" />
     </buttons>
   </form>
+
+  <h1>Text Display</h1>
+  <TextDisplay value="Valor"/>
 </wrapper>
 
 <style>
