@@ -55,7 +55,7 @@
     /* help */
   });
 
-  async function addProcess() {
+  async function addUtente() {
     /* help */
   }
 </script>
@@ -296,7 +296,6 @@
     />
   </div>
   <div class="my-5 grid grid-cols-2">
-    <!-- Miguel: Acho que isto não é no -->
-    <Button class="mt-10 " text="Enviar pedido de novo processo" on:click={addProcess}/>
+    <Button class="mt-10 " text="Adicionar novo utente" on:click={addUtente()}/>
   </div>
 </div>
