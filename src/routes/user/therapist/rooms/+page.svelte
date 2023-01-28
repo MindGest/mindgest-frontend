@@ -1,41 +1,27 @@
 <script type="text/javascript">
-  import { onMount } from 'svelte';
-  import * as api from '$lib/utils/api';
-  // import DatePicker from '$lib/components/DatePicker.svelte';
-  import { uploadProfilePicture, parseDate, reverseParseDate } from '$lib/utils/util';
+  //import { onMount } from 'svelte';
+  //import * as api from '$lib/utils/api';
+  import TextBox from '$lib/components/TextBox.svelte';
+  import Selector from '$lib/components/Selector.svelte';
+  import Button from '$lib/components/Button.svelte';
 
-  class person {
-    constructor(name, role) {
-      this.name = name;
-      this.role = role;
-    }
-  }
-  class appointment {
-    constructor(room, title, roomId, terp, hour_beg, dur, patient, date) {
-      this.room = room;
-      this.terp = terp;
-      this.hour_beg = hour_beg;
-      this.dur = dur;
-      this.patient = patient;
-      this.roomId = roomId;
-      this.title = title;
-      this.date = date;
-    }
-  }
-  class room {
-    constructor(name, id) {
-      this.name = name;
-      this.id = id;
-    }
-  }
 
-  var hours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-  var list_apoint = [];
-  var list_rooms = [];
-  let selectedRoom;
-  let selectedDate;
+  let hours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  let list_apoint = [
+    {hour_beg: 12, hour_end: 13, room:"r1", terp:["Maria"]}, 
+    {hour_beg:9, hour_end:11, room:"r2", terp:["Ana"]}, 
+    {hour_beg:16, hour_end:17, room:"r1", terp:["Maria", "Ana"]}];
+  let list_rooms = ['r1', 'r2', 'r3'];
+  let selected='';
 
-  onMount(async () => {
+  let filteredSearch = {
+    room:'',
+    date: ''
+  };
+
+  let room_aux = '';
+
+  /*onMount(async () => {
     const response = await api.get('rooms/list', {});
     if (response.ok) {
       let json = await response.json();
@@ -92,24 +78,23 @@
     }
     resetFilter();
     status = response.status;
-  });
+  });*/
 
   /*
-        If the user is a guard than the button value is null
-        Else it should redirect to either the appointment page
-            or the new appointment page
-    */
+    If the user is a guard than the button value is null
+    Else it should redirect to either the appointment page
+        or the new appointment page
+  */
   function isGuard() {
-    console.log(list_apoint);
+
     // COLOCAR AQUI UMA ROUTE
-    if ((seguranca.role = 'guard'))
-      alert('This user is a guard so there is no action here'); //elem.value = null;
+    if ((seguranca.role = 'guard')) alert('This user is a guard so there is no action here'); //elem.value = null;
     else alert('This user is NOT a guard so should be redirected'); //elem.value = "...redirecting for the right page";
   }
 
   /*
-        Sort the appointments according to the chosen property
-    */
+    Sort the appointments according to the chosen property
+  */
   function sortRooms(property) {
     var sortOrder = 1;
     if (property[0] === '-') {
@@ -122,12 +107,13 @@
     };
   }
 
-  function getTherapist(ap, d) {
+  function getTherapist(ap) {
+
     let out = '';
 
     for (let i = 0; ap.terp.length > i; i++) {
-      if (i === 0) out += ap.terp[i].name;
-      else out += ', ' + ap.terp[i].name;
+      if (i === 0) out += ap.terp[i];
+      else out += ', ' + ap.terp[i];
     }
 
     return out;
@@ -139,7 +125,7 @@
     let i = 0;
     let date = new Date();
 
-    while (i < 8) {
+    while (i < 1) {
       if (i === 0) date.getDate();
       else date.setDate(date.getDate() + 1);
       let year = date.getFullYear();
@@ -152,90 +138,40 @@
 
     return out;
   }
-
   let week = week_func();
 
-  /*
-        For the dropdown filters
-    */
-  let filterRoom = [];
-  let filterDate = [];
-  $: if (selectedRoom) getFilterRooms();
-  const getFilterRooms = () => {
-    if (selectedRoom === 'all') return (filterRoom = list_rooms);
-    return (filterRoom = list_rooms.filter(room => room['name'] === selectedRoom));
-  };
-  $: if (selectedDate) getFilterDates();
-  const getFilterDates = () => {
-    console.log('detetou nova data ' + selectedDate);
-    week = [
-      selectedDate,
-      selectedDate.getDate() + '/' + selectedDate.getMonth() + 1 + '/' + selectedDate.getFullYear()
-    ];
-  };
-  $: if (!selectedRoom) filterRoom = list_rooms;
-  $: if (!selectedDate) week = week_func();
+  $:if(filteredSearch.room.length > 0) console.log(filteredSearch.room);
+
 </script>
 
-<!-- dropdown buttons -->
-<wrapper
-  class="flex flex-col"
-  style="margin: 100px; float:left; width:30%; position:relative; top:10%"
->
-  <section class="menu-cont">
-    <select
-      class="menu bg-white text-gray-800 font-semibold py-2 px-4 border border-gray-400"
-      name="filtro_room"
-      id="filtro_room"
-      bind:value={selectedRoom}
-    >
-      <option disabled selected value="">Selecione uma Sala</option>
-      <option value="all">Todas</option>
-      {#each list_rooms as r}
-        <option value={r['name']}>{r['name']}</option>
-      {/each}
-    </select>
-  </section>
 
-  <section class="menu-cont">
-    <!-- <DatePicker
-      id="filtro_date"
-      label="Escolha uma Data:"
-      value={parseDate(selectedDate)}
-      class="grid grid-cols-3 items-center font-bold"
-    /> -->
-  </section>
+<wrapper class="flex flex-col" style="margin:50px; float:left; width:30%; position:relative; top:10%">
+  <Selector label="Salas:" values={list_rooms} bind:value={filteredSearch.room} />
+  <TextBox bind:value={filteredSearch.date} id="date" class="mt-2" type="date" label="Escolha uma Data:" />
 </wrapper>
 
-<!-- rooms list -->
-<wrapper
-  class="flex flex-col"
-  style="float:right; width:30%; position:relative; top:20%; bottom:10%; right:10%"
->
+
+<wrapper class="flex flex-col" style="float:right; width:40%; position:relative; top:20%; bottom:10%; right:10%">
+  
   {#each week as d}
     <p class="font-normal text-2xl">{d[1]}</p>
 
-    {#each filterRoom as r}
-      <p class="font-normal text-xl">{r['name']}</p>
+    {#each list_rooms as r}
+      {#if filteredSearch.room.length === 0 || filteredSearch.room === r} 
+        <p class="font-normal text-xl">{r}</p>
 
-      {#each hours as h}
-        {#each list_apoint.sort(sortRooms('hour_beg')) as ap}
-          {#if r['name'] === ap.room && h >= ap.hour_beg && ap.hour_beg + ap.dur > h && ap.date.getFullYear() === d[0].getFullYear() && ap.date.getMonth() === d[0].getMonth() && ap.date.getDate() === d[0].getDate()}
-            <button
-              class="bg-orange-300 hover:bg-orange-100 text-gray-800 font-semibold py-2 px-3"
-              on:click={isGuard}
-            >
-              {getTherapist(ap, d)}; {h}h
-            </button>
-          {:else}
-            <button
-              class="bg-green-300 hover:bg-green-100 text-gray-800 font-semibold py-2 px-3"
-              on:click={isGuard}
-              id="">{h}h</button
-            >
-          {/if}
+        {#each hours as h}
+          {#each list_apoint.sort(sortRooms('hour_beg')) as ap}
+
+            {#if r === ap.room && h >= ap.hour_beg && ap.hour_end > h} <!--&& ap.date.getFullYear() === d[0].getFullYear() && ap.date.getMonth() === d[0].getMonth() && ap.date.getDate() === d[0].getDate()-->
+              <Button text="{getTherapist(ap)}; {h}h" on:click={isGuard()}/>
+            {:else}
+              <Button text="{h}h" on:click={isGuard()}/>
+            {/if}
+
+          {/each}
         {/each}
-      {/each}
+      {/if}
     {/each}
   {/each}
 </wrapper>
