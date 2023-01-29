@@ -1,7 +1,7 @@
 <script>
   import * as api from '$lib/utils/api';
 
-  let email = 'guard@student.dei.uc.pt';
+  let email = 'admin@student.dei.uc.pt';
   let password = '12345';
   let status = 200;
   
