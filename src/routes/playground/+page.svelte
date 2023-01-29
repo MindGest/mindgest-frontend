@@ -2,6 +2,7 @@
   import Button from '$lib/components/Button.svelte';
   import Card from '$lib/components/Card.svelte';
   import Checkbox from '$lib/components/Checkbox.svelte';
+  import Details from '$lib/components/Details.svelte';
   import Link from '$lib/components/Link.svelte';
   import List from '$lib/components/List.svelte';
   import SearchBar from '$lib/components/SearchBar.svelte';
@@ -10,6 +11,7 @@
   import TextArea from '$lib/components/TextArea.svelte';
   import TextBox from '$lib/components/TextBox.svelte';
   import TextDisplay from '$lib/components/TextDisplay.svelte';
+  import Title from '$lib/components/Title.svelte';
 
   let query = '';
   let text = '';
@@ -20,38 +22,38 @@
 </script>
 
 <wrapper class="block mb-10 p-5 w-[400px]">
-  <h1>TextBox</h1>
+  <Title class="mb-5" text="TextBox" />
   <TextBox placeholder="placeholder" />
   <TextBox class="mt-2" label="name" />
   <TextBox class="mt-2" type="number" label="number" />
   <TextBox class="mt-2" type="password" label="password" />
   <TextBox class="mt-2" type="date" label="date" />
 
-  <h1>TextArea</h1>
+  <Title class="my-5" text="TextArea" />
   <TextArea class="h-72" label="big text area" bind:value={text} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Text: {text}</div>
   <TextArea class="mt-5" placeholder="small text area" />
 
-  <h1>SearchBar</h1>
+  <Title class="my-5" text="SearchBar" />
   <SearchBar placeholder="search" bind:value={query} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Query: {query}</div>
 
-  <h1>Selector</h1>
+  <Title class="my-5" text="Selector" />
   <Selector label="label" values={['one', 'two', 'three']} bind:value={selected} />
   <div class="mt-5 border border-zinc-400 rounded-md p-2">Selected: {selected}</div>
   <Selector class="mt-5" placeholder="all" values={['one', 'two', 'three']} />
 
-  <h1>Button</h1>
+  <Title class="my-5" text="Button" />
   <buttons class="flex">
     <Button class="w-full" text="big" on:click={() => alert('big')} />
     <Button class="ml-5" text="small" on:click={() => alert('small')} />
   </buttons>
 
-  <h1>Link</h1>
+  <Title class="my-5" text="Link" />
   <Link text="left" on:click={() => alert('left')} />
   <Link class="ml-5" text="right" on:click={() => alert('right')} />
 
-  <h1>Checkbox</h1>
+  <Title class="my-5" text="Checkbox" />
   <Checkbox label={checked ? 'uncheck me' : 'check me'} bind:checked />
   <Checkbox class="mt-2" label="already checked" checked />
   <checkboxes class="flex mt-2">
@@ -60,7 +62,7 @@
     <Checkbox class="ml-2" label="i'm the third checkbox" />
   </checkboxes>
 
-  <h1>Card</h1>
+  <Title class="my-5" text="Card" />
   {#each [1, 2, 3] as number}
     <Card
       class="mt-5"
@@ -72,7 +74,7 @@
   <Card class="mt-5" title="card with no text" />
   <Card class="mt-5" text="card with no title" />
 
-  <h1>List</h1>
+  <Title class="my-5" text="List" />
 
   <List placeholder="empty list" />
   <List
@@ -85,7 +87,7 @@
     on:click={({ detail: index }) => alert(index)}
   />
 
-  <h1>Table</h1>
+  <Title class="my-5" text="Table" />
   <Table placeholder="empty table" />
   <Table
     class="mt-5"
@@ -97,7 +99,7 @@
     on:click={({ detail: row }) => alert(Object.values(row).join(', '))}
   />
 
-  <h1>Form</h1>
+  <Title class="my-5" text="Form" />
   <form on:submit|preventDefault={() => alert(`${email}, ${password}`)}>
     <TextBox type="email" label="email" bind:value={email} />
     <TextBox class="mt-2" type="password" label="password" bind:value={password} />
@@ -108,16 +110,18 @@
     </buttons>
   </form>
 
-  <h1>Text Display</h1>
-  <TextDisplay value="Valor"/>
+  <Title class="my-5" text="Text Display" />
+  <TextDisplay value="Valor" />
+
+  <Title class="my-5" text="Details" />
+  <Details
+    data={{
+      name: 'John Doe',
+      age: 30,
+      address: '123 Main St',
+      city: 'Anytown',
+      state: 'CA',
+      zip: '12345'
+    }}
+  />
 </wrapper>
-
-<style>
-  h1 {
-    @apply text-2xl mb-5;
-  }
-
-  h1:not(:first-child) {
-    @apply mt-5;
-  }
-</style>
