@@ -1,4 +1,6 @@
 import { PUBLIC_API_URL } from '$env/static/public';
+import jwt_decode from "jwt-decode";
+import { goto } from '$app/navigation';
 
 const send = async ({ method, path, data, token }) =>
   fetch(PUBLIC_API_URL + '/' + path, {
@@ -20,6 +22,39 @@ const setC = (name, value, days) => {
   }
   document.cookie = name + '=' + (value || '') + expires + '; path=/';
 };
+
+const checkAuthentication = async (role) => {
+  let accessToken = getCookie('accessToken');
+  if(accessToken==null){
+    goto('/');
+  }
+  let decodedJWT = jwt_decode(accessToken);
+  let decodedRefresh = jwt_decode(getCookie('refreshToken'));
+  let seconds = new Date().getTime() / 1000;
+  if(seconds>decodedJWT['exp'] && seconds>decodedRefresh['exp']){
+    goto('/');
+  }
+  else{
+    if(decodedJWT['role']!=role){
+      if(decodedJWT['role']==="therapist"){
+        goto("/user/therapist/dashboard")
+      }
+      else if(decodedJWT['role']==="guard"){
+        goto("/user/guard/dashboard")
+      }
+      else if(decodedJWT['role']==="accountant"){
+        goto("/user/accountant/dashboard")
+      }
+      else if(decodedJWT['role']==="intern"){
+        goto("/user/intern/dashboard")
+      }
+      else{
+        console.log("ERRO")
+      }
+    }
+  }
+}
+
 const getC = name => {
   var nameEQ = name + '=';
   var ca = document.cookie.split(';');
@@ -49,6 +84,7 @@ const getMonthName = number => {
   return array[number - 1];
 };
 
+export const check = (role) => checkAuthentication(role);
 export const getMonth = number => getMonthName(number);
 export const setCookie = (name, value, days) => setC(name, value, days);
 export const getCookie = name => getC(name);

@@ -1,5 +1,5 @@
 <script>
-    import TableMenu from '$lib/components/TableMenu.svelte';
+    import TableMenu from '$lib/menus/TableMenu.svelte';
     import { onMount } from 'svelte';
     import * as api from '$lib/utils/api';
     import { page } from '$app/stores';

@@ -23,5 +23,12 @@
   "appointmentDate": "Data da Consulta",
   "paid": "pago",
   "payments:!paid": "por pagar",
-  "payments:paid": "Pago"
+  "payments:paid": "Pago",
+  "stats": "Estatísticas",
+  "notes:add": "Adicionar nota",
+  "records:active": "Processos Ativos",
+  "records:!active": "Processos Arquivados",
+  "records:add": "Criar Novo Processo",
+  "patients:add": "Novo Utente",
+  "users:add": "Criar Utilizador"
 }
