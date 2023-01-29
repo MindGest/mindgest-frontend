@@ -1,15 +1,13 @@
 <script>
   import * as api from '$lib/utils/api';
 
-  let email = 'user@uc.pt';
-  let password = 'test123';
+  let email = 'admin@student.dei.uc.pt';
+  let password = '12345';
   let status = 200;
+  
   const submit = async () => {
-    const response = await api.post('auth/login', { email: email, password: password });
+    const response = await api.post('auth/login', { email, password });
     if (response.ok) {
-      let json = await response.json();
-      api.setCookie('accessToken', json['accessToken'], 1);
-      api.setCookie('refreshToken', json['refreshToken'], 1);
       location.reload();
       return;
     }
