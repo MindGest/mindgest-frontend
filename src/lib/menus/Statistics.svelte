@@ -19,6 +19,8 @@
     import autoTable  from "jspdf-autotable";
     import * as api from "$lib/utils/api";
 
+    export let role;
+
     const INTERN = "intern"
     const ADMIN = "admin"
     const THERAPIST = "therapist"
@@ -27,8 +29,6 @@
     let data = null;
   
     onMount(async () => {
-        let role = api.getCookie('accessToken').role;
-
         let responseSpecialities = await api.get("speciality/list");
         let responseRecords = await api.get("/process/get-processes");
 
