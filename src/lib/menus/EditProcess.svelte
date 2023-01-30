@@ -14,74 +14,109 @@
     import Button from "$lib/components/Button.svelte";
     import Selector from "$lib/components/Selector.svelte";
     import TextDisplay from "$lib/components/TextDisplay.svelte";
-  import translate from "$lib/utils/translate";
     import { onMount } from "svelte";
+    import * as api from "$lib/utils/api";
+
     
     const INTERN = "intern"
     const ADMIN = "admin"
     const THERAPIST = "therapist"
 
     let data = null;
-    let role = '';
-    let colaboratorAdd = '';
   
     onMount(async () => {
+
         let processId = window.location.href.split("/").slice(-2)[0];
-        
-        role = ADMIN
-        role = THERAPIST
-        role = INTERN
+        let role = api.getCookie('accessToken').role;
+        let permissions = {};
 
-        data = {
-            "processId": processId,
-            "patient": "Miguel",
-            "status": true,
-            "responsavel": "therapistC",
-            "new_responsavel": "therapistC",
-            "therapists_names": ["therapistA", "therapistB", "therapistC"],
-            "speciality": "specB",
-            "specialities": ["specA", "specB", "specC"],
-
-            "therapists": [
-                {"id": 1, "name": "zé1"},
-                {"id": 2, "name": "zé2"},
-                {"id": 3, "name": "zé3"},
-                {"id": 4, "name": "zé4"},
-            ],
-
-            "interns": [
-                {"id": 5, "name": "zé5"},
-                {"id": 6, "name": "zé6"},
-                {"id": 7, "name": "zé7"},
-                {"id": 8, "name": "zé8"},
-            ],
-
-            "colaborators": {
-                "therapists": [
-                    {"id": 1, "name": "zé1"},
-                    {"id": 2, "name": "zé2"},
-                ],
-                "interns": [
-                    {"id": 5, "name": "zé5"},
-                    {"id": 6, "name": "zé6"},
-                ]
+        if (role == INTERN) {
+            let responsePermissions = await api.post("permissions/get-intern-permissions", {processId: processId});
+            if (responsePermissions.ok) {
+                permissions = await responsePermissions.json()["data"];
+                if (!permissions.EditProcess) {
+                    alert("Não tem permissões para editar este processo");
+                    return;
+                }
+            } else {
+                alert("Erro a carregar permissões do estagiário");
+                return;
             }
+        }
+
+        let responseTherapists = await api.get("user/get-all-therapists");
+        let responseInterns = await api.get("user/get-all-interns");
+        let responseColaborators = await api.post("process/collaborators", {processId: processId});
+        let responseProcessData = await api.get(`process/info/${processId}`);
+        let responseSpecialities = await api.get("speciality/list");
+        
+        if (responseTherapists.ok && responseInterns.ok && responseColaborators.ok && responseProcessData.ok && responseSpecialities.ok) {
+            let therapists = await responseTherapists.json()["data"];
+            let interns = await responseInterns.json()["data"];
+            let colaborators = await responseColaborators.json()["data"];
+            let processData = await responseProcessData.json();
+            let specialities = await responseSpecialities.json()["data"];
+            
+            let specialities_names = []
+            specialities.forEach(spec => {specialities_names.push(spec.speciality)});
+            
+            let therapists_names = []
+            therapists.forEach(therapist => {therapists_names.push(therapist.name)});
+            
+            data = {
+                "role": role,
+                "colaboratorAdd": "",
+                "processId": processId,
+                "permissions": permissions,
+                
+                "patient": processData.utent,
+                "remarks": processData.remarks,
+                "status": processData.active,
+                "speciality": processData.speciality,
+                "responsavel": processData.therapistName,
+                
+                "therapists": therapists,
+                "interns": interns,
+                "colaborators": colaborators,
+                
+                "new_responsavel": processData.therapistName,
+                "specialities": specialities_names,
+                "therapists_names": therapists_names,
+            }
+        } else {
+            alert("Erro ao carregar processo");
+            return;
         }
     });
   
     async function editRecord() {
-      
+        if (role != ADMIN && (data.responsavel != data.new_responsavel)) {
+            let therapistId = getUserId(data.new_responsavel)
+            let responseMigrate = await api.post(`/process/${data.processId}/migrate`, {therapistId: therapistId})
+            if (!responseMigrate.ok) {
+                alert("Erro a fazer pedido de migração")
+            }
+        }
+        
+        let ids = [];
+        data.colaborators.therapists.forEach(therapist => {ids.push(therapist.id)})
+        data.colaborators.interns.forEach(intern => {ids.push(intern.id)})
+
+
         let body = {
-            //??
+            speciality: data.speciality,
+            therapistId: getUserId(data.responsavel),
+            remarks: data.remarks,
+            colaborators: ids,
         };
 
-  
-        if (data.responsavel != data.new_responsavel) {
-            // requestChangeOfResponsavel(data.new_responsavel)
+        let responseEdit = await api.post(`process/${data.processId}/edit`, body);
+        if (responseEdit.ok) {
+            alert("Sucesso a editar processo")
+        } else {
+            alert("Erro ao editar processo")
         }
-  
-        // editRecordData()
-  
+        
     }
   
     function formatTherapist(therapist) {
@@ -137,14 +172,19 @@
     function removeColaboratorUI(role, id) {
         data.colaborators[role] = data.colaborators[role].filter(value => value.id != id);
     }
-    
-    function archive() {
-        data.status = false;
+
+    function getUserId(user) {
+        parseInt(user.split("]")[0].split("-")[1])
     }
     
-    function unarchive() {
-        data.status = true;
-
+    async function toggleArchive() {
+        let response = api.post(`process/archive/${data.processId}`)
+        if (response.ok) {
+            data.status = !data.status;
+            alert("Sucesso arquivar/desarquivar processo")
+        } else {
+            alert("Erro ao arquivar/desarquivar processo")
+        }
     }
   
 </script>
@@ -156,7 +196,7 @@
             <TextDisplay class="my-5 w-1/2 m-auto" label="Estado do Processo" value={data.status ? "Ativo": "Não Ativo"} />
             <TextDisplay class="my-5 w-1/2 m-auto" label="Utente" bind:value={data.patient} />
            
-            {#if role != ADMIN}
+            {#if data.role != ADMIN}
                 <TextDisplay class="my-5 w-1/2 m-auto" label="Profissional Responsável" bind:value="{data.responsavel}" />
                 <Selector class="my-5 w-1/2 m-auto" label="Pedido de alteração de responsável para" values={data.therapists_names} bind:value={data.new_responsavel}/>
             {:else}
@@ -165,25 +205,26 @@
 
             <Selector class="my-5 w-1/2 m-auto" label="Especialidade" values={data.specialities} bind:value={data.speciality}/>
             <Button class="my-5 w-1/2 m-auto"  text="Gravar" type="submit"/>
-            
-            {#if data.status}
-                <Button class="my-5 w-1/2 m-auto"  text="Arquivar Processo" on:click={() => archive()}/>
-            {:else}
-                <Button class="my-5 w-1/2 m-auto"  text="Desarquivar Processo" on:click={() => unarchive()}/>
+            {#if (data.role == INTERN) && data.permissions.archive}
+                {#if data.status}
+                    <Button class="my-5 w-1/2 m-auto"  text="Arquivar Processo" on:click={() => toggleArchive()}/>
+                {:else}
+                    <Button class="my-5 w-1/2 m-auto"  text="Desarquivar Processo" on:click={() => toggleArchive()}/>
+                {/if}
             {/if}
         </div>
         
         <div>
             <div class="flex flex-line m-4">
                 <h1 class="text-xl m-auto w-1/6">Colaboradores</h1>
-                {#if role != INTERN}
+                {#if data.role != INTERN}
                     <a class="w-3/6 text-orange-500 underline" href="/user/therapist/records/{data.processId}/edit/permissions">Editar Permissões de Estagiários</a>
                 {/if}
             </div>
     
-            {#if role != INTERN}
+            {#if data.role != INTERN}
                 <div class="flex flex-line mb-10">
-                    <Selector class="m-auto w-2/3 p-4" values={colaboratorsOptions(data)} placeholder="Escolha um colaborador" bind:value={colaboratorAdd}/>
+                    <Selector class="m-auto w-2/3 p-4" values={colaboratorsOptions(data)} placeholder="Escolha um colaborador" bind:value={data.colaboratorAdd}/>
                     <Button class="m-auto w-10 h-10" text="+" on:click={ () => addColaboratorUI()}/>
                 </div>
             {/if}    
@@ -192,7 +233,7 @@
             {#each data.colaborators.therapists as therapist}
                 <div class="flex flex-line">
                     <TextDisplay class="m-auto w-2/3 p-4" value={formatTherapist(therapist)}/>
-                    {#if role != INTERN}
+                    {#if data.role != INTERN}
                         <Button class="m-auto w-10 h-10" text="-" on:click={() => removeColaboratorUI("therapists", therapist.id)}/>
                     {/if}
                 </div>
@@ -201,7 +242,7 @@
             {#each data.colaborators.interns as intern}
                 <div class="flex flex-line">
                     <TextDisplay class="m-auto w-2/3 p-4" value={formatIntern(intern)}/>
-                    {#if role != INTERN}
+                    {#if data.role != INTERN}
                         <Button class="m-auto w-10 h-10" text="-" on:click={() => removeColaboratorUI("interns", intern.id)}/>
                     {/if}
                 </div>

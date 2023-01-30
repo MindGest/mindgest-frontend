@@ -1,3 +1,15 @@
+<!--
+    Frontend: Miguel
+    Integração: Gabriel
+    Testado: ??
+
+    Aplicado em:
+        - /user/admin/stats
+        - /user/therapist/stats
+        - /user/intern/stats
+
+ -->
+
 <script>
     import Button from "$lib/components/Button.svelte";
     import Selector from "$lib/components/Selector.svelte";
@@ -5,106 +17,90 @@
     import { onMount } from "svelte";
     import jsPDF from "jspdf";
     import autoTable  from "jspdf-autotable";
-  
-    let start = "";
-    let end = "";
-    let record = "";
-    let speciality = "";
-  
-    let records = ["Proc1", "Proc2", "Proc3"]
-    let specialities = ["EspA", "EspB", "EspC"];
-  
-        onMount(async () => {
-            //TODO: getAvailableRecords(this.user) & getAvailableSpecialities(*all*);
-        });
-  
-    function generate() {
-        // let body = {
-        //     "startDate": new Date(start).toISOString(),
-        //     "endDate": new Date(end).toISOString(),
-        //     "processId": record,
-        //     "specialityId": speciality,
-        //     // "therapistId": null
-        // };
-  
-        let processes = [
-            {
-                "id": 1,
-                "speciality": "specA",
-                "name": "terapeuta1",
-                "patientName": "utente1",
-                "total": 69.6,
-                "nAppointments": 3,
-                "appointments": [
-                    {"n": 1, "date": "31/01/2023", "cost": 23.2},
-                    {"n": 2, "date": "22/01/2023", "cost": 23.2},
-                    {"n": 3, "date": "30/01/2023", "cost": 23.2}
-                ]
-            },
-            {
-                "id": 2,
-                "speciality": "specB",
-                "name": "terapeuta2",
-                "patientName": "utente2",
-                "total": 99.0,
-                "nAppointments": 3,
-                "appointments": [
-                    {"n": 4, "date": "31/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 5, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 6, "date": "30/01/2023", "cost": 33.0}
-                ]
-            },
-            {
-                "id": 3,
-                "speciality": "specC",
-                "name": "terapeuta3",
-                "patientName": "utente3",
-                "total": 66.0,
-                "nAppointments": 3,
-                "appointments": [
-                    {"n": 6, "date": "31/01/2023", "cost": 33.0},
-                    {"n": 7, "date": "22/01/2023", "cost": 33.0},
-                ]
-            },
-            {
-                "id": 4,
-                "speciality": "specD",
-                "name": "terapeuta4",
-                "patientName": "utente4",
-                "total": 132.0,
-                "nAppointments": 3,
-                "appointments": [
-                    {"n": 8, "date": "31/01/2023", "cost": 33.0},
-                    {"n": 9, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 10, "date": "22/01/2023", "cost": 33.0},
-                    {"n": 11, "date": "22/01/2023", "cost": 33.0},
-                ]
-            },
-        ];
+    import * as api from "$lib/utils/api";
 
-      const pdf = new jsPDF('p','px', 'a4');
-      let y = 20;
-      pdf.setFontSize(20);
-      pdf.setFont('helvetica', 'bold')
-      pdf.text("Estatísticas", 40, y); y = incrementY(pdf, y, 30);
-      pdf.setFont('helvetica', 'normal')
-      pdf.setFontSize(12);
-      pdf.text("Data Inicial: " + start, 40, y); y = incrementY(pdf, y, 30);
-      pdf.text("Data Fim: " + end, 40, y); y = incrementY(pdf, y, 30);
-      processes.forEach( proc => {
+    const INTERN = "intern"
+    const ADMIN = "admin"
+    const THERAPIST = "therapist"
+    const NOFILTER = "Sem Filtro"
+    
+    let data = null;
+  
+    onMount(async () => {
+        let role = api.getCookie('accessToken').role;
+
+        let responseSpecialities = await api.get("speciality/list");
+        let responseRecords = await api.get("/process/get-processes");
+
+        if (responseSpecialities.ok && responseRecords.ok) {
+            let specialities = await responseSpecialities.json()["data"];
+            let records = await responseRecords.json()["data"];
+
+            let specialities_names = ["Sem filtro"]
+            specialities.forEach(spec => {specialities_names.push(spec.speciality)});
+
+            let records_names = ["Sem filtro"]
+            let therapists_names = ["Sem filtro"]
+            records.forEach(record => {
+                records_names.push(formatRecord(record));
+                record.therapists.forEach(therapist => {
+                    therapists_names.push(formatTherapist(therapist))
+                })
+            });
+
+
+            data = {
+                "role": role,
+                
+                "start": "",
+                "end": "",
+                "record": NOFILTER,
+                "speciality": NOFILTER,
+                "therapist": NOFILTER,
+                
+                "records": records_names,
+                "specialities": specialities_names,
+                "therapists": therapists_names
+            }
+        }
+    });
+  
+    async function generate() {
+        if (data.start == "" || data.end == "") {
+            alert("Tem de escolher datas de início e fim")
+            return
+        }
+
+        if (new Date(data.end) <= new Date(data.start)) {
+            alert("A data de início tem de vir antes da data de fim")
+            return
+        }
+
+        let body = {
+            "startDate": new Date(data.start).toISOString(),
+            "endDate": new Date(data.end).toISOString(),
+            "speciality": data.speciality != NOFILTER ? data.speciality : null,
+            "processId": data.record != NOFILTER ? parseInt(data.record.split("]")[0].slice(1)) : null,
+            "therapistId": data.therapist != NOFILTER ? parseInt(data.therapist.split("]")[0].slice(1)) : null 
+        };
+
+        let response = await api.post("/statistics/", body);
+
+        if (!response.ok) {
+            alert ("Erro ao gerar estatísticas")
+            return
+        }
+
+        const pdf = new jsPDF('p','px', 'a4');
+        let y = 20;
+        pdf.setFontSize(20);
+        pdf.setFont('helvetica', 'bold')
+        pdf.text("Estatísticas", 40, y); y = incrementY(pdf, y, 30);
+        pdf.setFont('helvetica', 'normal')
+        pdf.setFontSize(12);
+        pdf.text("Data Inicial: " + start, 40, y); y = incrementY(pdf, y, 30);
+        pdf.text("Data Fim: " + end, 40, y); y = incrementY(pdf, y, 30);
+        processes.forEach( proc => {
             pdf.setFontSize(16);
             pdf.text("Processo: " + proc.id, 40, y); y = incrementY(pdf, y, 25);
             pdf.setFontSize(12);
@@ -114,18 +110,17 @@
             pdf.text("Total: " + proc.total + " €", 40, y); y = incrementY(pdf, y, 25);
             pdf.autoTable({
                 startY: y,
+                headStyles :{fillColor : [251, 146, 60]},
+                body: proc.appointments,
                 columns: [
                         {header: "#", dataKey: "n"},
                         {header: "Data", dataKey: "date"},
                         {header: "Custo", dataKey: "cost"},
                     ],
-                body: proc.appointments,
-                headStyles :{fillColor : [251, 146, 60]},
-                y
             })
             y = incrementY(pdf, y, pdf.autoTable.previous.finalY + 40 - y);
         });
-      pdf.save("statistics.pdf")
+        pdf.save("estatísticas.pdf")
     }
   
     function incrementY(doc, y, inc) {
@@ -135,16 +130,29 @@
         }
         return y + inc;
     }
+
+    function formatRecord(record) {
+        return "[" + record.id + "] " + record.name;
+    }
+
+    function formatTherapist(therapist) {
+        return "[" + therapist.id + "] " + therapist.name;
+    }
 </script>
   
-  <h1 class="text-4xl text-center mt-5 mb-10">Gerar estatísticas</h1>
-  
-  <form on:submit|preventDefault={() => { generate() }}>
-      <TextBox class="my-5 w-1/2 m-auto bg-ora" label="Data de Início" type="date" bind:value={start}/>
-      <TextBox class="my-5 w-1/2 m-auto" label="Data de Fim" type="date" bind:value={end}/>
-      
-      <Selector class="my-5 w-1/2 m-auto" label="Processo" values={records} bind:value={record}/>
-      <Selector class="my-5 w-1/2 m-auto" label="Especialidade" values={specialities} bind:value={speciality}/>
-      
-      <Button class="my-5 w-1/2 m-auto" type="submit" text="Gerar"/>
-  </form>  
+{#if data != null}
+    <h1 class="text-4xl text-center mt-5 mb-10">Gerar estatísticas</h1>
+
+    <form on:submit|preventDefault={async () => { await generate() }}>
+        <TextBox class="my-5 w-1/2 m-auto bg-ora" label="Data de Início" type="date" bind:value={data.start}/>
+        <TextBox class="my-5 w-1/2 m-auto" label="Data de Fim" type="date" bind:value={data.end}/>
+        
+        <Selector class="my-5 w-1/2 m-auto" label="Processo" values={data.records} bind:value={data.record}/>
+        <Selector class="my-5 w-1/2 m-auto" label="Especialidade" values={data.specialities} bind:value={data.speciality}/>
+        {#if data.role != THERAPIST}
+            <Selector class="my-5 w-1/2 m-auto" label="Terapeuta" values={data.therapists} bind:value={data.therapist}/>
+        {/if}
+        
+        <Button class="my-5 w-1/2 m-auto" type="submit" text="Gerar"/>
+    </form>  
+{/if}
