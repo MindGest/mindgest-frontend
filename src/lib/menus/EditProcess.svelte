@@ -17,6 +17,7 @@
     import { onMount } from "svelte";
     import * as api from "$lib/utils/api";
 
+    export let role;
     
     const INTERN = "intern"
     const ADMIN = "admin"
@@ -27,7 +28,6 @@
     onMount(async () => {
 
         let processId = window.location.href.split("/").slice(-2)[0];
-        let role = api.getCookie('accessToken').role;
         let permissions = {};
 
         if (role == INTERN) {
@@ -90,7 +90,7 @@
     });
   
     async function editRecord() {
-        if (role != ADMIN && (data.responsavel != data.new_responsavel)) {
+        if (data.role != ADMIN && (data.responsavel != data.new_responsavel)) {
             let therapistId = getUserId(data.new_responsavel)
             let responseMigrate = await api.post(`/process/${data.processId}/migrate`, {therapistId: therapistId})
             if (!responseMigrate.ok) {
