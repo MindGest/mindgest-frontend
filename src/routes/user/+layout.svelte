@@ -21,7 +21,7 @@
   {/each}
   <div class="ml-auto">
     <a class={style(`user/${data.role}/profile`)} href={'profile'}>{translate('profile')}</a>
-    <a class="ml-5" href="../../auth/logout">{translate('logout')}</a>
+    <a class="ml-5" href="/auth/logout">{translate('logout')}</a>
   </div>
 </nav>
 

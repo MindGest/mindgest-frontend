@@ -1,8 +1,8 @@
 import { goto } from '$app/navigation';
-import cookie from 'cookie';
+// import cookie from 'cookie';
 
-export const load = e => {
-  console.log(e);
-  cookie.clear('accessToken');
-  goto('/auth/login');
+export const load = ({ cookies }) => {
+  cookies.delete("accessToken");
+  cookies.delete("refreshToken");
+  console.log("logout");
 };
