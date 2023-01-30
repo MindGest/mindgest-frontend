@@ -1,6 +1,6 @@
 <!--
     Frontend: Miguel
-    Integração: Gabriel
+    Integração: Pedro
     Testado: ??
 
     Aplicado em:
