@@ -6,12 +6,25 @@
 	import { onMount } from 'svelte';
 	import * as api from '$lib/utils/api';
 
-	let data = null;
+    export let self = true;
+    export let id = null;
+    export let role;
 
+    const INTERN = "intern"
+    const THERAPIST = "therapist"
+
+	let data = null;
+	
 	onMount(async () => {
-		data = await requestProfileInfo('user/profile/info', 'user/profile/picture'); 
+		if (self || id == null) {
+			data = await requestProfileInfo('user/profile/info', 'user/profile/picture');
+        	data.role = role
+		} else {
+			data = await requestProfileInfo(`user/${id}/profile/info`, `user/${id}/profile/picture`);
+		}
+		data.birthDate = data.birthDate.slice(0,10)
 		console.log(data)
-	});
+    });
 
 
 	async function uploadProfilePicture() {
@@ -19,17 +32,32 @@
 	}
 
 	async function editUser() {
-		let body = {
-			"taxNumber": ,
-			"name":  ,
-			"email": ,
-			"address":  ,
-			"birthDate":  ,
-			"phoneNumber": , 
-			"healthSystem": ,
-			"license": ,
-			"speciality": ,
+		let body =  {
+			"name": data.name,
+			"birthDate": new Date(data.birthDate).toISOString(),
+			"address": data.address,
+			"phoneNumber": parseInt(data.phoneNumber),
+			"email": data.email,
+			"password": data.password,
 		};
+
+		if (data.role != INTERN) {
+			body.taxNumber = parseInt(data.taxNumber)
+		} 
+		
+		if (data.role == THERAPIST) {
+			body.specialty = data.specialty 
+			body.license = data.license
+		}
+		
+		console.log(body)
+
+		// let response = await api.put("user/profile/info", body);
+		// if (response.ok) {
+		// 	alert("Perfil Atualizado!")
+		// } else {
+		// 	alert("Erro ao atualizar perfil")
+		// }
 
 	}
 </script>
@@ -45,11 +73,18 @@
 
 		<div class="w-2/3 flex flex-col">
 			<TextBox label="Nome" bind:value={data.name} class="my-5"/>
-			<TextBox label="Data de Nascimento" bind:value={data.birth_date} class="my-5" type="date"/>
+			<TextBox label="Data de Nascimento" bind:value={data.birthDate} class="my-5" type="date"/>
 			<TextBox label="Morada" bind:value={data.address} class="my-5"/>
-			<TextBox label="Contacto Telefónico" bind:value={data.phone_number} class="my-5"/>
-			<TextBox label="NIF" bind:value={data.tax_number} class="my-5"/>
-			<Button class="mt-10" text="Guardar Alterações" on:click={editUser} />
+			<TextBox label="Contacto Telefónico" bind:value={data.phoneNumber} class="my-5"/>
+			{#if data.role != INTERN}
+        		<TextBox label="NIF" bind:value={data.taxNumber}/>
+      		{/if}
+      
+			{#if data.role == THERAPIST}
+				<TextBox class="w-1/2 my-2" label="Cédula OPP" bind:value={data.license}/>
+				<TextBox class="w-1/2 my-2" label="Especialidade" bind:value={data.specialty}/>
+			{/if}
+			<Button class="mt-10" text="Guardar Alterações" on:click={() => editUser()} />
 		</div>
 
 	</div>

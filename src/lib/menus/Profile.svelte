@@ -11,13 +11,9 @@
 
     const INTERN = "intern"
     const THERAPIST = "therapist"
-    const GUARD = "guard"
-    const ADMIN = "admin"
-    const ACCOUNTANT = "accountant"
 
     let data = null;
 
-    
     onMount(async () => {
       if (self || id == null) {
         data = await requestProfileInfo('user/profile/info', 'user/profile/picture');
@@ -37,21 +33,25 @@
       <a class="my-5 underline text-orange-500" href="profile/edit">Editar perfil</a>
     </div>
     
-    <div class="w-2/3 flex flex-col">
-      <TextDisplay class="w-1/2 my-2" label="Nome" value={data.name}/>
-      <TextDisplay class="w-1/2 my-2" label="Função" value={translate(data.role)}/>
-      <TextDisplay class="w-1/2 my-2" label="Data de nascimento" value={data.birthDate} />
-      <TextDisplay class="w-1/2 my-2" label="Morada" value={data.address}/>
-      <TextDisplay class="w-1/2 my-2" label="Contacto Telefónico" value={data.phoneNumber}/>
-      <TextDisplay class="w-1/2 my-2" label="Email" value={data.email}/>
+    <div class="w-1/3 flex flex-col">
+      <TextDisplay class="w-2/3 my-2" label="Nome" value={data.name}/>
+      <TextDisplay class="w-2/3 my-2" label="Função" value={translate(data.role)}/>
+      <TextDisplay class="w-2/3 my-2" label="Data de nascimento" value={data.birthDate.slice(0, 10)} />
+      <TextDisplay class="w-2/3 my-2" label="Morada" value={data.address}/>
+      <TextDisplay class="w-2/3 my-2" label="Contacto Telefónico" value={data.phoneNumber}/>
+      <TextDisplay class="w-2/3 my-2" label="Email" value={data.email}/>
+    </div>
 
+    <div class="w-1/3 flex flex-col">
       {#if data.role != INTERN}
-        <TextDisplay class="w-1/2 my-2" label="NIF" value={data.taxNumber}/>
+        <TextDisplay class="w-2/3 my-2" label="NIF" value={data.taxNumber}/>
       {/if}
       
       {#if data.role == THERAPIST}
-        <TextDisplay label="Cédula OPP" class="my-5" value={data.license}/>
-        <TextDisplay label="Especialidade" class="my-5" value={data.specialty}/>
+        <TextDisplay class="w-2/3 my-2" label="Cédula OPP" value={data.license}/>
+        <TextDisplay class="w-2/3 my-2" label="Especialidade" value={data.speciality}/>
+        <TextDisplay class="w-2/3 my-2" label="Sistema de Saúde" value={data.healthSystem}/>
+        <TextDisplay class="w-2/3 my-2" label="Externo" value={data.extern ? "Sim" : "Não"}/>
       {/if}
     </div>
   </div>
