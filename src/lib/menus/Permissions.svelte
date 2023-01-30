@@ -30,8 +30,7 @@
 
     onMount(async () => {
         processId = window.location.href.split("/")[window.location.href.split("/").length - 3]
-        let response = await api.post("/permissions/get-interns-permissions", {processId: processId});
-
+        let response = await api.post("permissions/get-interns-permissions", {processId: processId});
         if (response.ok){
             let json = await response.json();
             interns = json['message'];
@@ -57,7 +56,7 @@
             }
 
             // call the endpoint and pass a json with the permissions of the user
-            let response = await api.put(`/permissions/edit-intern-permissions`, body);
+            let response = await api.put(`permissions/edit-intern-permissions`, body);
             responses.push(response)
         }
 

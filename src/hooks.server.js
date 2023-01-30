@@ -1,12 +1,17 @@
 import cookie from 'cookie';
 import jwt_decode from 'jwt-decode';
-//import * as api from '$lib/utils/api';
+// import * as api from '$lib/utils/api';
 
 export const handle = async ({ event, resolve }) => {
   const cookies = cookie.parse(event.request.headers.get('cookie') || '');
-  //if (!cookies.accessToken) {
-  //   api.post('auth/refresh');
-  //}
-  event.locals.user = cookies.accessToken && { role: jwt_decode(cookies.accessToken).role };
+  if (cookies.accessToken) {
+    const { role, admin } = jwt_decode(cookies.accessToken);
+    event.locals.user = { role: admin ? 'admin' : role };
+  } else {
+    // console.log('no access token');
+    // await api.post('auth/refresh');
+    // console.log(response);
+    // return await resolve(event);
+  }
   return await resolve(event);
 };
