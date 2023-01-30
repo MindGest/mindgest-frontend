@@ -12,15 +12,15 @@
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
 
-  export let infoRequestURL = 'user/profile/info'; 
-  export let updateRequestURL = 'user/profile/info'; 
+  export let infoRequestURL = 'user/profile/info';
+  export let updateRequestURL = 'user/profile/info';
   export let imgRequestURL = 'user/profile/picture';
 
   let data = {};
 
   onMount(async () => {
-    data = await requestProfileInfo(infoRequestURL, imgRequestURL); 
-    console.log(data)
+    data = await requestProfileInfo(infoRequestURL, imgRequestURL);
+    console.log(data);
   });
 
   async function editUser() {
@@ -31,13 +31,13 @@
       phoneNumber: parseInt(document.getElementById('Contacto Telefónico').value),
       taxNumber: document.getElementById('NIF').value,
       email: data.email,
-      password: "_null"
+      password: '_null'
     };
     const response = await api.put(updateRequestURL, body);
     if (response.ok) {
-      alert("Perfil Editado com sucesso")
+      alert('Perfil Editado com sucesso');
     } else {
-      alert("Erro ao atualizar o Perfil")
+      alert('Erro ao atualizar o Perfil');
     }
   }
 </script>
@@ -61,11 +61,16 @@
   </div>
 
   <div class="w-3/5">
-    <TextBox label="Nome" value={data.name} class="my-5"/>
-    <TextBox label="Data de Nascimento" value={parseDate(data.birth_date)} class="my-5" type="date"/>
-    <TextBox label="Morada" value={data.address} class="my-5"/>
-    <TextBox label="Contacto Telefónico" value={data.phone_number} class="my-5"/>
-    <TextBox label="NIF" value={data.tax_number} class="my-5"/>
+    <TextBox label="Nome" value={data.name} class="my-5" />
+    <TextBox
+      label="Data de Nascimento"
+      value={parseDate(data.birth_date)}
+      class="my-5"
+      type="date"
+    />
+    <TextBox label="Morada" value={data.address} class="my-5" />
+    <TextBox label="Contacto Telefónico" value={data.phone_number} class="my-5" />
+    <TextBox label="NIF" value={data.tax_number} class="my-5" />
     <Button class="mt-10" text="Guardar Alterações" on:click={editUser} />
   </div>
 </div>

@@ -8,7 +8,7 @@
 
   let appointments = [];
   let placeholder = 'loading';
-  
+
   onMount(async () => {
     const response = await api.get('appointment/listLastTerminated');
     if (response.ok) {
