@@ -2,6 +2,9 @@
   let class_ = '';
   export { class_ as class };
   export let src, id;
+  if (src == null) {
+    src = "/img/logo.png"
+  }
 </script>
 
 <img

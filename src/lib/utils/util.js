@@ -1,4 +1,5 @@
 import * as api from '$lib/utils/api';
+import { data } from 'autoprefixer';
 
 /*
  * Parse date from dd/mm/yyyy to yyyy-mm-dd
@@ -51,43 +52,32 @@ export function uploadProfilePicture(component) {
  *   Request Profile Data
  */
 export async function requestProfileInfo(infoRequestURL, imgRequestURL) {
-  try {
     const response = await api.get(infoRequestURL, {});
+    const response2 = await api.get(imgRequestURL, {});
     if (response.ok) {
       let json = await response.json();
       let jsonInfo = json['info'];
-
-      data = {
+      
+      let photo = null
+      if (response2.ok) {
+        let blob = await response2.blob();
+        photo = URL.createObjectURL(blob);
+      }
+      
+      let data = {
         name: jsonInfo['name'],
         id: jsonInfo['id'],
-        birth_date: reverseParseDate(jsonInfo['birth_date']),
+        birth_date: jsonInfo['birth_date'],
         address: jsonInfo['address'],
         email: jsonInfo['email'],
         phone_number: jsonInfo['phone_number'],
         tax_number: jsonInfo['tax_number'],
-        role: jsonInfo['role'] // TODO: Check this shit
+        role: jsonInfo['role'],
+        photo: photo
       };
-
-      const response2 = await api.get(imgRequestURL, {});
-      if (response2.ok) {
-        const blob = await response2.blob();
-        const objectURL = URL.createObjectURL(blob);
-
-        const img = document.getElementById('avatar');
-        img.src = objectURL;
-      }
       return data;
+    } else {
+        alert("Erro a carregar o perfil")
     }
-  } catch (error) {
-    console.log(error);
-  }
-  return {
-    name: 'NomeDefault',
-    id: '123456789',
-    birth_date: reverseParseDate('2000-01-02'),
-    address: 'MoradaDefault',
-    email: 'EmailDefault',
-    phone_number: 'ContactoDefault',
-    tax_number: 'nifDefault'
-  };
+    return null;
 }

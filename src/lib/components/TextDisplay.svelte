@@ -14,7 +14,7 @@
     <gap class="h-2 w-2" />
   {/if}
   <input
-    class="border border-zinc-400 rounded-md bg-zinc-100 focus:outline-orange-200 focus:outline-offset-1 p-2"
+    class="border border-zinc-400 rounded-md bg-zinc-100 focus:outline-zinc-400 p-2"
     {type}
     {value}
     id={label}

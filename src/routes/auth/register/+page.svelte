@@ -73,7 +73,7 @@
 
 
 
-<form on:submit|preventDefault={async () => { await register()}}>
+<form on:submit|preventDefault={async () => { await register() }}>
 
   <div class="grid grid-cols-2">
     
@@ -89,13 +89,13 @@
     <div class="mx-auto w-2/3">
       <!-- NIF: All but intern -->
       {#if option != "Estagiário"}
-      <TextBox label="NIF" class="my-5" bind:value={user.tax_number}/>
+        <TextBox label="NIF" class="my-5" bind:value={user.tax_number}/>
       {/if}
       
       <!-- Only Terapeuta -->
       {#if option == "Terapeuta"}
-      <TextBox label="Cédula OPP" class="my-5" bind:value={user.license}/>
-      <Selector label="Especialidade" class="my-5" bind:value={user.specialty} values={specialties}/>
+        <TextBox label="Cédula OPP" class="my-5" bind:value={user.license}/>
+        <Selector label="Especialidade" class="my-5" bind:value={user.specialty} values={specialties}/>
       {/if}
     </div>
   </div>

@@ -1,4 +1,8 @@
 {
+  "guard": "segurança",
+  "admin": "administrador",
+  "therapist": "terapeuta",
+  "intern": "estagiário",
   "dashboard": "início",
   "payments": "pagamentos",
   "records": "processos",

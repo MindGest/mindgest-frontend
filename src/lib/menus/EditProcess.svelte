@@ -205,7 +205,7 @@
 
             <Selector class="my-5 w-1/2 m-auto" label="Especialidade" values={data.specialities} bind:value={data.speciality}/>
             <Button class="my-5 w-1/2 m-auto"  text="Gravar" type="submit"/>
-            {#if (data.role == INTERN) && data.permissions.archive}
+            {#if (data.role != INTERN) || ((data.role == INTERN) && data.permissions.archive)}
                 {#if data.status}
                     <Button class="my-5 w-1/2 m-auto"  text="Arquivar Processo" on:click={() => toggleArchive()}/>
                 {:else}
