@@ -27,7 +27,7 @@
   
     onMount(async () => {
 
-        let processId = window.location.href.split("/").slice(-2)[0];
+        let processId = parseInt(window.location.href.split("/").slice(-2)[0]);
         let permissions = {};
 
         if (role == INTERN) {
@@ -47,16 +47,18 @@
         let responseTherapists = await api.get("user/get-all-therapists");
         let responseInterns = await api.get("user/get-all-interns");
         let responseColaborators = await api.post("process/collaborators", {processId: processId});
-        let responseProcessData = await api.get(`process/info/${processId}`);
+        let responseProcessData = await api.get(`process/${processId}/info`);
         let responseSpecialities = await api.get("speciality/list");
         
         if (responseTherapists.ok && responseInterns.ok && responseColaborators.ok && responseProcessData.ok && responseSpecialities.ok) {
-            let therapists = await responseTherapists.json()["data"];
-            let interns = await responseInterns.json()["data"];
-            let colaborators = await responseColaborators.json()["data"];
-            let processData = await responseProcessData.json();
-            let specialities = await responseSpecialities.json()["data"];
+            let therapists = (await responseTherapists.json())["data"];
+            let interns = (await responseInterns.json())["data"];
+            let colaborators = (await responseColaborators.json())["data"];
+            let processData = (await responseProcessData.json());
+            let specialities = (await responseSpecialities.json())["data"];
             
+            console.log(specialities)
+
             let specialities_names = []
             specialities.forEach(spec => {specialities_names.push(spec.speciality)});
             
@@ -178,7 +180,8 @@
     }
     
     async function toggleArchive() {
-        let response = api.post(`process/archive/${data.processId}`)
+        console.log(data.processId)
+        let response = api.post(`process/${data.processId}/archive`)
         if (response.ok) {
             data.status = !data.status;
             alert("Sucesso arquivar/desarquivar processo")

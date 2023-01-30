@@ -1,3 +1,12 @@
+<!--
+    Frontend: Miguel
+    Integração: Gabriel e Pedro
+    Testado: ??
+
+    Aplicado em:
+        - /user/admin/records/[id]/edit/permissions 
+        - /user/therapist/records/[id]/edit/permissions 
+ -->
 <script>
     import Avatar from '$lib/components/Avatar.svelte';
     import TextDisplay from '$lib/components/TextDisplay.svelte';
@@ -17,7 +26,9 @@
     onMount(async () => {
       if (self || id == null) {
         data = await requestProfileInfo('user/profile/info', 'user/profile/picture');
-        data.role = role
+        if (data != null) {
+          data.role = role
+        }
       } else {
         data = await requestProfileInfo(`user/${id}/profile/info`, `user/${id}/profile/picture`);
       }
