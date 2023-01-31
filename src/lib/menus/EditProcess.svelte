@@ -1,7 +1,7 @@
 <!--
     Frontend: Miguel
-    Integração: Pedro
-    Testado: ??
+    Integração: Gabriel e Pedro
+    Testado: Miguel
 
     Aplicado em:
         - /user/admin/records/[id]/edit 

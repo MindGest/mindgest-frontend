@@ -1,7 +1,7 @@
 <!--
     Frontend: Miguel
     Integração: Gabriel
-    Testado: ??
+    Testado: Miguel
 
     Aplicado em:
         - /user/admin/stats

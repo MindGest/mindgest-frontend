@@ -1,11 +1,14 @@
 <!--
     Frontend: Miguel
     Integração: Gabriel e Pedro
-    Testado: ??
+    Testado: Miguel
 
     Aplicado em:
-        - /user/admin/records/[id]/edit/permissions 
-        - /user/therapist/records/[id]/edit/permissions 
+        - /user/admin/profile
+        - /user/therapist/profile
+        - /user/guard/profile
+        - /user/accountant/profile
+        - /user/intern/profile
  -->
 <script>
     import Avatar from '$lib/components/Avatar.svelte';
