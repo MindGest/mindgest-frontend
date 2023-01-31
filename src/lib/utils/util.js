@@ -32,7 +32,6 @@ export async function requestProfileInfo(infoRequestURL, imgRequestURL) {
       	data.photo = null
       	if (responsePhoto.ok) {
         	let blob = await responsePhoto.blob();
-			console.log(blob)
         	data.photo = URL.createObjectURL(blob);
       	}
 		return data;

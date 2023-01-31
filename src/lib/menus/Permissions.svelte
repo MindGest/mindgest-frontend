@@ -29,11 +29,13 @@
     let interns = [];
 
     onMount(async () => {
-        processId = window.location.href.split("/")[window.location.href.split("/").length - 3]
+        processId = parseInt(window.location.href.split("/")[window.location.href.split("/").length - 3])
+
         let response = await api.post("permissions/get-interns-permissions", {processId: processId});
         if (response.ok){
             let json = await response.json();
-            interns = json['message'];
+            interns = json['data'];
+            console.log(interns)
         } else {
             alert("Erro ao carregar permissões dos estagiários")
         }
@@ -48,8 +50,8 @@
                 collaboratorId: interns[i].collaboratorId, // id of the intern
                 appoint: interns[i].appoint,
                 statitics: interns[i].statistics,
-                editProcess: interns[i].editProcess,
-                editPatient: interns[i].editPatient,
+                editProcess: interns[i].editprocess,
+                editPatient: interns[i].editpatient,
                 archive: interns[i].archive,
                 see: interns[i].see,
                 processId: processId,
@@ -60,40 +62,62 @@
             responses.push(response)
         }
 
-        if (responses.filter(x => x === StatusCodes.OK).length == responses.length) {
+        if (responses.filter(x => x.status === StatusCodes.OK).length == responses.length) {
             alert("Sucesso: Permissões Atualizadas")
         } else {
             alert("Erro ao atualizar permissões")
         }
     }
 </script>
+{#if interns != []}
+    
 
-<Title text="Lista de estagiários associados ao processo" class="text-center"/>
-<div class="m-10 grid grid-cols-7 justify-items-center">
-    <p></p>
-    <CalendarAccount {size}/>
-    <Eye {size}/>
-    <Pencil {size}/>
-    <ChartBar {size}/>
-    <AccountCircle {size}/>
-    <Folder {size}/>
-</div>
-
-{#each interns as intern}
+    <Title text="Lista de estagiários associados ao processo" class="text-center"/>
     <div class="m-10 grid grid-cols-7 justify-items-center">
-        <div>
-            <h1 class="break-all">{intern.name}</h1>
+        <p class="m-auto">Estagiário</p>
+        <div class="grid grid-rows-2 justify-items-center">
+            <CalendarAccount {size}/>
+            <h1>Agendar Consulta</h1>
         </div>
-        <Checkbox class="ml-2" bind:checked={intern.appoint}/>
-        <Checkbox class="ml-2" bind:checked={intern.see}/>
-        <Checkbox class="ml-2" bind:checked={intern.editProcess}/>
-        <Checkbox class="ml-2" bind:checked={intern.statistics}/>
-        <Checkbox class="ml-2" bind:checked={intern.editPatient}/>
-        <Checkbox class="ml-2" bind:checked={intern.archive} />
+        <div class="grid grid-rows-2 justify-items-center">
+            <Eye {size}/>
+            <h1>Ver processo</h1>
+        </div>
+        <div class="grid grid-rows-2 justify-items-center">
+            <Pencil {size}/>
+            <h1>Editar Processo</h1>
+        </div>
+        <div class="grid grid-rows-2 justify-items-center">
+            <ChartBar {size}/>
+            <h1>Estatísticas</h1>
+        </div>
+        <div class="grid grid-rows-2 justify-items-center">
+            <AccountCircle {size}/>
+            <h1>Editar dados do utente</h1>
+        </div>
+        <div class="grid grid-rows-2 justify-items-center">
+            <Folder {size}/>
+            <h1>Arquivar Processo</h1>
+        </div>
+            
     </div>
-{/each}
 
-<div class="grid grid-cols-2">
-    <Button class="mx-16 my-20" text="Voltar ao Processo" on:click={() => goto(window.location.href.split("/").slice(0, window.location.href.split("/").length - 2).join("/"))}/>
-    <Button class="mx-16 my-20" text="Gravar" on:click={async () => await updatePermissions()}/>
-</div>
+    {#each interns as intern}
+        <div class="m-10 grid grid-cols-7 justify-items-center">
+            <div>
+                <h1 class="break-all">[E-{intern.collaboratorId}] {intern.name}</h1>
+            </div>
+            <Checkbox class="ml-2" bind:checked={intern.appoint}/>
+            <Checkbox class="ml-2" bind:checked={intern.see}/>
+            <Checkbox class="ml-2" bind:checked={intern.editprocess}/>
+            <Checkbox class="ml-2" bind:checked={intern.statistics}/>
+            <Checkbox class="ml-2" bind:checked={intern.editpatient}/>
+            <Checkbox class="ml-2" bind:checked={intern.archive} />
+        </div>
+    {/each}
+
+    <div class="grid grid-cols-2">
+        <Button class="mx-16 my-20" text="Voltar ao Processo" on:click={() => goto(window.location.href.split("/").slice(0, window.location.href.split("/").length - 2).join("/"))}/>
+        <Button class="mx-16 my-20" text="Gravar" on:click={async () => await updatePermissions()}/>
+    </div>
+{/if}
