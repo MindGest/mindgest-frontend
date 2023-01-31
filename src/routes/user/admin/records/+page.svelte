@@ -1,3 +1,8 @@
+<!-- 
+  Frontend: João Pinto
+  Integração: Miguel/Gabriel
+  Testing: Miguel
+ -->
 <script>
   // import { goto } from '$app/navigation';
   import TableMenu from '$lib/menus/TableMenu.svelte';
@@ -5,35 +10,25 @@
   import * as api from '$lib/utils/api';
 
   let selected = '';
-  let data = [];
+  let data = null;
 
   onMount(async () => {
-    // Redirect from /user/therapist/services
-    const urlParams = new URLSearchParams(window.location.search)
-    const speciality = urlParams.get("speciality")
-    if (speciality != null) {
-      selected = speciality;
-    }
-
-    const response = await api.get('process/listTherapist', {});
+    let response = await api.get("process/list")
     if (response.ok) {
-      let json = await response.json();
-
-      let jsonInfo = json['list'];
-      data = jsonInfo; //SE EU RETORNAR O ATIVO NAO ATIVO DA MERDA QND TIVERES DADO FIX DIZ Q EU ALTERO NO BACKEND
-
-      return;
+      data = (await response.json())['list']
+      console.log(data)
+    } else {
+      alert("Erro ao obter processos")
     }
-    status = response.status;
   });
 </script>
 
-{#if data != []}
+{#if data != null}
   <TableMenu
     {data}
-    id="id"
+    id="processId"
     add={true}
-    search={['therapistListing', 'patientName', 'refCode']}
+    search={['therapistListing', 'patientName', 'refCode', 'processId']}
     select="speciality"
     {selected}
     check="active"

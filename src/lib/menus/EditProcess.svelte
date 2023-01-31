@@ -157,16 +157,16 @@
     }
   
     function addColaboratorUI() {
-      if (colaboratorAdd != '') {
-            let role = colaboratorAdd[1];
-            let id = parseInt(colaboratorAdd.split("]")[0].slice(3));
-            let name = colaboratorAdd.split("] ")[1]
+      if (data.colaboratorAdd != '') {
+            let role = data.colaboratorAdd[1];
+            let id = parseInt(data.colaboratorAdd.split("]")[0].slice(3));
+            let name = data.colaboratorAdd.split("] ")[1]
             if (role == "T") {
                 data.colaborators.therapists.push({"id": id, "name": name})
             } else if (role == "E") {
                 data.colaborators.interns.push({"id": id, "name": name})
             }
-            colaboratorAdd='';
+            data.colaboratorAdd = '';
             data.colaborators = data.colaborators // UI force update 
         }
     }
@@ -221,7 +221,7 @@
             <div class="flex flex-line m-4">
                 <h1 class="text-xl m-auto w-1/6">Colaboradores</h1>
                 {#if data.role != INTERN}
-                    <a class="w-3/6 text-orange-500 underline" href="/user/therapist/records/{data.processId}/edit/permissions">Editar Permissões de Estagiários</a>
+                    <a class="w-3/6 text-orange-500 underline" href="/user/{data.role}/records/{data.processId}/edit/permissions">Editar Permissões de Estagiários</a>
                 {/if}
             </div>
     
