@@ -21,7 +21,7 @@
   let query = '';
   let checked = Object.fromEntries(data.map(row => [row[check], true]));
 
-  console.log(checked)
+  console.log(checked);
 
   $: filtered = data.filter(
     row =>

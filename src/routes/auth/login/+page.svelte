@@ -4,7 +4,7 @@
   let email = 'admin@student.dei.uc.pt';
   let password = '12345';
   let status = 200;
-  
+
   const submit = async () => {
     const response = await api.post('auth/login', { email, password });
     if (response.ok) {
@@ -48,7 +48,11 @@
   <a href="/auth/register" class="text-sm text-black underline underline-offset-8 w-fit mt-10">
     Criar uma nova conta
   </a>
-  <a href="/auth/recover" class="text-sm text-black underline underline-offset-8 w-fit mt-4" on:click={() => {}}>
+  <a
+    href="/auth/recover"
+    class="text-sm text-black underline underline-offset-8 w-fit mt-4"
+    on:click={() => {}}
+  >
     Esqueci-me da password
   </a>
 </wrapper>

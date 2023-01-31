@@ -11,7 +11,7 @@
   onMount(async () => {
     [
       await api.get('appointment/listAppointmentsOfTheDayGuard'),
-      // await api.post('appointment/list/active', { filterId: -1 })
+      await api.post('appointment/list/active', { filterId: -1 })
     ].forEach(async (response, index) => {
       if (response.ok) {
         ({ data: appointments[index] } = await response.json());

@@ -62,7 +62,7 @@
   console.log(data);
 </script>
 
-<Title text="appointment details [{paymentId}]"/>
+<Title text="appointment details [{paymentId}]" />
 <Details class="mt-5" {data} />
 <div class="mt-2 font-bold text-red-500">Valor Total: {data.custo} €</div>
 <div class="mx-40 grid grid-cols-2">
