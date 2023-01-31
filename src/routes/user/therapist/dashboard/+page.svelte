@@ -8,6 +8,16 @@
   let appointments = [];
   let placeholder = 'loading';
 
+  onMount(async () => {
+    const response = await api.get('appointment/list-appointments-of-the-day');
+    if (response.ok) {
+      ({ data: appointments } = await response.json());
+      placeholder = 'no appointments';
+      return;
+    }
+    placeholder = 'error';
+  });
+
   const format = appointments =>
     appointments.map(
       ({
@@ -20,16 +30,7 @@
         text: `${room}; ${formatDate(start)} - ${formatDate(end)}`
       })
     );
-
-  onMount(async () => {
-    const response = await api.get('appointment/listLastTerminated');
-    if (response.ok) {
-      ({ data: appointments } = await response.json());
-      placeholder = 'no appointments';
-    }
-    placeholder = 'error';
-  });
 </script>
 
-<Title text="appointments of the day" />
-<List class="mt-5" placeholder="no appointments" data={format(appointments)} />
+<Title text="last appointments" />
+<List class="mt-5" {placeholder} data={format(appointments)} />
