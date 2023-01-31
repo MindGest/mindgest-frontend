@@ -33,8 +33,8 @@
         if (role == INTERN) {
             let responsePermissions = await api.post("permissions/get-intern-permissions", {processId: processId});
             if (responsePermissions.ok) {
-                permissions = await responsePermissions.json()["data"];
-                if (!permissions.EditProcess) {
+                permissions = (await responsePermissions.json())["data"];
+                if (!permissions.editprocess) {
                     alert("Não tem permissões para editar este processo");
                     return;
                 }
@@ -180,8 +180,8 @@
     }
     
     async function toggleArchive() {
-        console.log(data.processId)
-        let response = api.post(`process/${data.processId}/archive`)
+        let response = await api.post(`process/${data.processId}/archive`)
+        console.log(response)
         if (response.ok) {
             data.status = !data.status;
             alert("Sucesso arquivar/desarquivar processo")
