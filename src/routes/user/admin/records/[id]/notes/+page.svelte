@@ -1,25 +1,27 @@
 <script>
-  import TableMenu from '$lib/menus/TableMenu.svelte';
-  import { onMount } from 'svelte';
-  import * as api from '$lib/utils/api';
-  import { page } from '$app/stores';
-  
-  const id =$page.params['id'];
+    import TableMenu from '$lib/menus/TableMenu.svelte';
+    import { onMount } from 'svelte';
+    import * as api from '$lib/utils/api';
+    import { page } from '$app/stores';
 
-  let data = [];
+    const id =$page.params['id'];
+    
+    let selected = '';
+    let data = null;
 
-  onMount(async () => {
-    const response = await api.get(`process/${id}/listNotes`, {});
-    if (response.ok) {
-      let json = await response.json();
-
-      let jsonInfo = json['message'];
-      data = jsonInfo;
-
-      return;
-    }
-    status = response.status;
-  });
+  	onMount(async () => {
+		let response = await api.get(`process/${id}/notes`);
+		if (response.ok) {
+			data = (await response.json())["message"];
+			console.log(data)
+		} else {
+			alert("Erro a carregar notas")
+		};
+  	});
 </script>
 
-<TableMenu {data} id="title" add={true} search={['title']} />
+{#if data != null}
+	<TableMenu {data} id="title" add={true} search={['title', 'body']} />
+{/if}
+
+

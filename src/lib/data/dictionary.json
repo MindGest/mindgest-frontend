@@ -4,6 +4,7 @@
   "therapist": "terapeuta",
   "intern": "estagiário",
   "accountant": "contabilista",
+
   "dashboard": "início",
   "payments": "pagamentos",
   "records": "processos",
@@ -22,18 +23,17 @@
   "speciality": "especialidade",
   "notifications": "notificações",
   "services": "serviços",
-  "record:active": "Processo ativo",
-  "record:!active": "Processo inativo",
   "appointmentCode": "Código da Consulta",
   "appointmentDate": "Data da Consulta",
   "paid": "pago",
-  "payments:!paid": "por pagar",
-  "payments:paid": "Pago",
   "stats": "Estatísticas",
   "notes:add": "Adicionar nota",
   "records:active": "Processos Ativos",
   "records:!active": "Processos Arquivados",
   "records:add": "Criar Novo Processo",
   "patients:add": "Novo Utente",
-  "users:add": "Criar Utilizador"
+  "users:add": "Criar Utilizador",
+  "records:false": "Processos Arquivados",
+  "records:true": "Processos Ativos",
+  "processId": "ID"
 }
