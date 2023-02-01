@@ -296,6 +296,6 @@
     />
   </div>
   <div class="my-5 grid grid-cols-2">
-    <Button class="mt-10 " text="Adicionar novo utente" on:click={addUtente()}/>
+    <Button class="mt-10 " text="Adicionar novo utente" on:click={addUtente()} />
   </div>
 </div>

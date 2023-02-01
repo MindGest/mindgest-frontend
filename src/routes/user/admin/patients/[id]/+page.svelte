@@ -124,114 +124,114 @@
 
 <div class="w-full items-stretch justify-self-center">
   {#if patient.type == 'Jovem/Adolescente' || patient.type == 'Criança'}
-  <div class="w-full border-t-4">
-    <div class="mx-10 w-1/2 items-stretch justify-self-center grid">
-      <div class="my-5">
-        <TextDisplay
-          label="Relação com o Responsável:"
-          value={patient.responsable_relation}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Nome do Responsável:"
-          value={patient.responsable_name}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Contacto Telefónico do Responsável:"
-          value={patient.responsable_phone_number}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Email do Responsável:"
-          value={patient.responsable_email}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Nível de Educação:"
-          value={patient.education_level}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Ocupação:"
-          value={patient.occupation}
-          class="grid grid-cols-3 items-center font-bold"
-        />
+    <div class="w-full border-t-4">
+      <div class="mx-10 w-1/2 items-stretch justify-self-center grid">
+        <div class="my-5">
+          <TextDisplay
+            label="Relação com o Responsável:"
+            value={patient.responsable_relation}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Nome do Responsável:"
+            value={patient.responsable_name}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Contacto Telefónico do Responsável:"
+            value={patient.responsable_phone_number}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Email do Responsável:"
+            value={patient.responsable_email}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Nível de Educação:"
+            value={patient.education_level}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Ocupação:"
+            value={patient.occupation}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
       </div>
     </div>
-  </div>
   {/if}
   {#if patient.type == 'Adulto'}
-  <div class="w-full border-t-4">
-    <div class="m-10 w-1/2 items-stretch justify-self-center">
-      <div class="my-5">
-        <TextDisplay
-          label="Estado Civil:"
-          value={patient.marital_status}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Nível de Educação:"
-          value={patient.education_level}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Ocupação:"
-          value={patient.occupation}
-          class="grid grid-cols-3 items-center font-bold"
-        />
+    <div class="w-full border-t-4">
+      <div class="m-10 w-1/2 items-stretch justify-self-center">
+        <div class="my-5">
+          <TextDisplay
+            label="Estado Civil:"
+            value={patient.marital_status}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Nível de Educação:"
+            value={patient.education_level}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Ocupação:"
+            value={patient.occupation}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
       </div>
     </div>
-  </div>
   {/if}
 
   {#if patient.type == 'Casal'}
-  <div class="w-full border-t-4">
-    <div class="mx-10 w-1/2 items-stretch justify-self-center grid">
-      <div class="my-5">
-        <TextDisplay
-          label="Nome do Cônjuge:"
-          value={patient.conj_name}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Data de Nascimento do Cônjuge:"
-          value={patient.conj_birth_date}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Contacto Telefónico do Cônjuge:"
-          value={patient.conj_phone_number}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Email do Cônjuge:"
-          value={patient.conj_email}
-          class="grid grid-cols-3 items-center font-bold"
-        />
+    <div class="w-full border-t-4">
+      <div class="mx-10 w-1/2 items-stretch justify-self-center grid">
+        <div class="my-5">
+          <TextDisplay
+            label="Nome do Cônjuge:"
+            value={patient.conj_name}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Data de Nascimento do Cônjuge:"
+            value={patient.conj_birth_date}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Contacto Telefónico do Cônjuge:"
+            value={patient.conj_phone_number}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextDisplay
+            label="Email do Cônjuge:"
+            value={patient.conj_email}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
       </div>
     </div>
-  </div>
   {/if}
 
   {#if patient.type == 'Família'}

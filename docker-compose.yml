@@ -14,11 +14,7 @@ services:
     ports:
       - 5173:4173
     healthcheck:
-      test:
-        [
-          'CMD-SHELL',
-          "sh -c 'curl --fail http://localhost:4173 || exit 1'"
-        ]
+      test: ['CMD-SHELL', "sh -c 'curl --fail http://localhost:4173 || exit 1'"]
       interval: 10s
       timeout: 3s
       retries: 3

@@ -76,10 +76,11 @@
   <img src="/img/logo.png" alt="logo" class="p-3 object-cover h-40 w-40 m-auto mr-10" />
 </div>
 
-
-
-<form on:submit|preventDefault={async () => { await register() }}>
-
+<form
+  on:submit|preventDefault={async () => {
+    await register();
+  }}
+>
   <div class="grid grid-cols-2">
     <div class="m-auto w-2/3">
       <TextBox label="Email" class="my-5" bind:value={user.email} />
@@ -92,14 +93,19 @@
 
     <div class="mx-auto w-2/3">
       <!-- NIF: All but intern -->
-      {#if option != "Estagiário"}
-        <TextBox label="NIF" class="my-5" bind:value={user.tax_number}/>
+      {#if option != 'Estagiário'}
+        <TextBox label="NIF" class="my-5" bind:value={user.tax_number} />
       {/if}
 
       <!-- Only Terapeuta -->
-      {#if option == "Terapeuta"}
-        <TextBox label="Cédula OPP" class="my-5" bind:value={user.license}/>
-        <Selector label="Especialidade" class="my-5" bind:value={user.specialty} values={specialties}/>
+      {#if option == 'Terapeuta'}
+        <TextBox label="Cédula OPP" class="my-5" bind:value={user.license} />
+        <Selector
+          label="Especialidade"
+          class="my-5"
+          bind:value={user.specialty}
+          values={specialties}
+        />
       {/if}
     </div>
   </div>

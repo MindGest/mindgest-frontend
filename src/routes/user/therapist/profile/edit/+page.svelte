@@ -1,5 +1,6 @@
 <script>
-    import EditProfile from "$lib/menus/EditProfile.svelte";
-    export let data; // cookie
+  import EditProfile from '$lib/menus/EditProfile.svelte';
+  export let data; // cookie
 </script>
-<EditProfile role={data.role}/>
+
+<EditProfile role={data.role} />

@@ -47,7 +47,7 @@
 {#if check}
   <div class="mt-5 flex space-x-5">
     {#each Object.keys(checked) as key}
-      <Checkbox label="{translate(`${stem}:${key}`)}" bind:checked={checked[key]} />
+      <Checkbox label={translate(`${stem}:${key}`)} bind:checked={checked[key]} />
     {/each}
   </div>
 {/if}

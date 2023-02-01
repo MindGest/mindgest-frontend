@@ -1,6 +1,6 @@
 <script>
-  import ListNotes from "$lib/menus/ListNotes.svelte";
+  import ListNotes from '$lib/menus/ListNotes.svelte';
   export let data;
 </script>
 
-<ListNotes role={data.role}/>
+<ListNotes role={data.role} />

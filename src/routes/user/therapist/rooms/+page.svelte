@@ -5,17 +5,17 @@
   import Selector from '$lib/components/Selector.svelte';
   import Button from '$lib/components/Button.svelte';
 
-
   let hours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   let list_apoint = [
-    {hour_beg: 12, hour_end: 13, room:"r1", terp:["Maria"]}, 
-    {hour_beg:9, hour_end:11, room:"r2", terp:["Ana"]}, 
-    {hour_beg:16, hour_end:17, room:"r1", terp:["Maria", "Ana"]}];
+    { hour_beg: 12, hour_end: 13, room: 'r1', terp: ['Maria'] },
+    { hour_beg: 9, hour_end: 11, room: 'r2', terp: ['Ana'] },
+    { hour_beg: 16, hour_end: 17, room: 'r1', terp: ['Maria', 'Ana'] }
+  ];
   let list_rooms = ['r1', 'r2', 'r3'];
-  let selected='';
+  let selected = '';
 
   let filteredSearch = {
-    room:'',
+    room: '',
     date: ''
   };
 
@@ -86,9 +86,9 @@
         or the new appointment page
   */
   function isGuard() {
-
     // COLOCAR AQUI UMA ROUTE
-    if ((seguranca.role = 'guard')) alert('This user is a guard so there is no action here'); //elem.value = null;
+    if ((seguranca.role = 'guard'))
+      alert('This user is a guard so there is no action here'); //elem.value = null;
     else alert('This user is NOT a guard so should be redirected'); //elem.value = "...redirecting for the right page";
   }
 
@@ -108,7 +108,6 @@
   }
 
   function getTherapist(ap) {
-
     let out = '';
 
     for (let i = 0; ap.terp.length > i; i++) {
@@ -140,35 +139,42 @@
   }
   let week = week_func();
 
-  $:if(filteredSearch.room.length > 0) console.log(filteredSearch.room);
-
+  $: if (filteredSearch.room.length > 0) console.log(filteredSearch.room);
 </script>
 
-
-<wrapper class="flex flex-col" style="margin:50px; float:left; width:30%; position:relative; top:10%">
+<wrapper
+  class="flex flex-col"
+  style="margin:50px; float:left; width:30%; position:relative; top:10%"
+>
   <Selector label="Salas:" values={list_rooms} bind:value={filteredSearch.room} />
-  <TextBox bind:value={filteredSearch.date} id="date" class="mt-2" type="date" label="Escolha uma Data:" />
+  <TextBox
+    bind:value={filteredSearch.date}
+    id="date"
+    class="mt-2"
+    type="date"
+    label="Escolha uma Data:"
+  />
 </wrapper>
 
-
-<wrapper class="flex flex-col" style="float:right; width:40%; position:relative; top:20%; bottom:10%; right:10%">
-  
+<wrapper
+  class="flex flex-col"
+  style="float:right; width:40%; position:relative; top:20%; bottom:10%; right:10%"
+>
   {#each week as d}
     <p class="font-normal text-2xl">{d[1]}</p>
 
     {#each list_rooms as r}
-      {#if filteredSearch.room.length === 0 || filteredSearch.room === r} 
+      {#if filteredSearch.room.length === 0 || filteredSearch.room === r}
         <p class="font-normal text-xl">{r}</p>
 
         {#each hours as h}
           {#each list_apoint.sort(sortRooms('hour_beg')) as ap}
-
-            {#if r === ap.room && h >= ap.hour_beg && ap.hour_end > h} <!--&& ap.date.getFullYear() === d[0].getFullYear() && ap.date.getMonth() === d[0].getMonth() && ap.date.getDate() === d[0].getDate()-->
-              <Button text="{getTherapist(ap)}; {h}h" on:click={isGuard()}/>
+            {#if r === ap.room && h >= ap.hour_beg && ap.hour_end > h}
+              <!--&& ap.date.getFullYear() === d[0].getFullYear() && ap.date.getMonth() === d[0].getMonth() && ap.date.getDate() === d[0].getDate()-->
+              <Button text="{getTherapist(ap)}; {h}h" on:click={isGuard()} />
             {:else}
-              <Button text="{h}h" on:click={isGuard()}/>
+              <Button text="{h}h" on:click={isGuard()} />
             {/if}
-
           {/each}
         {/each}
       {/if}

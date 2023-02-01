@@ -1,5 +1,5 @@
 <script>
-  import Note from "$lib/menus/Note.svelte";
+  import Note from '$lib/menus/Note.svelte';
 </script>
 
-<Note/>
+<Note />

@@ -1,6 +1,6 @@
 <script>
-    import NewProcess from "$lib/menus/NewProcess.svelte";
-    export let data; // cookie
+  import NewProcess from '$lib/menus/NewProcess.svelte';
+  export let data; // cookie
 </script>
 
-<NewProcess role={data.role}/>
+<NewProcess role={data.role} />
