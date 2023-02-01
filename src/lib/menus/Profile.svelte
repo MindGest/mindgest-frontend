@@ -34,7 +34,9 @@
         }
       } else {
         data = await requestProfileInfo(`user/${id}/profile/info`, `user/${id}/profile/picture`);
+        
       }
+      console.log(data)
     });
 
   </script>
