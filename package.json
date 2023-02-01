@@ -1,7 +1,25 @@
 {
-  "name": "mindgest",
-  "version": "0.0.1",
+  "type": "module",
+  "name": "mindgest-frontend",
+  "version": "0.1.0",
+  "description": "Frontend for the MindGest Web Application",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MindGest/frontend.git"
+  },
+  "keywords": [
+    "MindGest",
+    "Web App",
+    "Frontend",
+    "Svelte"
+  ],
+  "author": "MindGest",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MindGest/frontend/issues"
+  },
+  "homepage": "https://github.com/MindGest/frontend#readme",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -10,9 +28,19 @@
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write ."
   },
+  "dependencies": {
+    "axios": "^1.2.0",
+    "http-status-codes": "^2.2.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.28",
+    "jwt-decode": "^3.1.2",
+    "svelte-material-icons": "^2.1.0",
+    "svelte-routing": "^1.6.0"
+  },
   "devDependencies": {
     "@playwright/test": "^1.25.0",
     "@sveltejs/adapter-auto": "next",
+    "@sveltejs/adapter-static": "^1.0.5",
     "@sveltejs/kit": "next",
     "autoprefixer": "^10.4.12",
     "eslint": "^8.16.0",
@@ -26,15 +54,5 @@
     "svelte-preprocess": "^4.10.7",
     "tailwindcss": "^3.2.4",
     "vite": "^4.0.0"
-  },
-  "type": "module",
-  "dependencies": {
-    "axios": "^1.2.0",
-    "http-status-codes": "^2.2.0",
-    "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.5.28",
-    "jwt-decode": "^3.1.2",
-    "svelte-material-icons": "^2.1.0",
-    "svelte-routing": "^1.6.0"
   }
 }
