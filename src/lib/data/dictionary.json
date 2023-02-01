@@ -35,5 +35,11 @@
   "users:add": "Criar Utilizador",
   "records:false": "Processos Arquivados",
   "records:true": "Processos Ativos",
-  "processId": "ID"
+  "processId": "ID",
+  "internListing": "Estagiários",
+  "id": "ID",
+  "date": "Data",
+  "body": "Notas",
+  "title": "Título",
+  "services:add": "Criar Serviço"
 }

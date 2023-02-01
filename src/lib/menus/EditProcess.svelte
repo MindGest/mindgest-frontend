@@ -57,8 +57,7 @@
             let processData = (await responseProcessData.json());
             let specialities = (await responseSpecialities.json())["data"];
             
-            console.log(specialities)
-
+            
             let specialities_names = []
             specialities.forEach(spec => {specialities_names.push(spec.speciality)});
             
@@ -85,6 +84,7 @@
                 "specialities": specialities_names,
                 "therapists_names": therapists_names,
             }
+            console.log(data)
         } else {
             alert("Erro ao carregar processo");
             return;
@@ -107,10 +107,11 @@
 
         let body = {
             speciality: data.speciality,
-            therapistId: getUserId(data.responsavel),
             remarks: data.remarks,
             colaborators: ids,
         };
+        console.log(body)
+        console.log(`process/${data.processId}/edit`)
 
         let responseEdit = await api.post(`process/${data.processId}/edit`, body);
         if (responseEdit.ok) {
