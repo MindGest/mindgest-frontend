@@ -3,9 +3,13 @@
 
   let class_ = '';
   export { class_ as class };
+  export let active = false;
+  export let href = '';
   export let text = '';
 </script>
 
-<button class={`text-orange-500 underline underline-offset-4 ${class_}`} {text} on:click>
-  {translate(text)}
-</button>
+<div class={class_}>
+  <a class={active ? 'text-orange-500 underline underline-offset-4' : ''} {href}>
+    {translate(text)}
+  </a>
+</div>

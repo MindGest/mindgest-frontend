@@ -5,23 +5,17 @@
   import Selector from '$lib/components/Selector.svelte';
   //import DatePicker from '$lib/components/DatePicker.svelte';
   import { text } from 'svelte/internal';
+  import Checkbox from '$lib/components/Checkbox.svelte';
 
   //TODO: Get patient data from database
   //TODO: Have the "Guardar" button save the data to the database (right now it just redirects to the patient page)
 
-  let type = [
-    { text: 'Criança' },
-    { text: 'Jovem/Adolescente' },
-    { text: 'Adulto' },
-    { text: 'Casal' },
-    { text: 'Família' },
-    { text: 'Idoso' }
-  ];
+  let type = ['Criança', 'Jovem/Adolescente', 'Adulto', 'Idoso', 'Casal', 'Família'];
 
   let patient = {
     name: 'João Silva',
-    type: '',
-    birth_date: '01/01/2000',
+    type: 'Idoso',
+    birth_date: '2000/01/01',
     address: 'Rua da Alegria, 1, 1234-567 Lisboa',
     phone_number: '912345678',
     nif: '123456789',
@@ -30,6 +24,7 @@
     email: '',
     observations: 'Observações sobre o paciente',
 
+    has_responsable: true,
     responsable_relation: 'Pai',
     responsable_name: 'João Silva',
     responsable_phone_number: '912345678',
@@ -71,15 +66,17 @@
       }
     ];
   }
+
+  function saveData() {}
+  function arquiveUser() {}
 </script>
 
-<div class="m-10 w-full items-stretch justify-self-center grid grid-cols-2">
-  <div class="mt-10 w-full items-stretch justify-self-center grid">
+<div class=" w-5/6 items-stretch justify-self-center grid grid-cols-2">
+  <div class="mt-10 w-11/12 items-stretch justify-self-center grid">
     <div class="my-5">
       <Selector
         id="type"
-        options={type}
-        display_func={o => o.text}
+        values={type}
         label="Tipo de Paciente:"
         bind:value={patient.type}
         class="grid grid-cols-3 items-center font-bold"
@@ -89,11 +86,12 @@
       <TextBox label="Nome:" value={patient.name} class="grid grid-cols-3 items-center font-bold" />
     </div>
     <div class="my-5">
-      <!-- <DatePicker
+      <TextBox
+        type="date"
         label="Data de Nascimento:"
         value={patient.birth_date}
         class="grid grid-cols-3 items-center font-bold"
-      /> -->
+      />
     </div>
     <div class="my-5">
       <TextBox
@@ -119,8 +117,6 @@
   </div>
 
   <div class="m-10 h-auto w-full items-stretch justify-self-center">
-    <a class="my-5 underline text-orange-500 content-end" href="./">Guardar</a>
-
     <div class="my-5">
       <TextBox label="NIF:" value={patient.nif} class="grid grid-cols-3 items-center font-bold" />
     </div>
@@ -145,14 +141,19 @@
         class="grid grid-cols-3 items-center font-bold"
       />
     </div>
+    <div class="my-5 grid grid-cols-2 m-10 align-bottom inset-x-0 bottom-0 object-bottom">
+      <Button class="mx-5 underline text-orange-500 content-end justify-end" text="Guardar" on:click={saveData}/>
+      <Button class="mx-5 underline text-orange-500 content-end" text="Arquivar utente" on:click={arquiveUser}/>
+    </div>
   </div>
 </div>
 
 <!--Specific type fields-->
 
-<div class="m-10 w-full items-stretch justify-self-center">
-  {#if patient.type.text == 'Jovem/Adolescente' || patient.type.text == 'Criança'}
-    <div class="mt-10 w-full items-stretch justify-self-center grid border-t-4">
+<div class="w-full items-stretch justify-self-center">
+  {#if patient.type == 'Jovem/Adolescente' || patient.type == 'Criança'}
+  <div class="w-full border-t-4">
+    <div class="mx-10 w-1/2 items-stretch justify-self-center grid">
       <div class="my-5">
         <TextBox
           label="Relação com o Responsável:"
@@ -196,9 +197,11 @@
         />
       </div>
     </div>
+  </div>
   {/if}
-  {#if patient.type.text == 'Adulto'}
-    <div class="mt-10 w-full items-stretch justify-self-center grid border-t-4">
+  {#if patient.type == 'Adulto'}
+  <div class="w-full border-t-4">
+    <div class="m-10 w-1/2 items-stretch justify-self-center">
       <div class="my-5">
         <TextBox
           label="Estado Civil:"
@@ -221,10 +224,60 @@
         />
       </div>
     </div>
+  </div>
   {/if}
-
-  {#if patient.type.text == 'Casal'}
-    <div class="mt-10 w-full items-stretch justify-self-center grid border-t-4">
+  {#if patient.type == 'Idoso'}
+  <div class="w-full border-t-4">
+    <div class="mt-10 w-1/2 items-stretch justify-self-center grid">
+      <div class="my-5">
+        <TextBox
+          label="Estado Civil:"
+          value={patient.marital_status}
+          class="grid grid-cols-3 items-center font-bold"
+        />
+      </div>
+      <div class="my-5">
+        <Checkbox
+          label="Tem um responsável?"
+          bind:checked={patient.has_responsable}
+        />
+      </div>
+      {#if patient.has_responsable}
+        <div class="my-5">
+          <TextBox
+            label="Relação com o Responsável:"
+            value={patient.responsable_relation}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextBox
+            label="Nome do Responsável:"
+            value={patient.responsable_name}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextBox
+            label="Contacto Telefónico do Responsável:"
+            value={patient.responsable_phone_number}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextBox
+            label="Email do Responsável:"
+            value={patient.responsable_email}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+      {/if}
+    </div>
+  </div>
+  {/if}
+  {#if patient.type == 'Casal'}
+  <div class="w-full border-t-4">
+    <div class="mt-10 w-1/2 items-stretch justify-self-center grid">
       <div class="my-5">
         <TextBox
           label="Nome do Cônjuge:"
@@ -233,11 +286,12 @@
         />
       </div>
       <div class="my-5">
-        <!-- <DatePicker
+        <TextBox
+          type="date"
           label="Data de Nascimento do Cônjuge:"
           value={patient.conj_birth_date}
           class="grid grid-cols-3 items-center font-bold"
-        /> -->
+        />
       </div>
       <div class="my-5">
         <TextBox
@@ -254,13 +308,14 @@
         />
       </div>
     </div>
+  </div>
   {/if}
-
-  {#if patient.type.text == 'Família'}
-    <div class="mt-10 w-full items-stretch grid self-start content-start">
+  
+  {#if patient.type == 'Família'}
+  <div class="mt-10 w-full items-stretch justify-self-center grid">
       {#each patient.member as member, index}
         <div class="border-t-4">
-          <div class="mt-10 w-1/2">
+          <div class="w-1/2 m-10">
             <div>
               <button
                 class="self-end items-end justify-end place-self-end text-orange-500 underline"
@@ -282,11 +337,13 @@
               />
             </div>
             <div class="my-5">
-              <!-- <DatePicker
+               <TextBox
+                id="birth_date"
+                type="date"
                 label="Data de Nascimento do Membro:"
                 value={member.birth_date}
                 class="grid grid-cols-3 items-center font-bold"
-              /> -->
+              />
             </div>
             <div class="my-5">
               <TextBox

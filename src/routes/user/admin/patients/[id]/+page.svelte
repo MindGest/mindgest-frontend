@@ -40,8 +40,8 @@
   };
 </script>
 
-<div class="m-10 w-full items-stretch justify-self-center grid grid-cols-2">
-  <div class="m-10 w-full items-stretch justify-self-center grid">
+<div class="w-5/6 items-stretch justify-self-center grid grid-cols-2">
+  <div class="w-11/12 items-stretch justify-self-center grid">
     <div class="my-5">
       <TextDisplay
         label="Tipo de Paciente:"
@@ -122,9 +122,10 @@
 
 <!--Specific type fields-->
 
-<div class="m-10 w-full items-stretch justify-self-center grid">
+<div class="w-full items-stretch justify-self-center">
   {#if patient.type == 'Jovem/Adolescente' || patient.type == 'Criança'}
-    <div class="m-10 w-full items-stretch justify-self-center grid border-t-4">
+  <div class="w-full border-t-4">
+    <div class="mx-10 w-1/2 items-stretch justify-self-center grid">
       <div class="my-5">
         <TextDisplay
           label="Relação com o Responsável:"
@@ -168,9 +169,11 @@
         />
       </div>
     </div>
+  </div>
   {/if}
   {#if patient.type == 'Adulto'}
-    <div class="m-10 w-full items-stretch justify-self-center grid border-t-4">
+  <div class="w-full border-t-4">
+    <div class="m-10 w-1/2 items-stretch justify-self-center">
       <div class="my-5">
         <TextDisplay
           label="Estado Civil:"
@@ -193,10 +196,12 @@
         />
       </div>
     </div>
+  </div>
   {/if}
 
   {#if patient.type == 'Casal'}
-    <div class="m-10 w-full items-stretch justify-self-center grid border-t-4">
+  <div class="w-full border-t-4">
+    <div class="mx-10 w-1/2 items-stretch justify-self-center grid">
       <div class="my-5">
         <TextDisplay
           label="Nome do Cônjuge:"
@@ -226,13 +231,14 @@
         />
       </div>
     </div>
+  </div>
   {/if}
 
   {#if patient.type == 'Família'}
-    <div class="m-10 w-full items-stretch justify-self-center grid">
+    <div class="mt-10 w-full items-stretch justify-self-center grid">
       {#each patient.member as member}
         <div class="border-t-4">
-          <div class="w-1/2">
+          <div class="w-1/2 m-10">
             <div class="my-5">
               <TextDisplay
                 label="Relação com o Utente:"

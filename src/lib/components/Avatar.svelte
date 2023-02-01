@@ -6,7 +6,7 @@
 
 <img
   {id}
-  {src}
+  src={src == null ? "/img/logo.png" : src}
   alt="logo"
   class=" p-1 aspect-square rounded-full {class_} ring-2 ring-orange-500"
 />

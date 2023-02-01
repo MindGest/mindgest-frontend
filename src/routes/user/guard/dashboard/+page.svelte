@@ -10,13 +10,14 @@
 
   onMount(async () => {
     [
-      await api.get('appointment/listAppointmentsOfTheDayGuard'),
-      // await api.post('appointment/list/active', { filterId: -1 })
+      await api.get('appointment/list-appointments-of-the-day'),
+      await api.get('appointment/ongoing')
     ].forEach(async (response, index) => {
       if (response.ok) {
         ({ data: appointments[index] } = await response.json());
-        console.log(appointments[index][0])
+        console.log(appointments[index]);
         placeholders[index] = 'no appointments';
+        return;
       }
       placeholders[index] = 'error';
     });

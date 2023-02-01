@@ -1,7 +1,7 @@
 <!--
     Frontend: Miguel
     Integração: Gabriel
-    Testado: ??
+    Testado: Miguel
 
     Aplicado em:
         - /user/admin/stats
@@ -19,28 +19,29 @@
     import autoTable  from "jspdf-autotable";
     import * as api from "$lib/utils/api";
 
+    export let role;
+
     const INTERN = "intern"
     const ADMIN = "admin"
     const THERAPIST = "therapist"
+
     const NOFILTER = "Sem Filtro"
     
     let data = null;
   
     onMount(async () => {
-        let role = api.getCookie('accessToken').role;
-
         let responseSpecialities = await api.get("speciality/list");
-        let responseRecords = await api.get("/process/get-processes");
+        let responseRecords = await api.get("/process/processes");
 
         if (responseSpecialities.ok && responseRecords.ok) {
-            let specialities = await responseSpecialities.json()["data"];
-            let records = await responseRecords.json()["data"];
+            let specialities = (await responseSpecialities.json())["data"];
+            let records = (await responseRecords.json())["data"];
 
-            let specialities_names = ["Sem filtro"]
+            let specialities_names = [NOFILTER]
             specialities.forEach(spec => {specialities_names.push(spec.speciality)});
 
-            let records_names = ["Sem filtro"]
-            let therapists_names = ["Sem filtro"]
+            let records_names = [NOFILTER]
+            let therapists_names = [NOFILTER]
             records.forEach(record => {
                 records_names.push(formatRecord(record));
                 record.therapists.forEach(therapist => {
@@ -91,6 +92,8 @@
             return
         }
 
+        let records = (await response.json())["message"];
+
         const pdf = new jsPDF('p','px', 'a4');
         let y = 20;
         pdf.setFontSize(20);
@@ -98,9 +101,10 @@
         pdf.text("Estatísticas", 40, y); y = incrementY(pdf, y, 30);
         pdf.setFont('helvetica', 'normal')
         pdf.setFontSize(12);
-        pdf.text("Data Inicial: " + start, 40, y); y = incrementY(pdf, y, 30);
-        pdf.text("Data Fim: " + end, 40, y); y = incrementY(pdf, y, 30);
-        processes.forEach( proc => {
+        pdf.text("Data Inicial: " + data.start, 40, y); y = incrementY(pdf, y, 30);
+        pdf.text("Data Fim: " + data.end, 40, y); y = incrementY(pdf, y, 30);
+
+        records.forEach( proc => {
             pdf.setFontSize(16);
             pdf.text("Processo: " + proc.id, 40, y); y = incrementY(pdf, y, 25);
             pdf.setFontSize(12);
@@ -132,7 +136,7 @@
     }
 
     function formatRecord(record) {
-        return "[" + record.id + "] " + record.name;
+        return "[" + record.processId + "] " + record.name;
     }
 
     function formatTherapist(therapist) {
@@ -156,3 +160,5 @@
         <Button class="my-5 w-1/2 m-auto" type="submit" text="Gerar"/>
     </form>  
 {/if}
+
+

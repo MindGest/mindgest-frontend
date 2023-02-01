@@ -6,6 +6,7 @@
   import Checkbox from '$lib/components/Checkbox.svelte';
   import SearchBar from '$lib/components/SearchBar.svelte';
   import Selector from '$lib/components/Selector.svelte';
+  import translate from '$lib/utils/translate';
 
   const path = $page.url.pathname;
   const stem = path.split('/').slice(-1);
@@ -20,8 +21,6 @@
 
   let query = '';
   let checked = Object.fromEntries(data.map(row => [row[check], true]));
-
-  console.log(checked)
 
   $: filtered = data.filter(
     row =>
@@ -48,7 +47,7 @@
 {#if check}
   <div class="mt-5 flex space-x-5">
     {#each Object.keys(checked) as key}
-      <Checkbox label={key} bind:checked={checked[key]} />
+      <Checkbox label="{translate(`${stem}:${key}`)}" bind:checked={checked[key]} />
     {/each}
   </div>
 {/if}

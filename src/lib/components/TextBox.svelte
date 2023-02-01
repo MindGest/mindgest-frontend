@@ -22,7 +22,7 @@
     {type}
     id={label}
     placeholder={translate(placeholder)}
-    value={value}
+    {value}
     on:input={input}
   />
 </div>

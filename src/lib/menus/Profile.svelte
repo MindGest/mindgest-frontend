@@ -1,76 +1,73 @@
+<!--
+    Frontend: Miguel
+    Integração: Gabriel e Pedro
+    Testado: Miguel
+
+    Aplicado em:
+        - /user/admin/profile
+        - /user/therapist/profile
+        - /user/guard/profile
+        - /user/accountant/profile
+        - /user/intern/profile
+ -->
 <script>
     import Avatar from '$lib/components/Avatar.svelte';
     import TextDisplay from '$lib/components/TextDisplay.svelte';
+    import translate from '$lib/utils/translate';
     import {requestProfileInfo} from '$lib/utils/util';
     import { onMount } from 'svelte';
-
-    export let infoRequestURL = 'user/profile/info';
-    export let imgRequestURL = 'user/profile/picture';
     
-    let data = {};
+    export let self = true;
+    export let id = null;
+    export let role;
 
-    onMount(async () => { 
-      data = await requestProfileInfo(infoRequestURL, imgRequestURL);
+    const INTERN = "intern"
+    const THERAPIST = "therapist"
+
+    let data = null;
+
+    onMount(async () => {
+      if (self || id == null) {
+        data = await requestProfileInfo('user/profile/info', 'user/profile/picture');
+        if (data != null) {
+          data.role = role
+        }
+      } else {
+        data = await requestProfileInfo(`user/${id}/profile/info`, `user/${id}/profile/picture`);
+        
+      }
+      console.log(data)
     });
   </script>
-  
-  <div class="m-10 flex items-stretch">
-    <div class="w-1/3 grid grid-rows-2 m-auto justify-items-center">
-      <Avatar id="avatar" src={data.photo} class="w-2/3 my-5" />
+
+{#if data != null}
+  <div class="flex flex-line">
+    
+    <div class="w-1/3 grid grid-rows-2 m-auto justify-items-center p-10">
+      <Avatar id="avatar" src={data.photo} class="w-2/3 my-5 p-2" />
       <a class="my-5 underline text-orange-500" href="profile/edit">Editar perfil</a>
     </div>
-
-    <div class="w-2/3">
-      <div class="my-5">
-
-        <TextDisplay
-          label="Nome:"
-          value={data.name}
-          class="grid grid-cols-4 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Função:"
-          value={data.role}
-          class="grid grid-cols-4 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Data de Nascimento:"
-          value={data.birth_date}
-          class="grid grid-cols-4 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Morada:"
-          value={data.address}
-          class="grid grid-cols-4 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Contacto Telefónico:"
-          value={data.phone_number}
-          class="grid grid-cols-4 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-          label="Email:"
-          value={data.email}
-          class="grid grid-cols-4 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextDisplay
-        id="tax_number"
-        label="NIF:"
-        value={data.tax_number}
-        class="grid grid-cols-4 items-center font-bold"
-        />
+    
+    <div class="w-1/3 flex flex-col">
+      <TextDisplay class="w-2/3 my-2" label="Nome" value={data.name}/>
+      <TextDisplay class="w-2/3 my-2" label="Função" value={translate(data.role)}/>
+      <TextDisplay class="w-2/3 my-2" label="Data de nascimento" value={data.birthDate.slice(0, 10)} />
+      <TextDisplay class="w-2/3 my-2" label="Morada" value={data.address}/>
+      <TextDisplay class="w-2/3 my-2" label="Contacto Telefónico" value={data.phoneNumber}/>
+      <TextDisplay class="w-2/3 my-2" label="Email" value={data.email}/>
     </div>
+
+    <div class="w-1/3 flex flex-col">
+      {#if data.role != INTERN}
+        <TextDisplay class="w-2/3 my-2" label="NIF" value={data.taxNumber}/>
+      {/if}
+      
+      {#if data.role == THERAPIST}
+        <TextDisplay class="w-2/3 my-2" label="Cédula OPP" value={data.license}/>
+        <TextDisplay class="w-2/3 my-2" label="Especialidade" value={data.speciality}/>
+        <TextDisplay class="w-2/3 my-2" label="Sistema de Saúde" value={data.healthSystem}/>
+        <TextDisplay class="w-2/3 my-2" label="Externo" value={data.extern ? "Sim" : "Não"}/>
+      {/if}
     </div>
   </div>
+{/if}

@@ -6,7 +6,7 @@ export const handle = async ({ event, resolve }) => {
   const cookies = cookie.parse(event.request.headers.get('cookie') || '');
   if (cookies.accessToken) {
     const { role, admin } = jwt_decode(cookies.accessToken);
-    event.locals.user = { role: admin ? 'admin' : role };
+    event.locals.user = { role, admin };
   } else {
     // console.log('no access token');
     // await api.post('auth/refresh');

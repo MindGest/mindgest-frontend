@@ -8,12 +8,13 @@
 
   let appointments = [];
   let placeholder = 'loading';
-  
+
   onMount(async () => {
-    const response = await api.get('appointment/listLastTerminated');
+    const response = await api.get('appointment/last-terminated');
     if (response.ok) {
       ({ data: appointments } = await response.json());
       placeholder = 'no appointments';
+      return;
     }
     placeholder = 'error';
   });

@@ -1,7 +1,7 @@
 <!--
     Frontend: Miguel
-    Integração: Gabriel
-    Testado: ??
+    Integração: Gabriel e Pedro
+    Testado: Miguel
 
     Aplicado em:
         - /user/admin/records/[id]/edit 
@@ -17,6 +17,7 @@
     import { onMount } from "svelte";
     import * as api from "$lib/utils/api";
 
+    export let role;
     
     const INTERN = "intern"
     const ADMIN = "admin"
@@ -26,15 +27,14 @@
   
     onMount(async () => {
 
-        let processId = window.location.href.split("/").slice(-2)[0];
-        let role = api.getCookie('accessToken').role;
+        let processId = parseInt(window.location.href.split("/").slice(-2)[0]);
         let permissions = {};
 
         if (role == INTERN) {
             let responsePermissions = await api.post("permissions/get-intern-permissions", {processId: processId});
             if (responsePermissions.ok) {
-                permissions = await responsePermissions.json()["data"];
-                if (!permissions.EditProcess) {
+                permissions = (await responsePermissions.json())["data"];
+                if (!permissions.editprocess) {
                     alert("Não tem permissões para editar este processo");
                     return;
                 }
@@ -47,15 +47,16 @@
         let responseTherapists = await api.get("user/get-all-therapists");
         let responseInterns = await api.get("user/get-all-interns");
         let responseColaborators = await api.post("process/collaborators", {processId: processId});
-        let responseProcessData = await api.get(`process/info/${processId}`);
+        let responseProcessData = await api.get(`process/${processId}/info`);
         let responseSpecialities = await api.get("speciality/list");
         
         if (responseTherapists.ok && responseInterns.ok && responseColaborators.ok && responseProcessData.ok && responseSpecialities.ok) {
-            let therapists = await responseTherapists.json()["data"];
-            let interns = await responseInterns.json()["data"];
-            let colaborators = await responseColaborators.json()["data"];
-            let processData = await responseProcessData.json();
-            let specialities = await responseSpecialities.json()["data"];
+            let therapists = (await responseTherapists.json())["data"];
+            let interns = (await responseInterns.json())["data"];
+            let colaborators = (await responseColaborators.json())["data"];
+            let processData = (await responseProcessData.json());
+            let specialities = (await responseSpecialities.json())["data"];
+            
             
             let specialities_names = []
             specialities.forEach(spec => {specialities_names.push(spec.speciality)});
@@ -83,6 +84,7 @@
                 "specialities": specialities_names,
                 "therapists_names": therapists_names,
             }
+            console.log(data)
         } else {
             alert("Erro ao carregar processo");
             return;
@@ -90,7 +92,7 @@
     });
   
     async function editRecord() {
-        if (role != ADMIN && (data.responsavel != data.new_responsavel)) {
+        if (data.role != ADMIN && (data.responsavel != data.new_responsavel)) {
             let therapistId = getUserId(data.new_responsavel)
             let responseMigrate = await api.post(`/process/${data.processId}/migrate`, {therapistId: therapistId})
             if (!responseMigrate.ok) {
@@ -105,10 +107,11 @@
 
         let body = {
             speciality: data.speciality,
-            therapistId: getUserId(data.responsavel),
             remarks: data.remarks,
             colaborators: ids,
         };
+        console.log(body)
+        console.log(`process/${data.processId}/edit`)
 
         let responseEdit = await api.post(`process/${data.processId}/edit`, body);
         if (responseEdit.ok) {
@@ -155,16 +158,16 @@
     }
   
     function addColaboratorUI() {
-      if (colaboratorAdd != '') {
-            let role = colaboratorAdd[1];
-            let id = parseInt(colaboratorAdd.split("]")[0].slice(3));
-            let name = colaboratorAdd.split("] ")[1]
+      if (data.colaboratorAdd != '') {
+            let role = data.colaboratorAdd[1];
+            let id = parseInt(data.colaboratorAdd.split("]")[0].slice(3));
+            let name = data.colaboratorAdd.split("] ")[1]
             if (role == "T") {
                 data.colaborators.therapists.push({"id": id, "name": name})
             } else if (role == "E") {
                 data.colaborators.interns.push({"id": id, "name": name})
             }
-            colaboratorAdd='';
+            data.colaboratorAdd = '';
             data.colaborators = data.colaborators // UI force update 
         }
     }
@@ -178,7 +181,8 @@
     }
     
     async function toggleArchive() {
-        let response = api.post(`process/archive/${data.processId}`)
+        let response = await api.post(`process/${data.processId}/archive`)
+        console.log(response)
         if (response.ok) {
             data.status = !data.status;
             alert("Sucesso arquivar/desarquivar processo")
@@ -205,7 +209,7 @@
 
             <Selector class="my-5 w-1/2 m-auto" label="Especialidade" values={data.specialities} bind:value={data.speciality}/>
             <Button class="my-5 w-1/2 m-auto"  text="Gravar" type="submit"/>
-            {#if (data.role == INTERN) && data.permissions.archive}
+            {#if (data.role != INTERN) || ((data.role == INTERN) && data.permissions.archive)}
                 {#if data.status}
                     <Button class="my-5 w-1/2 m-auto"  text="Arquivar Processo" on:click={() => toggleArchive()}/>
                 {:else}
@@ -218,7 +222,7 @@
             <div class="flex flex-line m-4">
                 <h1 class="text-xl m-auto w-1/6">Colaboradores</h1>
                 {#if data.role != INTERN}
-                    <a class="w-3/6 text-orange-500 underline" href="/user/therapist/records/{data.processId}/edit/permissions">Editar Permissões de Estagiários</a>
+                    <a class="w-3/6 text-orange-500 underline" href="/user/{data.role}/records/{data.processId}/edit/permissions">Editar Permissões de Estagiários</a>
                 {/if}
             </div>
     

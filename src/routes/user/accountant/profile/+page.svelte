@@ -1,5 +1,6 @@
 <script>
-    import Profile from '$lib/components/Profile.svelte';
+    import Profile from '$lib/menus/Profile.svelte';
+    export let data; // cookie
 </script>
 
-<Profile/>
+<Profile role={data.role}/>
