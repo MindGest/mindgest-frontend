@@ -10,15 +10,17 @@
     let users = (await response.json())["info"];
     let usersData = []
     users.forEach(user => {
-      usersData.push({
-        "id": user.id,
-        "name": user.name,
-        "email": user.email,
-        "address": user.address,
-        "active": user.active,
-        "approved": user.approved,
-        "phone_number": user.phone_number
-      });
+      if (user.admin == null) {
+        usersData.push({
+          "id": user.id,
+          "name": user.name,
+          "email": user.email,
+          "address": user.address,
+          "active": user.active,
+          "approved": user.approved,
+          "phone_number": user.phone_number
+        });
+      }
     });
     data = usersData
     console.log(data)

@@ -1,60 +1,40 @@
 <script>
-    import Button from '$lib/components/Button.svelte';
-    import { onMount } from 'svelte';
-    import { loop_guard } from 'svelte/internal';
-
-    /* PARA DEBUG */
-    let notif = [
-        {titulo: "pedido de consulta FALSE", lido: false},
-        {titulo: "pedido de registo TRUE", lido: true},
-        {titulo: "pedido de consulta TRUE", lido: true},
-        {titulo: "migração processo FALSE", lido: false}
-    ]
+    import TableMenu from "$lib/menus/TableMenu.svelte";
+    import * as api from "$lib/utils/api"
+    import translate from "$lib/utils/translate";
+    import { onMount } from "svelte";
+    
+    let data = null;
 
     onMount(async () => {
-        /* help */
+        let response = await api.get("notification/list");
+        if (response.ok) {
+            let notifications = (await response.json())["data"]
+
+            console.log(notifications)
+            let tableData = []
+            notifications.forEach(notification => {
+                tableData.push({
+                    "id": notification.id,
+                    "date": notification.datetime.slice(0, 10),
+                    "type": translate(notification.type),
+                    "seen":  translate("seen:" + notification.seen),
+                    "settled": translate("settled:" + notification.seen),
+                })
+            });
+            data = tableData
+        } else {
+            alert("Erro ao carregar notificações")
+        }
     });
-
-    async function back() {
-        alert("pressed")
-    }
-
-    async function changeReadability(n){
-        //if (n.lido === false) n.lido = true;
-        //else if (n.lido === true) n.lido = false;
-    }
-
 </script>
 
-<!--NOTE TO SELF: maybe tenta fazer uma grid ou something para que as coisas fiquem
-minimamente arranjadas (?)-->
+{#if data != null}
+    <TableMenu
+        {data}
+        id="id"
+        check="seen"
+        search={['type', 'seen', 'settled', 'date', 'id']}
+    />
+{/if}
 
-<div class="flex flex-col justify-center h-auto w-5/6 m-10 p-5 width = 20%">
-    
-    <p class="font-normal text-xl">Notificações Pendentes</p>
-    {#each notif as n}
-        {#if n.lido === false}
-            <wrapper class="flex flex-col" style="margin: 20px; float:left; width:30%; position:relative; top:10%">
-                <p>{n.titulo}</p> 
-            </wrapper>
-            <wrapper class="flex flex-col" style="float:right; width:20%; position:relative; left:30%">
-                <Button on:click={changeReadability(n)} style="position:relative; left:60%; width:10%">Marcar como lido</Button>
-            </wrapper>
-        {/if}
-    {/each}
-    <br>
-    <p class="font-normal text-xl">Notificações Antigas</p>
-    {#each notif as n}
-        {#if n.lido === true}
-            <wrapper class="flex flex-col" style="margin: 10px; float:left; width:30%; position:relative; top:10%">
-                <p>{n.titulo}</p>
-                <Button on:click={changeReadability(n)} style="position:relative; left:60%; width:10%">Marcar como não lido</Button>
-            </wrapper>  
-        {/if}
-    {/each}
-
-</div>
-
-<div class="my-5 grid grid-cols-2" style="margin=50px; position:relative; left:60%; width:50%">
-    <Button class="mt-10" on:click={back}>Voltar ao Ecrã Inicial</Button>
-</div>

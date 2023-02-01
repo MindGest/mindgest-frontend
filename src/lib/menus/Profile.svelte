@@ -34,9 +34,8 @@
         }
       } else {
         data = await requestProfileInfo(`user/${id}/profile/info`, `user/${id}/profile/picture`);
-        
       }
-      console.log(data)
+      
     });
 
   </script>
@@ -46,7 +45,7 @@
     
     <div class="w-1/3 grid grid-rows-2 m-auto justify-items-center p-10">
       <Avatar id="avatar" src={data.photo} class="w-2/3 my-5 p-2" />
-      <a class="my-5 underline text-orange-500" href="profile/edit">Editar perfil</a>
+      <a class="my-5 underline text-orange-500" href="{self ? "profile/edit": `${id}/edit`}">Editar perfil</a>
     </div>
     
     <div class="w-1/3 flex flex-col">
