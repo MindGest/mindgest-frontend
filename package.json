@@ -1,6 +1,6 @@
 {
-  "type": "module",
   "name": "mindgest-frontend",
+  "type": "module",
   "version": "0.1.0",
   "description": "Frontend for the MindGest Web Application",
   "private": true,
