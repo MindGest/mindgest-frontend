@@ -41,5 +41,12 @@
   "date": "Data",
   "body": "Notas",
   "title": "Título",
-  "services:add": "Criar Serviço"
+  "services:add": "Criar Serviço",
+  "name": "nome",
+  "address": "morada",
+  "active": "ativo",
+  "approved": "approvado",
+  "phone_number": "contacto telefónico",
+  "users:true": "Ativo",
+  "users:false": "Arquivado"
 }

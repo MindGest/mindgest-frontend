@@ -1,28 +1,31 @@
 <script>
-  // import { goto } from '$app/navigation';
   import TableMenu from '$lib/menus/TableMenu.svelte';
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
 
-  let data = [];
+  let data = null;
+  
   onMount(async () => {
-    const response = await api.get('http://localhost:3000/api/users');
-    const data = await response.json();
-    console.log(data);
-  });
+    let response = await api.get('user/list');
+    let users = (await response.json())["info"];
+    let usersData = []
+    users.forEach(user => {
+      usersData.push({
+        "id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "address": user.address,
+        "active": user.active,
+        "approved": user.approved,
+        "phone_number": user.phone_number
+      });
+    });
+    data = usersData
+    console.log(data)
 
-  // const data = [
-  //   {
-  //     username: 'Carolina Pereira',
-  //     email: 'carolinapereira@uc.pt',
-  //     speciality: 'Psicologia'
-  //   },
-  //   {
-  //     username: 'João Silva',
-  //     email: 'joaosilva@uc.pt',
-  //     speciality: 'Terapia Familiar'
-  //   }
-  // ];
+  });
 </script>
 
-<TableMenu {data} id="username" add={true} select="speciality" search={['username', 'email']} />
+{#if data != null}
+  <TableMenu {data} id="id" add={true} check={"active"} search={["name", "email", "address", "phone_number"]}/>
+{/if}
