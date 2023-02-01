@@ -20,8 +20,39 @@
       
       let response = await api.get("process/list")
       if (response.ok) {
-        data = (await response.json())['list']
-        console.log(data)
+        let responseData = (await response.json())["data"];
+        console.log(responseData)
+        
+        let records = []
+
+        responseData.forEach(process => {
+
+          let therapists = [process.mainTherapist.name]
+          process.collaborators.therapists.forEach(therapist => {therapists.push(therapist.name)})
+          
+          let interns = []
+          process.collaborators.interns.forEach(intern => {interns.push(intern.name)})
+
+          let patients = []
+          process.patients.forEach(patient => {patients.push(patient.name)})
+
+          let careTakers = []
+          process.careTakers.forEach(careTaker => {careTakers.push(careTaker.name)})
+          records.push({
+            "id": process.processId,
+            "utentes": patients,
+            "careTakers": careTakers,
+            "therapists": therapists,
+            "interns": interns,
+            "active": process.active,
+            "speciality": process.speciality,
+            "refCode": process.ref,
+            "remarks": process.remarks,
+
+          })
+        });
+        data = records
+
       } else {
         alert("Erro ao obter processos")
       }
@@ -31,9 +62,9 @@
   {#if data != null}
     <TableMenu
       {data}
-      id="processId"
+      id="id"
       add={true}
-      search={['therapistListing', 'patients', 'refCode', 'processId']}
+      search={["id", "utentes", "therapists", "interns", "active", "speciality", "refCode", "remarks", "careTakers"]}
       select="speciality"
       {selected}
       check="active"
