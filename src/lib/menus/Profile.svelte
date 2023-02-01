@@ -37,7 +37,6 @@
       }
       
     });
-
   </script>
 
 {#if data != null}

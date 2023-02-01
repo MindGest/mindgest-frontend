@@ -3,8 +3,8 @@ FROM node:18
 LABEL MAINTAINER="Pedro Rodrigues <pedror@student.dei.uc.pt>"
 LABEL VERSION="0.1.0"
 
-RUN apt update -y
-RUN apt install curl -y
+RUN apt-get update -y
+RUN apt-get install curl -y
 
 WORKDIR /usr/src/mindgest
 
@@ -15,9 +15,10 @@ RUN npm install --silent
 
 COPY . .
 
-EXPOSE 5173
+EXPOSE 4173
 
-CMD npm run dev -- --host
+RUN npm run build
+CMD npm run preview  -- --host
 
 
 
