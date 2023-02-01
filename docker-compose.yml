@@ -17,7 +17,7 @@ services:
       test:
         [
           'CMD-SHELL',
-          "sh -c 'curl --fail http://localhost:5173 || exit 1'"
+          "sh -c 'curl --fail http://localhost:4173 || exit 1'"
         ]
       interval: 10s
       timeout: 3s
