@@ -3,6 +3,6 @@
 </script>
 
 <Navbar />
-<wrapper class="block w-full h-full p-5 pt-[6.25rem]">
+<wrapper class="block w-full h-full p-5 overflow-scroll">
   <slot />
 </wrapper>

@@ -12,13 +12,17 @@
   let room, date, therapist, slot;
 
   $: filteredData = data
-    .filter(({ room: room_ }) => room_ === room)
-    .map(({ appointmentsRoom }) =>
-      appointmentsRoom.map(({ startDate, endDate, title }) => ({
-        title,
-        text: `${formatDate(startDate)} - ${formatDate(endDate)}`
-      }))
-    );
+    .filter(({ room: room_, appointmentsRoom: appointments }) => !room || room_ === room)
+    // .map(({ appointmentsRoom: appointments }) =>
+    //   appointments.filter(({ startDate: start, endDate: end, therapists }) =>
+    //     !therapist || therapists.includes(therapist)
+    //   )
+    // );
+
+  // .map(({ startDate, endDate, title }) => ({
+  // title,
+  //   text: `${formatDate(startDate)} - ${formatDate(endDate)}`
+  // }))
 </script>
 
 <div class="w-full flex items-stretch space-x-5">
@@ -46,11 +50,7 @@
   {/if}
 </div>
 <div class="mt-5 space-y-5">
-  {#if room}
-    <List data={format(data.filter(({ room: room_ }) => room_ === room).pop().appointmentsRoom)} />
-  {:else}
-    {#each data as { room, appointmentsRoom: appointments }}
-      <List label={room} data={format(appointments)} />
-    {/each}
-  {/if}
+  {#each filteredData as { room: room_, appointmentsRoom: appointments }}
+    <List label={room ? '' : room_} data={appointments} />
+  {/each}
 </div>

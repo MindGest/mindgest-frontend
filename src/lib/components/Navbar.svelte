@@ -12,7 +12,7 @@
 </script>
 
 <nav
-  class="w-full fixed top-0 p-4 overflow-scroll flex items-center space-x-5 bg-zinc-50 shadow-sm border border-b-zinc-400"
+  class="w-full top-0 p-4 overflow-scroll flex items-center space-x-5 bg-zinc-50 shadow-sm border border-b-zinc-400"
 >
   <img src="/img/logo.png" alt="logo" class="h-12" />
   {#each buttons as { text, href }}

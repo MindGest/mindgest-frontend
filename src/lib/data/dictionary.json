@@ -48,5 +48,7 @@
   "approved": "approvado",
   "phone_number": "contacto telefónico",
   "users:true": "Ativo",
-  "users:false": "Arquivado"
+  "users:false": "Arquivado",
+  "true": "sim",
+  "false": "não" 
 }

@@ -52,7 +52,7 @@
               <td
                 class="first:border-l border-r border-b border-zinc-400 group-last:first:rounded-bl-md group-last:last:rounded-br-md p-2"
               >
-                {value}
+                {typeof value === 'boolean' ? translate(value) : value}
               </td>
             {/each}
           </tr>
