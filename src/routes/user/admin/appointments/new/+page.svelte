@@ -1,5 +1,5 @@
 <script>
-  import NewAppointment from "$lib/components/NewAppointment.svelte";
+  import NewAppointment from "$lib/menus/NewAppointment.svelte";
 
 </script>
 <NewAppointment/>

@@ -24,5 +24,6 @@
     placeholder={translate(placeholder)}
     {value}
     on:input={input}
+    on:change
   />
 </div>

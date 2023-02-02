@@ -89,7 +89,7 @@
 	}
 
 	function gotoAppointments() {
-		goto('/user/' + data.role + '/appointments/');
+		goto('/user/' + data.role + '/appointments?record=' + data.processId);
 	}
 
 	function gotoPayments() {

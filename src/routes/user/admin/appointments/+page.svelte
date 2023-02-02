@@ -1,4 +1,5 @@
 <script>
-    import Appointments from "$lib/components/Appointments.svelte";
+    import ListAppointments from "$lib/menus/ListAppointments.svelte";
 </script>
-<Appointments/>
+
+<ListAppointments/>

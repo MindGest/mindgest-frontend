@@ -93,5 +93,11 @@
   "every therapist": "todos os terapeutas",
   "every slot": "todos os horários",
   "room": "sala",
-  "slot": "horário"
+  "slot": "horário",
+  "start": "início",
+  "end": "fim",
+  "appointments:add": "Marcar Consulta",
+  "payed": "Pago",
+  "price": "Preço",
+  "datetime": "Data"
 }

@@ -6,8 +6,14 @@
     export let role;
 
     let data = null;
-
+    let selected = ""
     onMount(async () => {
+        const urlParams = new URLSearchParams(window.location.search)
+        let process = urlParams.get("record")
+        if (process != null) {
+            selected = parseInt(process);
+        }
+
         let response = await api.post(`appointment/list`, {filterId: -1});
         if (!response.ok) {
             return alert("Erro a carregar as consultas")
@@ -23,7 +29,8 @@
                 "room": x.appointmentRoom,
                 "therapists": x.therapists,
                 "speciality": x.speciality,
-                "utentes": x.patients
+                "utentes": x.patients,
+                "processo": x.processId
             })
         });
         data = appointments
@@ -35,6 +42,8 @@
         {data}
         id="id"
         add={role != ""}
-        search={["id", "start", "end", "room", "therapists", "speciality"]}
+        select="processo"
+        {selected}
+        search={["id", "start", "end", "room", "therapists", "speciality", "utentes", "processo"]}
     />
 {/if}
