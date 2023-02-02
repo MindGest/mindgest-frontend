@@ -4,6 +4,7 @@
   import Selector from '$lib/components/Selector.svelte';
   import TextBox from '$lib/components/TextBox.svelte';
   import formatDate from '$lib/utils/formatDate';
+  import formatTimeRange from '$lib/utils/formatTimeRange';
   import translate from '$lib/utils/translate';
 
   const role = $page.url.pathname.split('/')[2];
@@ -14,7 +15,7 @@
     room,
     appointments: appointmentsRoom.map(({ startDate, endDate, title, therapists }) => ({
       title: title === 'empty' ? 'empty slot' : title,
-      text: `${formatDate(startDate)} - ${formatDate(endDate)}`,
+      text: formatTimeRange(startDate, endDate),
       therapists,
       date: startDate.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$2-$1').slice(0, 10)
     }))

@@ -14,7 +14,7 @@
   >
     <div class="grid justify-items-start">
       <h1 class="font-bold">{translate(title)}</h1>
-      <p>{translate(text)}</p>
+      <p class="whitespace-pre-line">{translate(text)}</p>
     </div>
   </button>
 </div>
