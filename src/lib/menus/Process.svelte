@@ -15,7 +15,7 @@
     import Title from '$lib/components/Title.svelte';
     import { onMount } from 'svelte';
     import * as api from "$lib/utils/api";
-  import View from '$lib/components/View.svelte';
+  	import View from '$lib/components/View.svelte';
     
     export let role;
     
@@ -39,7 +39,8 @@
                 alert("Erro a carregar permissões do estagiário");
                 return;
             }
-        }
+		}
+
 
 
         let responseProcessData = await api.get(`process/${processId}/info`);
@@ -65,49 +66,47 @@
         }
     });
 
-    function formatTherapist(therapist) {
-        return "[T-" + therapist.id + "] " + therapist.name;
-    }
-  
-    function formatIntern(intern) {
-        return "[E-" + intern.id + "] " + intern.name;
-    }
+	function formatTherapist(therapist) {
+		return '[T-' + therapist.id + '] ' + therapist.name;
+	}
+
+
+	function formatIntern(intern) {
+		return '[E-' + intern.id + '] ' + intern.name;
+	}
 
     function formatPatient(patient) {
         return "[" + patient.id + "] " + patient.name;
     }
 
-    function formatCareTaker(careTaker) {
-        return "[" + 0 + "] " + careTaker.name;
-    }
-  
-    function gotoNotes() {
-        goto("/user/" + data.role + "/records/" + data.processId + "/notes" )
-    }
+	function formatCareTaker(careTaker) {
+		return "[" + 0 + "] " + careTaker.name;
+	}
 
-    function gotoAppointments() {
-        goto("/user/" + data.role + "/appointments/" )
-    }
 
-    function gotoPayments() {
-        goto("/user/" + data.role + "/records/" + data.processId + "/payments")
-    }
+	function gotoNotes() {
+		goto('/user/' + data.role + '/records/' + data.processId + '/notes');
+	}
 
-    function edit() {
-        goto("/user/" + data.role + "/records/" + data.processId + "/edit" )
-    }
+	function gotoAppointments() {
+		goto('/user/' + data.role + '/appointments/');
+	}
 
-    function back() {
-        goto("/user/" + data.role + "/records")
-    }
+	function gotoPayments() {
+		goto('/user/' + data.role + '/records/' + data.processId + '/payments');
+	}
 
+	function edit() {
+		goto('/user/' + data.role + '/records/' + data.processId + '/edit');
+	}
+
+	function back() {
+		goto('/user/' + data.role + '/records');
+	}
 </script>
 
 {#if data != null}
     <div class="grid grid-cols-3">
-        
-
-        
         <div>
             <Title class="text-center my-5" text="Utentes"/>
             <View class="w-2/3 m-auto" data={data.patients} func={formatPatient} placeholder="Sem utentes"/>
@@ -138,6 +137,6 @@
             <Button class="mt-12 mb-1" text="Voltar ao Menu de Pesquisa" on:click={back}/>
             
         </div>
-    </div>
+      </div>
+
 {/if}
- 

@@ -1,44 +1,13 @@
 <script>
   import Rooms from '$lib/menus/Rooms.svelte';
+  import { onMount } from 'svelte';
+  import * as api from '$lib/utils/api';
 
-  let data = [
-    {
-      room: 'room 1',
-      roomId: 0,
-      appointmentsRoom: [
-        {
-          title: 'Dr João Pedro Esp-A',
-          id: 0,
-          startDate: '2022-12-24T15:03:00.000Z',
-          endDate: '2022-12-24T15:03:00.000Z'
-        },
-        {
-          title: 'Dr João Pedro Esp-A',
-          id: 0,
-          startDate: '2022-12-24T15:03:00.000Z',
-          endDate: '2022-12-24T15:03:00.000Z'
-        },
-        {
-          title: 'Dr João Pedro Esp-A',
-          id: 0,
-          startDate: '2022-12-24T15:03:00.000Z',
-          endDate: '2022-12-24T15:03:00.000Z'
-        }
-      ]
-    },
-    {
-      room: 'room 2',
-      roomId: 0,
-      appointmentsRoom: [
-        {
-          title: 'Dr João Pedro Esp-A',
-          id: 0,
-          startDate: '2022-12-24T15:03:00.000Z',
-          endDate: '2022-12-24T15:03:00.000Z'
-        }
-      ]
-    }
-  ];
+  let data;
+  onMount(async () => {
+    const response = await api.get('rooms/list-rooms');
+    ({ message: data } = await response.json());
+  });
 </script>
 
 <Rooms {data} />

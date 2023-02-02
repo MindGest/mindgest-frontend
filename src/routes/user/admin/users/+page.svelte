@@ -4,11 +4,11 @@
   import * as api from '$lib/utils/api';
 
   let data = null;
-  
+
   onMount(async () => {
     let response = await api.get('user/list');
-    let users = (await response.json())["info"];
-    let usersData = []
+    let users = (await response.json())['info'];
+    let usersData = [];
     users.forEach(user => {
       if (user.admin == null) {
         usersData.push({
@@ -22,12 +22,17 @@
         });
       }
     });
-    data = usersData
-    console.log(data)
-
+    data = usersData;
+    console.log(data);
   });
 </script>
 
 {#if data != null}
-  <TableMenu {data} id="id" add={true} check={"active"} search={["name", "email", "address", "phone_number"]}/>
+  <TableMenu
+    {data}
+    id="id"
+    add={true}
+    check={'active'}
+    search={['name', 'email', 'address', 'phone_number']}
+  />
 {/if}

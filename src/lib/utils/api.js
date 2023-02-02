@@ -13,7 +13,6 @@ export const del = path => send({ method: 'DELETE', path });
 export const post = (path, data) => send({ method: 'POST', path, data });
 export const put = (path, data) => send({ method: 'PUT', path, data });
 
-
 export async function upload(path, data) {
   return fetch(PUBLIC_API_URL + '/' + path, {
     method: 'PUT',

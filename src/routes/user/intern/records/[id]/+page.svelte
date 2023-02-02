@@ -1,6 +1,6 @@
 <script>
-    import Process from "$lib/menus/Process.svelte";
-    export let data;
+  import Process from '$lib/menus/Process.svelte';
+  export let data;
 </script>
 
-<Process role={data.role}/>
+<Process role={data.role} />

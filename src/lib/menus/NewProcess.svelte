@@ -1,4 +1,5 @@
 <script>
+
     import Button from "$lib/components/Button.svelte";
     import Selector from "$lib/components/Selector.svelte";
     import Title from "$lib/components/Title.svelte";
@@ -86,7 +87,6 @@
                 alert("Erro ao criar processo")
             }
         }
-
     }
 
     async function requestRecord() {
@@ -105,29 +105,28 @@
                 alert("Erro ao pedir criação do processo")
             }
         }
-            
     }
 
-    function formatTherapist(therapist) {
-        return "[" + therapist.id + "] " + therapist.name;
-    }
-
-    function formatPatient(patient) {
-        return "[" + patient.id + "] " + patient.name;
-    }
 
     function formatLiable(liable) {
         return "[" + liable.liableId + "] " + liable.name;
     }
 
-    function getId(person) {
-        return parseInt(person.split("]")[0].split("[")[1])
+    function formatTherapist(therapist) {
+        return '[' + therapist.id + '] ' + therapist.name;
     }
 
+    function formatPatient(patient) {
+        return '[' + patient.id + '] ' + patient.name;
+    }
+
+    function getId(person) {
+        return parseInt(person.split(']')[0].split('[')[1]);
+    }
 </script>
 
-
 {#if data != null}
+
     <div class="flex">
         <div class="flex flex-col w-2/5 px-10">
             <Title class="my-5" text="Novo Processo"/>
@@ -146,8 +145,6 @@
         <div class="mt-12 w-1/3 p-5">
             <EditView title="Responsáveis" bind:values={data.liables} bind:chosen={data.chosenLiables}/>
         </div>
-
-
-
     </div>
+
 {/if}

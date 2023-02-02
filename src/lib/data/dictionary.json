@@ -4,7 +4,6 @@
   "therapist": "terapeuta",
   "intern": "estagiário",
   "accountant": "contabilista",
-
   "dashboard": "início",
   "payments": "pagamentos",
   "records": "processos",
@@ -84,6 +83,15 @@
   "extern": "Externo",
   "healthSystem": "Sistema de saúde",
   "healthNumber": "SNS",
-  "patientTypeName": "Tipo"
-
+  "patientTypeName": "Tipo",
+  "true": "sim",
+  "false": "não",
+  "loading": "a carregar...",
+  "empty slot": "sala vazia",
+  "filled slot": "sala ocupada",
+  "every room": "todas as salas",
+  "every therapist": "todos os terapeutas",
+  "every slot": "todos os horários",
+  "room": "sala",
+  "slot": "horário"
 }

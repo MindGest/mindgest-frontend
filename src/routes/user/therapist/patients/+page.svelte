@@ -14,7 +14,6 @@
       speciality: 'Terapia Familiar'
     }
   ];
-  
 </script>
 
 <TableMenu

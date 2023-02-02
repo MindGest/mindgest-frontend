@@ -5,5 +5,6 @@ import { redirect } from '@sveltejs/kit';
 
 export const load = ({ cookies }) => {
   cookies.set('accessToken', '', { path: '/', maxAge: 0 });
-  throw redirect(302, '/');
+  cookies.set('refreshToken', '', { path: '/', maxAge: 0 });
+  throw redirect(302, '/auth/login');
 };

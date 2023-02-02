@@ -14,7 +14,9 @@
   >
     <div class="grid justify-items-start">
       <h1 class="font-bold">{translate(title)}</h1>
-      <p>{translate(text)}</p>
+      {#each text.split("\n") as line}
+        <p>{translate(line)}</p>
+      {/each}
     </div>
   </button>
 </div>

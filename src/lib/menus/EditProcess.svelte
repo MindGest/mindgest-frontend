@@ -9,7 +9,6 @@
         - /user/intern/records/[id]/edit/
 
  -->
-
 <script>
     import Button from "$lib/components/Button.svelte";
     import Selector from "$lib/components/Selector.svelte";
@@ -140,8 +139,7 @@
         } else {
             alert("Erro ao editar processo")
         }
-        
-    }
+      }
   
     function formatTherapist(therapist) {
         return "[T-" + therapist.id + "] " + therapist.name;
@@ -157,8 +155,8 @@
 
     function formatCareTaker(careTaker) {
         return "[" + careTaker.careTakerId + "] " + careTaker.name;
-    }
-
+	}
+        
     function getId(user) {
         return parseInt(user.split("]")[0].split("-")[1])
     }
@@ -172,13 +170,10 @@
             alert("Erro ao arquivar/desarquivar processo")
         }
     }
-  
+
 </script>
-  
+
 {#if data != null}
-    <form class="grid grid-cols-3" on:submit|preventDefault={ async () => await editRecord() }>
-
-
         <div class="flex flex-col">
             <TextDisplay class="my-5 w-2/3 m-auto" label="ID do Processo" value="{data.processId}" />
             <TextDisplay class="my-5 w-2/3 m-auto" label="Estado do Processo" value={data.status ? "Ativo": "Não Ativo"} />
@@ -219,8 +214,4 @@
                 <View data={data.collaborators} func={x => x} placeholder="Sem Colaboradores"/>
             {/if} 
         </div>
-    </form>
-
 {/if}
-  
-  

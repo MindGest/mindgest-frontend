@@ -142,8 +142,16 @@
       />
     </div>
     <div class="my-5 grid grid-cols-2 m-10 align-bottom inset-x-0 bottom-0 object-bottom">
-      <Button class="mx-5 underline text-orange-500 content-end justify-end" text="Guardar" on:click={saveData}/>
-      <Button class="mx-5 underline text-orange-500 content-end" text="Arquivar utente" on:click={arquiveUser}/>
+      <Button
+        class="mx-5 underline text-orange-500 content-end justify-end"
+        text="Guardar"
+        on:click={saveData}
+      />
+      <Button
+        class="mx-5 underline text-orange-500 content-end"
+        text="Arquivar utente"
+        on:click={arquiveUser}
+      />
     </div>
   </div>
 </div>
@@ -152,97 +160,8 @@
 
 <div class="w-full items-stretch justify-self-center">
   {#if patient.type == 'Jovem/Adolescente' || patient.type == 'Criança'}
-  <div class="w-full border-t-4">
-    <div class="mx-10 w-1/2 items-stretch justify-self-center grid">
-      <div class="my-5">
-        <TextBox
-          label="Relação com o Responsável:"
-          value={patient.responsable_relation}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          label="Nome do Responsável:"
-          value={patient.responsable_name}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          label="Contacto Telefónico do Responsável:"
-          value={patient.responsable_phone_number}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          label="Email do Responsável:"
-          value={patient.responsable_email}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          label="Nível de Educação:"
-          value={patient.education_level}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          label="Ocupação:"
-          value={patient.occupation}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-    </div>
-  </div>
-  {/if}
-  {#if patient.type == 'Adulto'}
-  <div class="w-full border-t-4">
-    <div class="m-10 w-1/2 items-stretch justify-self-center">
-      <div class="my-5">
-        <TextBox
-          label="Estado Civil:"
-          value={patient.marital_status}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          label="Nível de Educação:"
-          value={patient.education_level}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          label="Ocupação:"
-          value={patient.occupation}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-    </div>
-  </div>
-  {/if}
-  {#if patient.type == 'Idoso'}
-  <div class="w-full border-t-4">
-    <div class="mt-10 w-1/2 items-stretch justify-self-center grid">
-      <div class="my-5">
-        <TextBox
-          label="Estado Civil:"
-          value={patient.marital_status}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <Checkbox
-          label="Tem um responsável?"
-          bind:checked={patient.has_responsable}
-        />
-      </div>
-      {#if patient.has_responsable}
+    <div class="w-full border-t-4">
+      <div class="mx-10 w-1/2 items-stretch justify-self-center grid">
         <div class="my-5">
           <TextBox
             label="Relação com o Responsável:"
@@ -271,48 +190,134 @@
             class="grid grid-cols-3 items-center font-bold"
           />
         </div>
-      {/if}
+        <div class="my-5">
+          <TextBox
+            label="Nível de Educação:"
+            value={patient.education_level}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextBox
+            label="Ocupação:"
+            value={patient.occupation}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+      </div>
     </div>
-  </div>
+  {/if}
+  {#if patient.type == 'Adulto'}
+    <div class="w-full border-t-4">
+      <div class="m-10 w-1/2 items-stretch justify-self-center">
+        <div class="my-5">
+          <TextBox
+            label="Estado Civil:"
+            value={patient.marital_status}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextBox
+            label="Nível de Educação:"
+            value={patient.education_level}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextBox
+            label="Ocupação:"
+            value={patient.occupation}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+      </div>
+    </div>
+  {/if}
+  {#if patient.type == 'Idoso'}
+    <div class="w-full border-t-4">
+      <div class="mt-10 w-1/2 items-stretch justify-self-center grid">
+        <div class="my-5">
+          <TextBox
+            label="Estado Civil:"
+            value={patient.marital_status}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <Checkbox label="Tem um responsável?" bind:checked={patient.has_responsable} />
+        </div>
+        {#if patient.has_responsable}
+          <div class="my-5">
+            <TextBox
+              label="Relação com o Responsável:"
+              value={patient.responsable_relation}
+              class="grid grid-cols-3 items-center font-bold"
+            />
+          </div>
+          <div class="my-5">
+            <TextBox
+              label="Nome do Responsável:"
+              value={patient.responsable_name}
+              class="grid grid-cols-3 items-center font-bold"
+            />
+          </div>
+          <div class="my-5">
+            <TextBox
+              label="Contacto Telefónico do Responsável:"
+              value={patient.responsable_phone_number}
+              class="grid grid-cols-3 items-center font-bold"
+            />
+          </div>
+          <div class="my-5">
+            <TextBox
+              label="Email do Responsável:"
+              value={patient.responsable_email}
+              class="grid grid-cols-3 items-center font-bold"
+            />
+          </div>
+        {/if}
+      </div>
+    </div>
   {/if}
   {#if patient.type == 'Casal'}
-  <div class="w-full border-t-4">
-    <div class="mt-10 w-1/2 items-stretch justify-self-center grid">
-      <div class="my-5">
-        <TextBox
-          label="Nome do Cônjuge:"
-          value={patient.conj_name}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          type="date"
-          label="Data de Nascimento do Cônjuge:"
-          value={patient.conj_birth_date}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          label="Contacto Telefónico do Cônjuge:"
-          value={patient.conj_phone_number}
-          class="grid grid-cols-3 items-center font-bold"
-        />
-      </div>
-      <div class="my-5">
-        <TextBox
-          label="Email do Cônjuge:"
-          value={patient.conj_email}
-          class="grid grid-cols-3 items-center font-bold"
-        />
+    <div class="w-full border-t-4">
+      <div class="mt-10 w-1/2 items-stretch justify-self-center grid">
+        <div class="my-5">
+          <TextBox
+            label="Nome do Cônjuge:"
+            value={patient.conj_name}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextBox
+            type="date"
+            label="Data de Nascimento do Cônjuge:"
+            value={patient.conj_birth_date}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextBox
+            label="Contacto Telefónico do Cônjuge:"
+            value={patient.conj_phone_number}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
+        <div class="my-5">
+          <TextBox
+            label="Email do Cônjuge:"
+            value={patient.conj_email}
+            class="grid grid-cols-3 items-center font-bold"
+          />
+        </div>
       </div>
     </div>
-  </div>
   {/if}
-  
+
   {#if patient.type == 'Família'}
-  <div class="mt-10 w-full items-stretch justify-self-center grid">
+    <div class="mt-10 w-full items-stretch justify-self-center grid">
       {#each patient.member as member, index}
         <div class="border-t-4">
           <div class="w-1/2 m-10">
@@ -337,7 +342,7 @@
               />
             </div>
             <div class="my-5">
-               <TextBox
+              <TextBox
                 id="birth_date"
                 type="date"
                 label="Data de Nascimento do Membro:"

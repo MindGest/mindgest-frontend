@@ -3,7 +3,7 @@
   import TableMenu from '$lib/menus/TableMenu.svelte';
   // import { onMount } from 'svelte';
   // import * as api from '$lib/utils/api';
-  
+
   let data = [];
 
   // onMount(async () => {
@@ -12,7 +12,7 @@
   //     let json = await response.json();
 
   //     let jsonInfo = json['message'];
-  //     data = jsonInfo; 
+  //     data = jsonInfo;
   //     return;
   //   }
   //   status = response.status;
@@ -25,5 +25,6 @@
   id="appointmentCode"
   add={false}
   search={['patientName', 'therapistListing', 'appointmentCode']}
-  check="paid",
+  check="paid"
+  ,
 />

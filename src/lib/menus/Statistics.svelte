@@ -9,7 +9,6 @@
         - /user/intern/stats
 
  -->
-
 <script>
     import Button from "$lib/components/Button.svelte";
     import Selector from "$lib/components/Selector.svelte";
@@ -127,41 +126,51 @@
             })
             y = incrementY(pdf, y, pdf.autoTable.previous.finalY + 40 - y);
         });
-        pdf.save("estatísticas.pdf")
-    }
-  
-    function incrementY(doc, y, inc) {
-        if (y + inc > 550) {
-            doc.addPage()
-            return 20;
-        }
-        return y + inc;
+
+		data = {
+			role: role,
+
+			start: '',
+			end: '',
+			record: NOFILTER,
+			speciality: NOFILTER,
+			therapist: NOFILTER,
+
+			records: records_names,
+			specialities: specialities_names,
+			therapists: therapists_names
+		};
     }
 
-    function formatRecord(record) {
-        return "[" + record.processId + "] " + record.name;
+  function incrementY(doc, y, inc) {
+    if (y + inc > 550) {
+      doc.addPage();
+      return 20;
     }
+    return y + inc;
+  }
 
-    function formatTherapist(therapist) {
-        return "[" + therapist.id + "] " + therapist.name;
-    }
+  function formatRecord(record) {
+    return '[' + record.processId + '] ' + record.name;
+  }
+
+  function formatTherapist(therapist) {
+    return '[' + therapist.id + '] ' + therapist.name;
+  }
 </script>
-  
+
 {#if data != null}
-    <h1 class="text-4xl text-center mt-5 mb-10">Gerar estatísticas</h1>
+  <h1 class="text-4xl text-center mt-5 mb-10">Gerar estatísticas</h1>
 
-    <form on:submit|preventDefault={async () => { await generate() }}>
-        <TextBox class="my-5 w-1/2 m-auto bg-ora" label="Data de Início" type="date" bind:value={data.start}/>
-        <TextBox class="my-5 w-1/2 m-auto" label="Data de Fim" type="date" bind:value={data.end}/>
-        
-        <Selector class="my-5 w-1/2 m-auto" label="Processo" values={data.records} bind:value={data.record}/>
-        <Selector class="my-5 w-1/2 m-auto" label="Especialidade" values={data.specialities} bind:value={data.speciality}/>
-        {#if data.role != THERAPIST}
-            <Selector class="my-5 w-1/2 m-auto" label="Terapeuta" values={data.therapists} bind:value={data.therapist}/>
-        {/if}
-        
-        <Button class="my-5 w-1/2 m-auto" type="submit" text="Gerar"/>
-    </form>  
+    <TextBox class="my-5 w-1/2 m-auto bg-ora" label="Data de Início" type="date" bind:value={data.start}/>
+    <TextBox class="my-5 w-1/2 m-auto" label="Data de Fim" type="date" bind:value={data.end} />
+
+    <Selector class="my-5 w-1/2 m-auto" label="Processo" values={data.records} bind:value={data.record}/>
+    <Selector class="my-5 w-1/2 m-auto" label="Especialidade" values={data.specialities} bind:value={data.speciality}/>
+    {#if data.role != THERAPIST}
+      <Selector class="my-5 w-1/2 m-auto" label="Terapeuta" values={data.therapists} bind:value={data.therapist}/>
+    {/if}
+
+    <Button class="my-5 w-1/2 m-auto" on:click={generate} text="Gerar" />
+
 {/if}
-
-
