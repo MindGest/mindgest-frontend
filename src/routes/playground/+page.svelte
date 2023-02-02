@@ -12,6 +12,7 @@
   import TextBox from '$lib/components/TextBox.svelte';
   import TextDisplay from '$lib/components/TextDisplay.svelte';
   import Title from '$lib/components/Title.svelte';
+  import View from '$lib/components/View.svelte';
 
   let query = '';
   let text = '';
@@ -122,6 +123,10 @@
       city: 'Anytown',
       state: 'CA',
       zip: '12345'
-    }}
+    }}  
   />
+
+  <Title class="my-5" text="View" />
+  <View data={["cenas1", "cenas2", "cenas3"]}/>
+
 </wrapper>

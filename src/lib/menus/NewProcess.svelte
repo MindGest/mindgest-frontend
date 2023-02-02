@@ -6,6 +6,8 @@
     import * as api from "$lib/utils/api"
     import TextArea from "$lib/components/TextArea.svelte";
     import TextDisplay from "$lib/components/TextDisplay.svelte";
+  import EditView from "$lib/components/EditView.svelte";
+  import TextBox from "$lib/components/TextBox.svelte";
 
     const ADMIN = "admin";
     
@@ -16,14 +18,16 @@
     onMount(async () => {
 
         let responsePatients = await api.get("patient/list");
-        let responseTherapists = await api.get("therapist/list");
+        let responseTherapists = await api.get("user/get-all-therapists");
         let responseSpecialities = await api.get("speciality/list");
+        let responseLiables = await api.get("liable/list");
 
-        if (responsePatients.ok && responseTherapists.ok && responseSpecialities.ok){
-            let patients = (await responsePatients.json())['message'];
-            let therapists = (await responseTherapists.json())['message'];
+        if (responsePatients.ok && responseTherapists.ok && responseSpecialities.ok && responseLiables.ok){
+            let patients = (await responsePatients.json())['data'];
+            let therapists = (await responseTherapists.json())["data"];
             let specialities = (await responseSpecialities.json())['data'];
-
+            let liables = (await responseLiables.json())["data"];
+            
             let patients_names = [];
             patients.forEach(patient => {patients_names.push(formatPatient(patient))});
 
@@ -31,7 +35,10 @@
             therapists.forEach(therapist => {therapists_names.push(formatTherapist(therapist))});
 
             let specialities_names = [];
-            specialities.forEach(speciality => {specialities_names.push(speciality.speciality)})
+            specialities.forEach(speciality => {specialities_names.push(speciality.speciality)});
+
+            let liables_names = []
+            liables.forEach(liable => {liables_names.push(formatLiable(liable))})
 
             data = {
                 "role": role,
@@ -39,11 +46,13 @@
                 "specialities": specialities_names,
                 "therapists": therapists_names,
                 "patients": patients_names,
+                "liables": liables_names,
 
                 "speciality": "",
                 "therapist": "",
-                "selected_patients": [],
-                "remarks": ""
+                "remarks": "",
+                "chosenPatients": [],
+                "chosenLiables": []
 
             }
         } else {
@@ -52,16 +61,16 @@
     });
 
     function getBody() {
-        if (data.speciality == "" || data.therapist == "" || data.selected_patients.length < 1) {
-            alert("É necessário preencher os campos")
-            return null;
-        }
-
         let patientIds = [];
-        data.selected_patients.forEach(patient => {patientIds.push(getId(patient))});
+        data.chosenPatients.forEach(patient => {patientIds.push(getId(patient))});
+
+        let liableIds = [];
+        data.chosenLiables.forEach(liable => {liableIds.push(getId(liable))});
+
         return {
             speciality: data.speciality,
             patientIds: patientIds,
+            liableIds: liableIds,
             therapistId: getId(data.therapist),
             remarks: data.remarks,
         };
@@ -80,11 +89,16 @@
 
     }
 
-    //TODO:
     async function requestRecord() {
         let body = getBody()
+
+        body = {
+            "type": "process",
+            "data": JSON.stringify(body),
+        }
+        
         if (body != null) {    
-            let response = await api.post("??", body);
+            let response = await api.post("notification/create", body);
             if (response.ok) {
                 alert("Pedido de criação de processo enviado!")
             } else {
@@ -102,32 +116,8 @@
         return "[" + patient.id + "] " + patient.name;
     }
 
-    function addPatientUI() {
-        if (data.patient != "") {
-            data.selected_patients.push(data.patient)
-            data.patient = ""
-        }
-    }
-
-    function removePatientUI(id) {
-        data.selected_patients = data.selected_patients.filter(patient => getId(patient) != id)
-    }
-
-    function options(data) {
-        let options = [];
-
-        let picked = [];
-        data.selected_patients.forEach(patient => {
-            picked.push(patient)
-        });
-
-        data.patients.forEach(patient => {
-            if (!picked.includes(patient)) {
-                options.push(patient)
-            }
-        });
-
-        return options;
+    function formatLiable(liable) {
+        return "[" + liable.liableId + "] " + liable.name;
     }
 
     function getId(person) {
@@ -138,8 +128,8 @@
 
 
 {#if data != null}
-    <div class="grid grid-cols-2">
-        <div class="m-auto flex flex-col w-2/3">
+    <div class="flex">
+        <div class="flex flex-col w-2/5 px-10">
             <Title class="my-5" text="Novo Processo"/>
             <Selector class="my-2" label="Especialidade:" values={data.specialities} bind:value={data.speciality}/>
             <Selector class="my-2" label="Profissional Responsável" values={data.therapists} bind:value={data.therapist}/>
@@ -150,20 +140,13 @@
                 <Button class="mt-10" text="Enviar pedido de criação de processo" on:click={requestRecord}/>
             {/if}
         </div>
-        <div>
-            <Title class="my-9" text="Adicionar Utentes"/>
-            <div class="flex flex-line">
-                <Selector class="my-2 w-2/3" values={options(data)} bind:value={data.patient} placeholder="Escolha um utente"/>
-                <Button class="m-auto w-10 h-10" text="+" on:click={() => addPatientUI()}/>
-            </div>
-                
-            {#each data.selected_patients as patient}
-                <div class="flex flex-line">
-                    <TextDisplay class="my-2 w-2/3" value={patient}/>
-                    <Button class="m-auto w-10 h-10" text="-" on:click={() => removePatientUI(getId(patient))}/>
-                </div>
-            {/each}
+        <div class="mt-12 w-1/3 p-5">
+            <EditView title="Utentes" bind:values={data.patients} bind:chosen={data.chosenPatients}/>
         </div>
+        <div class="mt-12 w-1/3 p-5">
+            <EditView title="Responsáveis" bind:values={data.liables} bind:chosen={data.chosenLiables}/>
+        </div>
+
 
 
     </div>

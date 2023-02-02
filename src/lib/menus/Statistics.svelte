@@ -53,8 +53,8 @@
             data = {
                 "role": role,
                 
-                "start": "",
-                "end": "",
+                "start": new Date().toISOString().slice(0,10),
+                "end": new Date().toISOString().slice(0,10),
                 "record": NOFILTER,
                 "speciality": NOFILTER,
                 "therapist": NOFILTER,

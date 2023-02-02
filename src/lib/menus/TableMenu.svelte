@@ -18,6 +18,7 @@
   export let add = false;
   export let id = '';
   export let selected = '';
+  export let clickable = true;
 
   let query = '';
   let checked = Object.fromEntries(data.map(row => [row[check], true]));
@@ -55,5 +56,5 @@
   class="mt-5"
   placeholder={'empty'}
   data={filtered}
-  on:click={({ detail: row }) => goto(`${path}/${row[id]}`)}
+  on:click={({ detail: row }) => {if (clickable) goto(`${path}/${row[id]}`)}}
 />

@@ -1,41 +1,61 @@
 <script>
-    // import { goto } from '$app/navigation';
     import TableMenu from '$lib/menus/TableMenu.svelte';
-  	import translate from '$lib/utils/translate';
   	import { onMount } from 'svelte';
+	import * as api from "$lib/utils/api"
+  import translate from '$lib/utils/translate';
     
     let data = null;
     onMount(async () => {
-		const data1 = [
-      		{
-				patientName: '1Carolina Pereira',
-				therapistListing: '1João Silva',
-				speciality: '1Psicologia'
-			},
-			{
-				patientName: '1João Silva',
-				therapistListing: '1Fátima Valente',
-				speciality: '1Terapia Familiar'
-			}
-    	];
+		let responsePatients = await api.get("patient/list");
+		let responseLiables = await api.get("liable/list");
 
-		const data2 = [
-			{
-				patientName: '2Carolina Pereira',
-				therapistListing: '2João Silva',
-				speciality: '2Psicologia'
-			},
-			{
-				patientName: '2João Silva',
-				therapistListing: '2Fátima Valente',
-				speciality: '2Terapia Familiar'
-			}
-		];
+		if (!responsePatients.ok) {
+			return alert("Erro ao obter utentes")
+		}
+
+		if (!responseLiables.ok) {
+			return alert("Erro ao obter responsáveis")
+		}
+
+		let dataPatients = (await responsePatients.json())["data"];
+
+		let dataLiables = (await responseLiables.json())["data"];
+
+		let patients = []
+		dataPatients.forEach(patient => {
+			patients.push({
+				"id": patient.id,
+				"name": patient.name,
+				"address": patient.address,
+				"approved": patient.approved ? "Sim" : "Não",
+				"email": patient.email,
+				"taxNumber": patient.taxNumber,
+				"phoneNumber": patient.phoneNumber,
+				"birthDate": patient.birthDate.slice(0,10),
+				"healthNumber": patient.healthNumber,
+				"patientTypeName": translate(patient.patientTypeName)
+
+			})
+		})
+
+		let liables = []
+		dataLiables.forEach(liable => {
+			liables.push({
+				"id": liable.liableId,
+				"name": liable.name,
+				"email": liable.email,
+				"phoneNumber": liable.phoneNumber,
+				"type": liable.type,
+				"remarks": liable.remarks,
+			})
+		})
+
+
 		data = {
 			type: 0,
-			types: ["Utente", "Responsável"],
-			data1: data1,
-			data2: data2
+			types: ["Utentes", "Responsáveis"],
+			dataPatients: patients,
+			dataLiables: liables
 		}
     });
 
@@ -58,35 +78,20 @@
 	</div>
 
 	{#if data.type == 0}
-
 		<TableMenu
-			data={data.data1}
-			id="recordCode"
+			data={data.dataPatients}
+			id="id"
 			add={true}
 			select="speciality"
-			search={['patientName', 'therapistListing']}
+			search={['id', 'name', 'address', 'approved', 'email', 'taxNumber', 'phoneNumber', 'birthDate', 'healthNumber', 'patientTypeName']}
 		/>
-
 	{:else}
-
 		<TableMenu
-			data={data.data2}
-			id="recordCode"
+			data={data.dataLiables}
+			id="id"
 			add={true}
-			select="speciality"
-			search={['patientName', 'therapistListing']}
+			search={["id", "name", "email", "phoneNumber", "type", "remarks"]}
+			clickable={false}
 		/>
-
 	{/if}
-
 {/if}
-
-<!-- {
-	listpatient
-    name: careTaker?.name,
-    email: careTaker?.email,
-    phoneNumber: careTaker?.phonenumber,
-    type: careTaker?.type,
-    remarks: careTaker?.remarks,
-    careTakerId: careTaker?.id,
-  } -->

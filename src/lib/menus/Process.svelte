@@ -15,6 +15,7 @@
     import Title from '$lib/components/Title.svelte';
     import { onMount } from 'svelte';
     import * as api from "$lib/utils/api";
+  import View from '$lib/components/View.svelte';
     
     export let role;
     
@@ -42,23 +43,23 @@
 
 
         let responseProcessData = await api.get(`process/${processId}/info`);
-        let responseColaborators = await api.post("process/collaborators", {processId: processId});
-        if (responseProcessData.ok && responseColaborators.ok) {
-            let processData = (await responseProcessData.json());
-            let colaborators = (await responseColaborators.json())["data"];
+        if (responseProcessData) {
+            let processData = (await responseProcessData.json())["data"];
+            console.log(processData)
             data = {
                 "role": role,
                 "processId": processId,
 
-                "patient": processData.utent,
+                "paid": processData.paid ? "Regularizada" : "Em falta",
+                "patients": processData.patients,
+                "careTakers": processData.careTakers,
                 "remarks": processData.remarks,
                 "status": processData.active,
                 "speciality": processData.speciality,
-                "responsavel": processData.therapistName,
+                "responsavel": processData.mainTherapist,
 
-                "colaborators": colaborators,
+                "collaborators": processData.collaborators,
             }
-            console.log(processData)
         } else {
             alert("Erro ao carregar processo")
         }
@@ -72,8 +73,12 @@
         return "[E-" + intern.id + "] " + intern.name;
     }
 
-    function seePay() {
-        
+    function formatPatient(patient) {
+        return "[" + patient.id + "] " + patient.name;
+    }
+
+    function formatCareTaker(careTaker) {
+        return "[" + 0 + "] " + careTaker.name;
     }
   
     function gotoNotes() {
@@ -101,33 +106,36 @@
 {#if data != null}
     <div class="grid grid-cols-3">
         
-        <div>
-            <TextDisplay class="my-5 w-2/3 m-auto" label="Processo" value={data.processId}/>
-            <TextDisplay class="my-5 w-2/3 m-auto" label="Estado do Processo" value={data.status ? "Ativo": "Não Ativo"}/>
-            <TextDisplay class="my-5 w-2/3 m-auto" label="Utente" value={data.patient}/>
-            <TextDisplay class="my-5 w-2/3 m-auto" label="Profissional Responsável" value={data.responsavel}/>
-            <TextDisplay class="my-5 w-2/3 m-auto" label="Especialidade" value={data.speciality}/>
-            <TextDisplay class="my-5 w-2/3 m-auto" label="Situação Financeira"/>
-        </div>
+
         
         <div>
-            <Title class="text-center" text="Colaboradores"/>
-            {#each data.colaborators.therapists as therapist}
-                <TextDisplay class="my-5 w-2/3 m-auto" value={formatTherapist(therapist)}/>
-            {/each}
-                
-            {#each data.colaborators.interns as intern}
-                <TextDisplay class="my-5 w-2/3 m-auto" value={formatIntern(intern)}/>
-            {/each}
+            <Title class="text-center my-5" text="Utentes"/>
+            <View class="w-2/3 m-auto" data={data.patients} func={formatPatient} placeholder="Sem utentes"/>
+            
+            <Title class="text-center my-5" text="Responsáveis"/>
+            <View class="w-2/3 m-auto" data={data.careTakers} func={formatCareTaker} placeholder="Sem responsáveis"/>
+            
+            <Title class="text-center my-5" text="Terapeutas"/>
+            <View class="w-2/3 m-auto" data={data.collaborators.therapists} func={formatTherapist} placeholder="Sem terapeutas"/>
+            
+            <Title class="text-center my-5" text="Estagiários"/>
+            <View class="w-2/3 m-auto" data={data.collaborators.interns} func={formatIntern} placeholder="Sem Estagiários"/>
         </div>
 
-        <div class="flex flex-col w-2/3 m-auto">
-            
-            <Button class="my-5" text="Ver Notas" on:click={gotoNotes}/>
-            <Button class="my-5" text="Ver Consultas" on:click={gotoAppointments}/>
-            <Button class="my-5" text="Ver Pagamentos" on:click={gotoPayments}/>
-            <Button class="my-5" text="Editar Processo" on:click={edit}/>
-            <Button class="my-5" text="Voltar ao Menu de Pesquisa" on:click={back}/>
+        <div>
+            <TextDisplay class="my-5 w-2/3 m-auto" label="ID do Processo" value={data.processId}/>
+            <TextDisplay class="my-5 w-2/3 m-auto" label="Estado do Processo" value={data.status ? "Ativo": "Não Ativo"}/>
+            <TextDisplay class="my-5 w-2/3 m-auto" label="Especialidade" value={data.speciality}/>
+            <TextDisplay class="my-5 w-2/3 m-auto" label="Situação Financeira" value={data.paid}/>
+            <TextDisplay class="my-5 w-2/3 m-auto" label="Profissional Responsável" value={formatTherapist(data.responsavel)}/>
+        </div>
+
+        <div class="flex flex-col w-2/3 mx-auto mt-11">
+            <Button class="mt-2 mb-2" text="Ver Notas" on:click={gotoNotes}/>
+            <Button class="mt-12 mb-1" text="Ver Consultas" on:click={gotoAppointments}/>
+            <Button class="mt-12 mb-2" text="Ver Pagamentos" on:click={gotoPayments}/>
+            <Button class="mt-12 mb-1" text="Editar Processo" on:click={edit}/>
+            <Button class="mt-12 mb-1" text="Voltar ao Menu de Pesquisa" on:click={back}/>
             
         </div>
     </div>
