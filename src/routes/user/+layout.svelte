@@ -3,6 +3,6 @@
 </script>
 
 <Navbar />
-<wrapper class="block w-full h-full p-5 overflow-scroll">
+<wrapper class="block w-full h-[calc(100%-4rem)] p-5 overflow-scroll">
   <slot />
 </wrapper>
