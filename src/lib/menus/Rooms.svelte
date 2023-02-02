@@ -4,25 +4,43 @@
   import Selector from '$lib/components/Selector.svelte';
   import TextBox from '$lib/components/TextBox.svelte';
   import formatDate from '$lib/utils/formatDate';
+  import translate from '$lib/utils/translate';
 
   const role = $page.url.pathname.split('/')[2];
 
   export let data = [];
 
-  let room, date, therapist, slot;
+  $: data = data.map(({ room, appointmentsRoom }) => ({
+    room,
+    appointments: appointmentsRoom.map(({ startDate, endDate, title, therapists }) => ({
+      title: title === 'empty' ? 'empty slot' : title,
+      text: `${formatDate(startDate)} - ${formatDate(endDate)}`,
+      therapists,
+      date: startDate.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$2-$1').slice(0, 10)
+    }))
+  }));
 
-  $: filteredData = data
-    .filter(({ room: room_, appointmentsRoom: appointments }) => !room || room_ === room)
-    // .map(({ appointmentsRoom: appointments }) =>
-    //   appointments.filter(({ startDate: start, endDate: end, therapists }) =>
-    //     !therapist || therapists.includes(therapist)
-    //   )
-    // );
+  $: console.log(data);
 
-  // .map(({ startDate, endDate, title }) => ({
-  // title,
-  //   text: `${formatDate(startDate)} - ${formatDate(endDate)}`
-  // }))
+  let room, therapist, slot;
+  let date = new Date().toISOString().slice(0, 10);
+
+  $: console.log(date);
+
+  $: filtered = data
+    .filter(({ room: room_ }) => !room || room_ === room)
+    .map(({ room, appointments }) => ({
+      room,
+      appointments: appointments.filter(
+        ({ therapists, text, date: date_ }) =>
+          (!therapist || therapists.includes(therapist)) &&
+          (!slot || text === slot) &&
+          date_ === date
+      )
+    }))
+    .filter(({ appointments }) => appointments.length > 0);
+
+  $: console.log(filtered);
 </script>
 
 <div class="w-full flex items-stretch space-x-5">
@@ -50,7 +68,13 @@
   {/if}
 </div>
 <div class="mt-5 space-y-5">
-  {#each filteredData as { room: room_, appointmentsRoom: appointments }}
-    <List label={room ? '' : room_} data={appointments} />
-  {/each}
+  {#if data.length === 0}
+    <p class="text-gray-500 italic font-semibold">{translate('loading')}</p>
+  {:else if filtered.length === 0}
+    <p class="text-gray-500 italic font-semibold">{translate('empty')}</p>
+  {:else}
+    {#each filtered as { room: room_, appointments }}
+      <List label={room ? '' : room_} data={appointments} />
+    {/each}
+  {/if}
 </div>

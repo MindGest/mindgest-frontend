@@ -4,7 +4,6 @@
   "therapist": "terapeuta",
   "intern": "estagiário",
   "accountant": "contabilista",
-
   "dashboard": "início",
   "payments": "pagamentos",
   "records": "processos",
@@ -50,5 +49,7 @@
   "users:true": "Ativo",
   "users:false": "Arquivado",
   "true": "sim",
-  "false": "não" 
+  "false": "não",
+  "loading": "a carregar...",
+  "empty slot": "sala vazia"
 }

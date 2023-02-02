@@ -1,5 +1,4 @@
 <script>
-  import { applyAction } from '$app/forms';
   import Rooms from '$lib/menus/Rooms.svelte';
   import { onMount } from 'svelte';
   import * as api from '$lib/utils/api';
