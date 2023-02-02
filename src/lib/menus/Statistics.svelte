@@ -45,7 +45,10 @@
             records.forEach(record => {
                 records_names.push(formatRecord(record));
                 record.therapists.forEach(therapist => {
-                    therapists_names.push(formatTherapist(therapist))
+                    let t = formatTherapist(therapist);
+                    if (!therapists_names.includes(t)) {
+                        therapists_names.push(t)
+                    }
                 })
             });
 

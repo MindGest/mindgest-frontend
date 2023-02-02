@@ -47,7 +47,7 @@
 </script>
 
 <Title text={title}/>
-<div class="flex flex-line">
+<div class="flex flex-line mb-5">
     <Selector class="my-2 w-2/3" values={options(chosen, values)} bind:value={selected} placeholder="Escolha uma opção"/>
     <Button class="m-auto w-10 h-10" text="+" on:click={() => add()}/>
 </div>

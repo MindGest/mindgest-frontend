@@ -131,7 +131,7 @@
         
         {#if data.types[data.type].type != "Responsável"}
             <div class="w-1/2 m-10">
-                <TextBox class="my-2" label="Sistema de Saúde" bind:value={data.healthNumber} />
+                <TextBox class="my-2" label="Número de Utente (SNS)" bind:value={data.healthNumber} />
                 {#if ['child', 'teen'].includes(data.types[data.type].type)}
                 <TextBox class="my-2" label="Ano de escolaridade" bind:value={data.grade} />
                 <TextBox class="my-2" label="Escola" bind:value={data.school} />

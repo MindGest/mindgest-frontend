@@ -9,7 +9,7 @@
 <div class={class_}>
   <div class="space-y-2">
     {#each Object.entries(data) as [key, value]}
-      <p><span class="font-bold">{translate(key)}</span>: {value}</p>
+      <p><span class="font-bold">{translate(key)}</span>: {value == true ? "Sim": value == false ? "Não": value}</p>
     {/each}
   </div>
 </div>

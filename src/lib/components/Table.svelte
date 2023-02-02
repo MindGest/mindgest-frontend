@@ -52,7 +52,7 @@
               <td
                 class="first:border-l border-r border-b border-zinc-400 group-last:first:rounded-bl-md group-last:last:rounded-br-md p-2"
               >
-                {value}
+                {value == true ? "Sim": value == false ? "Não": value}
               </td>
             {/each}
           </tr>

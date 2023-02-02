@@ -17,9 +17,9 @@
                 tableData.push({
                     "id": notification.id,
                     "date": notification.datetime.slice(0, 10),
-                    "type": translate(notification.type),
+                    "type": translate("notification:" + notification.type),
                     "seen":  translate("seen:" + notification.seen),
-                    "settled": translate("settled:" + notification.seen),
+                    "settled": translate("settled:" + notification.settled),
                 })
             });
             data = tableData

@@ -1,9 +1,25 @@
 <script>
+  import { applyAction } from '$app/forms';
+  import { page } from '$app/stores';
   import * as api from '$lib/utils/api';
+  import { onMount } from 'svelte';
 
   let email = 'admin@student.dei.uc.pt';
   let password = '12345';
   let status = 200;
+
+  onMount(async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      let response = await api.post("auth/verify-account", {token: token});
+      if (response.ok) {
+        alert("Conta verificada. Espere aprovação de um Administrador")
+      } else {
+        alert("Erro ao verificar conta")
+      }
+    }
+  })
 
   const submit = async () => {
     const response = await api.post('auth/login', { email, password });
