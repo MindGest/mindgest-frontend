@@ -65,6 +65,7 @@
                 "specialities": specialities_names,
                 "therapists": therapists_names
             }
+			console.log(data)
         }
     });
   
@@ -126,20 +127,7 @@
             })
             y = incrementY(pdf, y, pdf.autoTable.previous.finalY + 40 - y);
         });
-
-		data = {
-			role: role,
-
-			start: '',
-			end: '',
-			record: NOFILTER,
-			speciality: NOFILTER,
-			therapist: NOFILTER,
-
-			records: records_names,
-			specialities: specialities_names,
-			therapists: therapists_names
-		};
+		pdf.save("estatísticas.pdf")
     }
 
   function incrementY(doc, y, inc) {

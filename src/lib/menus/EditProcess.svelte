@@ -174,6 +174,7 @@
 </script>
 
 {#if data != null}
+    <div class="grid grid-cols-3">
         <div class="flex flex-col">
             <TextDisplay class="my-5 w-2/3 m-auto" label="ID do Processo" value="{data.processId}" />
             <TextDisplay class="my-5 w-2/3 m-auto" label="Estado do Processo" value={data.status ? "Ativo": "Não Ativo"} />
@@ -186,7 +187,7 @@
             {/if}
 
             <Selector class="my-5 w-2/3 m-auto mb-10" label="Especialidade" values={data.specialities} bind:value={data.speciality}/>
-            <Button class="my-5 w-2/3 m-auto"  text="Gravar" type="submit"/>
+            <Button class="my-5 w-2/3 m-auto"  text="Gravar" on:click={editRecord}/>
             {#if (data.role != INTERN) || ((data.role == INTERN) && data.permissions.archive)}
                 {#if data.status}
                     <Button class="my-5 w-2/3 m-auto"  text="Arquivar Processo" on:click={() => toggleArchive()}/>
@@ -214,4 +215,5 @@
                 <View data={data.collaborators} func={x => x} placeholder="Sem Colaboradores"/>
             {/if} 
         </div>
+    </div>
 {/if}
