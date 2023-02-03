@@ -7,20 +7,20 @@
   import translate from '$lib/utils/translate';
 
   let appointments = [];
-  let placeholder = 'loading';
+  let placeholder = 'A carregar';
 
   onMount(async () => {
     const response = await api.get('appointment/last-terminated');
     if (response.ok) {
       ({ data: appointments } = await response.json());
-      placeholder = 'no appointments';
+      placeholder = 'Sem consultas';
       return;
     }
-    placeholder = 'error';
+    placeholder = 'Erro';
   });
 </script>
 
-<Title text="last appointments" />
+<Title text="Últimas consultas" />
 <List
   class="mt-5"
   {placeholder}

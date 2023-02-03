@@ -82,7 +82,7 @@
 			data={data.dataPatients}
 			id="id"
 			add={true}
-			select="speciality"
+
 			search={['id', 'name', 'address', 'approved', 'email', 'taxNumber', 'phoneNumber', 'birthDate', 'healthNumber', 'patientTypeName']}
 		/>
 	{:else}

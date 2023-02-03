@@ -6,16 +6,16 @@
   import formatDate from '$lib/utils/formatDate';
 
   let appointments = [];
-  let placeholder = 'loading';
+  let placeholder = 'A carregar';
 
   onMount(async () => {
     const response = await api.get('appointment/list-appointments-of-the-day');
     if (response.ok) {
       ({ data: appointments } = await response.json());
-      placeholder = 'no appointments';
+      placeholder = 'Sem consultas';
       return;
     }
-    placeholder = 'error';
+    placeholder = 'Erro';
   });
 
   const format = appointments =>
@@ -32,5 +32,5 @@
     );
 </script>
 
-<Title text="last appointments" />
+<Title text="Últimas consultas" />
 <List class="mt-5" {placeholder} data={format(appointments)} />

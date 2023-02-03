@@ -3,10 +3,12 @@
     import { onMount } from 'svelte';
     import * as api from '$lib/utils/api';
 
-    export let role;
+    
+    const INTERN = "intern";
 
     let data = null;
     let selected = ""
+
     onMount(async () => {
         const urlParams = new URLSearchParams(window.location.search)
         let process = urlParams.get("record")
@@ -22,10 +24,14 @@
         console.log(appointmentsData)
         let appointments = []
         appointmentsData.forEach(x => {
+            let start = new Date(x.appointmentStartTime)
+            let end = new Date(x.appointmentEndTime)
+            
             appointments.push({
                 "id": x.appointmentId,
-                "start": x.appointmentStartTime.slice(0,10), 
-                "end": x.appointmentEndTime.slice(0,10),
+                "data": x.appointmentStartTime.slice(0,10), 
+                "start": String(start.getHours()).padStart(2,0) + ":" + String(start.getMinutes()).padStart(2,0), 
+                "end": String(end.getHours()).padStart(2,0) + ":" + String(end.getMinutes()).padStart(2,0),
                 "room": x.appointmentRoom,
                 "therapists": x.therapists,
                 "speciality": x.speciality,
@@ -41,8 +47,8 @@
     <TableMenu
         {data}
         id="id"
-        add={role != ""}
         select="processo"
+        add={true}
         {selected}
         search={["id", "start", "end", "room", "therapists", "speciality", "utentes", "processo"]}
     />

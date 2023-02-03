@@ -1,8 +1,9 @@
 <script>
+  import { goto } from "$app/navigation";
     import * as api from "$lib/utils/api";
     import { onMount } from "svelte";
-  import Button from "../components/Button.svelte";
-  import Selector from "../components/Selector.svelte";
+    import Button from "../components/Button.svelte";
+    import Selector from "../components/Selector.svelte";
     import TextBox from "../components/TextBox.svelte";
     import Title from "../components/Title.svelte";
 
@@ -122,6 +123,8 @@
         } else {
             return alert("Erro ao marcar consulta")
         }
+
+        goto(window.location.href.split("/").slice(0, window.location.href.split("/").length - 1).join("/"))
     }
 
 </script>

@@ -38,7 +38,7 @@
 </script>
 
 <div class="grid grid-cols-2 gap-x-5">
-  {#each ['appointments of the day', 'ongoing appointments'] as title, index}
+  {#each ['Consultas do dia', 'Consultas a decorrer'] as title, index}
     <div>
       <Title text={title} />
       <List class="mt-5" placeholder={placeholders[index]} data={format(appointments[index])} />

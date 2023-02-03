@@ -92,10 +92,6 @@
       <h1>Estatísticas</h1>
     </div>
     <div class="grid grid-rows-2 justify-items-center">
-      <AccountCircle {size} />
-      <h1>Editar dados do utente</h1>
-    </div>
-    <div class="grid grid-rows-2 justify-items-center">
       <Folder {size} />
       <h1>Arquivar Processo</h1>
     </div>
@@ -110,7 +106,6 @@
       <Checkbox class="ml-2" bind:checked={intern.see} />
       <Checkbox class="ml-2" bind:checked={intern.editprocess} />
       <Checkbox class="ml-2" bind:checked={intern.statistics} />
-      <Checkbox class="ml-2" bind:checked={intern.editpatient} />
       <Checkbox class="ml-2" bind:checked={intern.archive} />
     </div>
   {/each}

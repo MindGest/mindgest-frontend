@@ -1,30 +1,27 @@
 <script>
-  // import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
   import TableMenu from '$lib/menus/TableMenu.svelte';
-  // import { onMount } from 'svelte';
-  // import * as api from '$lib/utils/api';
+  import * as api from '$lib/utils/api';
+  import { onMount } from 'svelte';
+  
+  let data = null;
+  onMount(async () => {
+      let response = await api.get(`receipt/list`);
 
-  let data = [];
+      if (response.ok) {
+          let payments = (await response.json())["data"];
+          console.log(payments)
+          payments.forEach(pay => {
+              pay.datetime = pay.datetime.slice(0, 10)
+          });
+          data = payments
+      } else {
+          alert("Erro ao carregar pagamentos")
+      }
+  });
 
-  // onMount(async () => {
-  //   const response = await api.get('receipts/list', {});
-  //   if (response.ok) {
-  //     let json = await response.json();
-
-  //     let jsonInfo = json['message'];
-  //     data = jsonInfo;
-  //     return;
-  //   }
-  //   status = response.status;
-  // });
 </script>
 
-<TableMenu
-  {data}
-  object="payment"
-  id="appointmentCode"
-  add={false}
-  search={['patientName', 'therapistListing', 'appointmentCode']}
-  check="paid"
-  ,
-/>
+{#if data != null}
+  <TableMenu {data} id="id" search={['name']} />
+{/if}

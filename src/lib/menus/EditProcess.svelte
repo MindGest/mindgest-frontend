@@ -121,6 +121,18 @@
                 alert("Erro a migrar processo")
             }
         }
+
+        if (data.role != ADMIN && (data.responsavel != data.new_responsavel)) {
+            let therapistId = getId(data.new_responsavel)
+            let body = {
+                "type": "migrate",
+                "data": JSON.stringify({processId: data.processId, therapistId: therapistId}),
+            }
+            let responseNotification = await api.post("notification/create", body);
+            if (!responseNotification.ok) {
+                alert("Erro ao enviar pedido de alteração de responsável")
+            }
+        }
         
         let ids = [];
         data.collaborators.forEach(collaborator => {ids.push(getId(collaborator))})
@@ -212,6 +224,7 @@
             {#if data.role != INTERN}
                 <EditView title="Colaboradores" bind:values={data.allCollaborators} bind:chosen={data.collaborators} />
             {:else}
+                <Title class="my-5 text-center" text="Colaboradores"/>
                 <View data={data.collaborators} func={x => x} placeholder="Sem Colaboradores"/>
             {/if} 
         </div>

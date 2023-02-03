@@ -1,14 +1,5 @@
 <script>
-  import Details from "$lib/components/Details.svelte";
-
-  let data={
-    record: '',
-    room: '',
-    start: 0,
-    end: 0,
-    date: ''
-  }
+  import Appointment from "$lib/menus/Appointment.svelte";
 
 </script>
-<Details
-    data={data}/>
+<Appointment/>

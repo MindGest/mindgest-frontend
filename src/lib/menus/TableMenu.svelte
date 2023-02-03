@@ -35,7 +35,7 @@
   {#if select}
     <Selector
       class="w-80 mr-5"
-      placeholder={'search'}
+      placeholder={'filtrar...'}
       values={[...new Set(data.map(row => row[select]))]}
       bind:value={selected}
     />
