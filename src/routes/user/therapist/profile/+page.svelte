@@ -3,4 +3,4 @@
   export let data; // cookie
 </script>
 
-<Profile role={data.role} />
+<Profile role={data.role} isAdmin={data.admin}/>

@@ -9,7 +9,7 @@
   let status = 200;
 
   onMount(async () => {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search);    
     const token = urlParams.get('token');
     if (token) {
       let response = await api.post("auth/verify-account", {token: token});
