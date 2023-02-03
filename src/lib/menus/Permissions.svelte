@@ -93,7 +93,7 @@
     </div>
     <div class="grid grid-rows-2 justify-items-center">
       <Folder {size} />
-      <h1>Arquivar Processo</h1>
+      <h1>Arquivar</h1>
     </div>
   </div>
 
