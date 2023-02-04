@@ -6,7 +6,7 @@
   import * as api from '$lib/utils/api';
 
   let appointments = [[], []];
-  let placeholders = ['loading', 'loading'];
+  let placeholders = ['A carregar', 'A carregar'];
 
   onMount(async () => {
     [
@@ -16,10 +16,10 @@
       if (response.ok) {
         ({ data: appointments[index] } = await response.json());
         console.log(appointments[index]);
-        placeholders[index] = 'no appointments';
+        placeholders[index] = 'Sem Consultas';
         return;
       }
-      placeholders[index] = 'error';
+      placeholders[index] = 'Erro';
     });
   });
 
@@ -38,7 +38,7 @@
 </script>
 
 <div class="grid grid-cols-2 gap-x-5">
-  {#each ['appointments of the day', 'ongoing appointments'] as title, index}
+  {#each ['Consultas do Dia', 'Consultas a decorrer'] as title, index}
     <div>
       <Title text={title} />
       <List class="mt-5" placeholder={placeholders[index]} data={format(appointments[index])} />
